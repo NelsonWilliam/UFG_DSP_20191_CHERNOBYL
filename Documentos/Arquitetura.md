@@ -40,13 +40,14 @@ Propõe-se a utilização das seguintes tecnologias:
 | T1 | JDK 1.8+ | - | A plataforma Java é necessária para desenvolvimento do sistema.
 | T2 | Maven 3.2+ | *RT2* | Permite automatizar a compilação da aplicação, bem como gerenciar dependências e outras coisas.
 | T3 | Spring Boot | *RT3* | Facilita a criação de aplicações Spring com pouca configuração.
-| T4 | Spring MVC | *RT1, NE3* | Permite a criação de aplicações web utilizando o padrão arquitetural MVC.
+| T4 | Spring MVC | *RT1, NE3* | Permite a criação de *servlet web applications* utilizando o padrão arquitetural MVC.
 | T5 | JPA | *RT4, NE4* | Simplifica a persistência de dados através do mapeamento objeto-relacional.
 | T6 | Hibernate | *RT4, NE4* | Implementação do padrão JPA.
 | T7 | MySQL | *RT4, NE4* | Permite persistir dados utilizando SQL com alto desempenho e estabilidade.
 | T8 | Spring Data JPA | *RT4, NE4* | Facilita a utilização do JPA, reduzindo a quantidade de boilerplate necessário.
 | T9 | Spring Security | *NE1, NE2* | Provê mecanismos de autenticação e controle de acesso.
 | T10 | Thymeleaf | *RT1, NE3* | Engine de templates para a "View" do Spring MVC.
+| T11 | Tomcat | *RT1* | Container de servlets para a execução do servidor de aplicação Java.
 
 ### Componentes
 
