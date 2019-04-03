@@ -1,4 +1,4 @@
-﻿# UFG_DSP_20191_CHERNOBYL
+# UFG_DSP_20191_CHERNOBYL
 
 Trabalho da disciplina de Desenvolvimento de Software para Persistência. INF, UFG, 2019/1.
 
@@ -19,17 +19,17 @@ Trabalho da disciplina de Desenvolvimento de Software para Persistência. INF, U
 ### Iniciação 
 
 - [Documento de visão](https://docs.google.com/document/d/1yf0WGvVWtar6l2SbZavi1od1VAaCaFhOjFU0mquFC2A/edit?usp=sharing)
-- [Escopo](./Escopo.md)
+- [Escopo](./Documentos/Escopo.md)
 
 ### Requisitos
 
-- [Requisitos](./Requisitos.md)
-- [Histórias de usuário](./Historias de Usuário.md)
-- [Diagrama entidade-relacionamento (alto nível)(./DER%20Chernobyl%20Filmes.jpg)
+- [Requisitos](./Documentos/Requisitos.md)
+- [Histórias de usuário](./Documentos/Historias%20de%20Usuário.md)
+- [Diagrama entidade-relacionamento (alto nível)](./Documentos/DER%20Chernobyl%20Filmes.jpg)
 
 ### Projeto
 
-- Arquitetura (a fazer)
+- [Arquitetura](./Documentos/Arquitetura.md)
 - Esquema do banco de dados (a fazer)
 
 ### Desenvolvimento
