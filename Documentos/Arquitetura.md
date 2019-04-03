@@ -46,6 +46,7 @@ Propõe-se a utilização das seguintes tecnologias:
 | T7 | MySQL | *RT4, NE4* | Permite persistir dados utilizando SQL com alto desempenho e estabilidade.
 | T8 | Spring Data JPA | *RT4, NE4* | Facilita a utilização do JPA, reduzindo a quantidade de boilerplate necessário.
 | T9 | Spring Security | *NE1, NE2* | Provê mecanismos de autenticação e controle de acesso.
+| T10 | Thymeleaf | *RT1, NE3* | Engine de templates para a "View" do Spring MVC.
 
 ### Componentes
 
