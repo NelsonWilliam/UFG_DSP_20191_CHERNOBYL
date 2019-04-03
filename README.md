@@ -29,7 +29,7 @@ Trabalho da disciplina de Desenvolvimento de Software para Persistência. INF, U
 
 ### Projeto
 
-- Arquitetura (a fazer)
+- [Arquitetura](./Documentos/Arquitetura.md)
 - Esquema do banco de dados (a fazer)
 
 ### Desenvolvimento
