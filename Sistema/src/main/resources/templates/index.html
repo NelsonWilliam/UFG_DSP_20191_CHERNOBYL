@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="pt" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exemplo</title>
+</head>
+<body>
+<p>Esse é um exemplo de aplicação web utilizando Spring Boot.</p>
+
+<!-- Exemplo de links para as páginas do nosso servidor. -->
+<a th:href="@{/entities}">Ver entidades (via página web)</a> <br>
+<a th:href="@{/api/entity/Katy}">Ver entidade com Nome = Katy (via api rest)</a>
+</body>
+</html>
