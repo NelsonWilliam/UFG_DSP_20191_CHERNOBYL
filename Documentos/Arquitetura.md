@@ -59,5 +59,8 @@ Propõe-se a utilização das seguintes tecnologias:
     - **Model** - Guarda os dados relevantes à requisição atual que são utilizados para montar a View a ser exibida.
     - **View** - Páginas web (HTML) geradas pelo sistema para exibir o resultado da requisição do usuário.
   - **Business Layer** - Contém os componentes responsáveis por implementar os requisitos de negócio.
+    - **Entity** - Representa uma entidade do domínio do negócio, geralmente contendo apenas dados.
+    - **Service** - Encapsula o uso de Repositories para prover as transações de persistência necessárias pela aplicação.
   - **Data Layer** - Contém os componentes responsáveis por obter e manipular os dados persistidos.
+    - **Repository** - Permite a comunicação direta com o SGBD para execução de consultas e atualizações.
    - **Banco de dados (SGBD)** - Aplicação responsável por persistir dados e permitir a consulta dos dados persistidos.
