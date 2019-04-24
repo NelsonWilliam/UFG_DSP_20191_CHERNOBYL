@@ -5,9 +5,7 @@ import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.service.Exe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ExemploController {
@@ -53,4 +51,15 @@ public class ExemploController {
         // Quando se retorna um objeto qualquer, o Spring já converte pra JSON.
         return exemploService.findFirstByNome(nome);
     }
+
+    @DeleteMapping("/api/entity/{id}")
+    public void deleteEntity(@PathVariable long id) {
+        exemploService.deleteById(id);
+    }
+
+    @PostMapping("/entities")
+    public void createEntity() {
+
+    }
+
 }

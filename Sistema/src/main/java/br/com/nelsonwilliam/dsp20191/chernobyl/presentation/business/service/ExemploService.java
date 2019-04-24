@@ -26,4 +26,8 @@ public class ExemploService {
         List<ExemploEntity> exemplos = exemploRepository.findByNome(nome);
         return exemplos.size() > 0 ? exemplos.get(0) : null;
     }
+
+    public void deleteById(long id) {
+        exemploRepository.deleteById(id);
+    }
 }

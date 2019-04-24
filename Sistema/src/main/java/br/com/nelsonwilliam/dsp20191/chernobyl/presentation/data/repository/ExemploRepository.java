@@ -13,4 +13,8 @@ public interface ExemploRepository extends JpaRepository<ExemploEntity, Long> {
     // parâmetros. Veja mais em: https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
     List<ExemploEntity> findByNome(String nome);
 
+    void deleteById(Long id);
+
+//    void insertExemploEntity(ExemploEntity exemploEntity);
+
 }
