@@ -78,7 +78,7 @@ public class ExemploController {
 
     @PostMapping("/entities")
     public void createEntity(@PathVariable ExemploEntity exemploEntity) {
-        exemploService.insertExemploEntity(exemploEntity);
+        exemploService.save(exemploEntity);
     }
 
     @RequestMapping("/cadastrar")

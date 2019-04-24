@@ -31,7 +31,8 @@ public class ExemploService {
         exemploRepository.deleteById(id);
     }
 
-    public void insertExemploEntity(ExemploEntity exemploEntity) {
-        exemploRepository.saveAndFlush(exemploEntity);
+    public void save(ExemploEntity exemploEntity) {
+        exemploRepository.save(exemploEntity);
     }
+
 }
