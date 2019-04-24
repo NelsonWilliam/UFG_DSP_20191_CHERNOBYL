@@ -2,6 +2,7 @@ package br.com.nelsonwilliam.dsp20191.chernobyl.presentation.data.repository;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity.ExemploEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public interface ExemploRepository extends JpaRepository<ExemploEntity, Long> {
 
     void deleteById(Long id);
 
-//    void insertExemploEntity(ExemploEntity exemploEntity);
+    @Query("insert into Exemplo(id,nome,texto) values = ?1,?2,?3")
+    void insertExemploEntity(Long id, String nome, String texto);
 
 }

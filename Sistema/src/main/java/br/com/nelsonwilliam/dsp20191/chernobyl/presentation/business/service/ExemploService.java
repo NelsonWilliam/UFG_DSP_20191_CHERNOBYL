@@ -30,4 +30,11 @@ public class ExemploService {
     public void deleteById(long id) {
         exemploRepository.deleteById(id);
     }
+
+    public void insertExemploEntity(ExemploEntity exemploEntity) {
+        Long id = exemploEntity.getId();
+        String nome = exemploEntity.getNome();
+        String texto = exemploEntity.getTexto();
+        exemploRepository.insertExemploEntity(id, nome, texto);
+    }
 }

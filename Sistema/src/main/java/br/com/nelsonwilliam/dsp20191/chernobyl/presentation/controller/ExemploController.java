@@ -58,8 +58,8 @@ public class ExemploController {
     }
 
     @PostMapping("/entities")
-    public void createEntity() {
-
+    public void createEntity(@PathVariable ExemploEntity exemploEntity) {
+        exemploService.insertExemploEntity(exemploEntity);
     }
 
 }
