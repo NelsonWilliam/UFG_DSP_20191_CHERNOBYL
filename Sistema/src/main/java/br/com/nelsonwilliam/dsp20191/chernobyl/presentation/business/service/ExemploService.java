@@ -32,9 +32,6 @@ public class ExemploService {
     }
 
     public void insertExemploEntity(ExemploEntity exemploEntity) {
-        Long id = exemploEntity.getId();
-        String nome = exemploEntity.getNome();
-        String texto = exemploEntity.getTexto();
-        exemploRepository.insertExemploEntity(id, nome, texto);
+        exemploRepository.saveAndFlush(exemploEntity);
     }
 }

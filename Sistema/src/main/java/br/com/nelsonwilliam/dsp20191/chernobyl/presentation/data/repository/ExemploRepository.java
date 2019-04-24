@@ -16,7 +16,4 @@ public interface ExemploRepository extends JpaRepository<ExemploEntity, Long> {
 
     void deleteById(Long id);
 
-    @Query("insert into Exemplo(id,nome,texto) values = ?1,?2,?3")
-    void insertExemploEntity(Long id, String nome, String texto);
-
 }
