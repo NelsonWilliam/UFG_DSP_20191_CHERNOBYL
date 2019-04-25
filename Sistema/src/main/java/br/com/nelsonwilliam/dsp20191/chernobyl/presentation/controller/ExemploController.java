@@ -3,12 +3,9 @@ package br.com.nelsonwilliam.dsp20191.chernobyl.presentation.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity.ExemploEntity;
 import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.service.ExemploService;
@@ -37,7 +34,7 @@ public class ExemploController {
 
     // Define o que deve ser retornado ao enviar um GET para a URL
     // "www.nossoservidor.com/entities"
-    @GetMapping("/entities")
+    @GetMapping("/entity/list")
     public String listEntities(Model model) {
         // O objeto Model que é passado como parâmetro é usado para armazenar os dados
         // que a view
@@ -54,34 +51,46 @@ public class ExemploController {
         return "entities";
     }
 
-    // Define o que deve ser retornado ao enviar um GET para a URL
-    // "www.nossoservidor
-    // .com/api/entity/{nome}"
-    // Nesse caso o {nome} pode ser qualquer coisa. O valor é passado como parâmetro
-    // pro método.
-    @GetMapping("/api/entity/{nome}")
-    // Define que não deve retornar uma página web, e sim um conteúdo qualquer.
-    @ResponseBody
-    public ExemploEntity getEntityByName(@PathVariable String nome) {
-        // Esse método é um exemplo de REST API que retorna o objeto com determinado id.
-        // Como não
-        // tem view, não tem model também.
-
-        // Quando se retorna um objeto qualquer, o Spring já converte pra JSON.
-        return exemploService.findFirstByNome(nome);
+    // Exibe uma entidade pelo nome
+    @GetMapping("/entity/nome/{nome}")
+    public String edit(@PathVariable String nome, Model model) {
+        ExemploEntity exemplo = exemploService.findFirstByNome(nome);
+        model.addAttribute("exemploEntity", exemplo);
+        return "cadastrar";
     }
 
-    @DeleteMapping("/api/entity/{id}")
-    public void deleteEntity(@PathVariable long id) {
+    // Edita uma entidade pelo id
+    @GetMapping("/entity/edit/{id}")
+    public String edit(@PathVariable long id, Model model) {
+        ExemploEntity exemplo = exemploService.findByid(id);
+        model.addAttribute("exemploEntity", exemplo);
+        return "cadastrar";
+    }
+
+    // Deleta uma entidade pelo id
+    @GetMapping("/entity/delete/{id}")
+    public String deleteEntity(@PathVariable long id) {
         exemploService.deleteById(id);
+        return "redirect:/";
     }
 
-    @PostMapping("/entities")
-    public void createEntity(@PathVariable ExemploEntity exemploEntity) {
+    // Cadastra uma entidade e redireciona pro index
+    @GetMapping("/entity/cadastrar")
+    public String cadastrar(Model model) {
+        ExemploEntity exemplo = new ExemploEntity();
+        model.addAttribute("exemploEntity", exemplo);
+        return "cadastrar";
+    }
+
+    // Salva uma entidade e redireciona pro index
+    @PostMapping("/entity/salvar")
+    public String createEntity(ExemploEntity exemploEntity) {
         exemploService.save(exemploEntity);
+        return "redirect:/";
     }
 
-    @RequestMapping("/cadastrar")
+    // Exibe a tela de detalhes da entidade (tela de cadastro/edição)
+    @GetMapping("/cadastrar")
     public String cadastro() {
         return "cadastrar";
     }

@@ -9,16 +9,12 @@
 </head>
 <body>
 <h2>Cadastrar entidade</h2>
-    <form method="post">
-    Nome: <input type="text" value="" name="nome"/><br>
-    Texto: <input type="text" value="" name="nome"/><br>
-    <button onclick="alert()">Salvar</button>
+    <form th:action="@{/entity/salvar}" th:object=${exemploEntity} method="post">
+    <input name="id" th:type="hidden" th:field="*{id}"/>
+    Nome: <input type="text"  th:field="*{nome}" /><br>
+    Texto: <input type="text" th:field="*{texto}"/><br>
+    <button type="submit">Salvar</button>
     </form>
     
-    <script>
-    function alert() {
-      alert("Cadastro");
-    }
-    </script>
 </body>
 </html>

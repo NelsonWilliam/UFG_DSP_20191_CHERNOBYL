@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -25,6 +26,11 @@ public class ExemploService {
     public ExemploEntity findFirstByNome(String nome) {
         List<ExemploEntity> exemplos = exemploRepository.findByNome(nome);
         return exemplos.size() > 0 ? exemplos.get(0) : null;
+    }
+    
+    public ExemploEntity findByid(long id) {
+        Optional<ExemploEntity> exemplo = exemploRepository.findById(id);
+        return exemplo.get();
     }
 
     public void deleteById(long id) {
