@@ -19,7 +19,7 @@
 |15 | Como Administrador eu quero acessar o sistema para cadastrar Filmes com os campos de o título, a capa, ficha técnica, premiações, atores, diretor(es).
 |16 | Como Administrador eu quero acessar o sistema para alterar Filmes cadastrados.
 |17 | Como Administrador eu quero acessar o sistema para excluir Filmes cadastrados.
-|18 | Como Administrador eu quero acessar o sistema para cadastrar Profissionais com os campos Nome e Descrição (Ator ou Diretor).
+|18 | Como Administrador eu quero acessar o sistema para cadastrar Profissionais com os campos Nome e Cargo (Ator ou Diretor).
 |19 | Como Administrador eu quero acessar o sistema para alterar Profissionais cadatrados.
 |20| Como Administrador eu quero acessar o sistema para excluir Profissionais cadastrados.
 |21 | Como Administrador eu quero acessar o sistema para cadastrar um Usuário como Administrador do sistema.
