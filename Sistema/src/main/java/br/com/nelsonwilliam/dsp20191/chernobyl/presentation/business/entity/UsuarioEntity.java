@@ -18,6 +18,10 @@ public class UsuarioEntity {
     private String email;
 
     @NotBlank
+    @Size(min = 4, max = 10)
+    private String login;
+
+    @NotBlank
     @Size(min = 6, max = 20)
     private String senha;
 
@@ -41,6 +45,14 @@ public class UsuarioEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getSenha() {
