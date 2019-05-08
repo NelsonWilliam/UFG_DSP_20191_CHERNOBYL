@@ -9,11 +9,10 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
-@Table(name = "resenha")
-public class ResenhaEntity {
+@Table(name = "topico")
+public class Topico {
 
     @Id
     @GeneratedValue
-    private long id;
-
+    private Long id;
 }

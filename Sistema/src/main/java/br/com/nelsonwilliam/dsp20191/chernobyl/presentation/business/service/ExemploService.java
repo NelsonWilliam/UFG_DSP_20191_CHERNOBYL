@@ -1,6 +1,6 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.service;
 
-import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity.ExemploEntity;
+import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity.Exemplo;
 import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.data.repository.ExemploRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,26 +19,26 @@ public class ExemploService {
     @Autowired
     private ExemploRepository exemploRepository;
 
-    public List<ExemploEntity> findAll() {
+    public List<Exemplo> findAll() {
         return exemploRepository.findAll();
     }
 
-    public ExemploEntity findFirstByNome(String nome) {
-        List<ExemploEntity> exemplos = exemploRepository.findByNome(nome);
+    public Exemplo findFirstByNome(String nome) {
+        List<Exemplo> exemplos = exemploRepository.findByNome(nome);
         return exemplos.size() > 0 ? exemplos.get(0) : null;
     }
     
-    public ExemploEntity findByid(long id) {
-        Optional<ExemploEntity> exemplo = exemploRepository.findById(id);
+    public Exemplo findByid(Long id) {
+        Optional<Exemplo> exemplo = exemploRepository.findById(id);
         return exemplo.get();
     }
 
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         exemploRepository.deleteById(id);
     }
 
-    public void save(ExemploEntity exemploEntity) {
-        exemploRepository.save(exemploEntity);
+    public void save(Exemplo exemplo) {
+        exemploRepository.save(exemplo);
     }
 
 }

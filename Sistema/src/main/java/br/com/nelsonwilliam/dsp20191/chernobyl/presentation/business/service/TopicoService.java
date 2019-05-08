@@ -1,6 +1,6 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.service;
 
-import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity.TopicoEntity;
+import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity.Topico;
 import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.data.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,16 +14,16 @@ public class TopicoService {
     @Autowired
     private TopicoRepository topicoRepository;
 
-    public List<TopicoEntity> findAll() {
+    public List<Topico> findAll() {
         return topicoRepository.findAll();
     }
 
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         topicoRepository.deleteById(id);
     }
 
-    public void save(TopicoEntity topicoEntity) {
-        topicoRepository.save(topicoEntity);
+    public void save(Topico topico) {
+        topicoRepository.save(topico);
     }
 
 }

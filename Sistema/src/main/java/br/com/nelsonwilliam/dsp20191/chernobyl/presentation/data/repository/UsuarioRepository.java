@@ -1,16 +1,16 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.presentation.data.repository;
 
-import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity.UsuarioEntity;
+import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Created by aluno on 03/05/19.
  */
-public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    UsuarioEntity findByLogin(String login);
+    Usuario findByLogin(String login);
 
-    UsuarioEntity findByEmail(String email);
+    Usuario findByEmail(String email);
 
     void deleteById(Long id);
 }

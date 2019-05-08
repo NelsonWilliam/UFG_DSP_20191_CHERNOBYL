@@ -1,6 +1,6 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.service;
 
-import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity.UsuarioEntity;
+import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity.Usuario;
 import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.data.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,32 +15,31 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public List<UsuarioEntity> findAll() {
+    public List<Usuario> findAll() {
         return usuarioRepository.findAll();
     }
 
-    public UsuarioEntity findByid(long id) {
-        Optional<UsuarioEntity> usuario = usuarioRepository.findById(id);
+    public Usuario findById(Long id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
         return usuario.get();
     }
 
-    public UsuarioEntity findByEmail(String email) {
-        UsuarioEntity usuario = usuarioRepository.findByEmail(email);
+    public Usuario findByEmail(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
         return usuario;
     }
 
-    public UsuarioEntity findByLogin(String login) {
-        UsuarioEntity usuario = usuarioRepository.findByLogin(login);
+    public Usuario findByLogin(String login) {
+        Usuario usuario = usuarioRepository.findByLogin(login);
         return usuario;
     }
-
 
     public void deleteById(long id) {
         usuarioRepository.deleteById(id);
     }
 
-    public void save(UsuarioEntity usuarioEntity) {
-        usuarioRepository.save(usuarioEntity);
+    public void save(Usuario usuario) {
+        usuarioRepository.save(usuario);
     }
 
 }

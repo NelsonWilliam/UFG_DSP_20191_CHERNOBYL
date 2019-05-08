@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity.ExemploEntity;
+import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity.Exemplo;
 import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.service.ExemploService;
 
 @Controller
@@ -54,16 +54,19 @@ public class ExemploController {
     // Exibe uma entidade pelo nome
     @GetMapping("/entity/nome/{nome}")
     public String edit(@PathVariable String nome, Model model) {
-        ExemploEntity exemplo = exemploService.findFirstByNome(nome);
-        model.addAttribute("exemploEntity", exemplo);
+        Exemplo exemplo = exemploService.findFirstByNome(nome);
+        if (exemplo == null)
+            return "index";
+
+        model.addAttribute("exemplo", exemplo);
         return "cadastrar";
     }
 
     // Edita uma entidade pelo id
     @GetMapping("/entity/edit/{id}")
     public String edit(@PathVariable long id, Model model) {
-        ExemploEntity exemplo = exemploService.findByid(id);
-        model.addAttribute("exemploEntity", exemplo);
+        Exemplo exemplo = exemploService.findByid(id);
+        model.addAttribute("exemplo", exemplo);
         return "cadastrar";
     }
 
@@ -77,15 +80,15 @@ public class ExemploController {
     // Cadastra uma entidade e redireciona pro index
     @GetMapping("/entity/cadastrar")
     public String cadastrar(Model model) {
-        ExemploEntity exemplo = new ExemploEntity();
-        model.addAttribute("exemploEntity", exemplo);
+        Exemplo exemplo = new Exemplo();
+        model.addAttribute("exemplo", exemplo);
         return "cadastrar";
     }
 
     // Salva uma entidade e redireciona pro index
     @PostMapping("/entity/salvar")
-    public String createEntity(ExemploEntity exemploEntity) {
-        exemploService.save(exemploEntity);
+    public String createEntity(Exemplo exemplo) {
+        exemploService.save(exemplo);
         return "redirect:/";
     }
 

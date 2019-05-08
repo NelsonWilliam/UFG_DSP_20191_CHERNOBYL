@@ -9,11 +9,11 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "usuario")
-public class UsuarioEntity {
+public class Usuario {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private String email;
 
@@ -29,13 +29,13 @@ public class UsuarioEntity {
     @Size(min = 3, max = 20)
     private String nome;
 
-    private boolean isAdmin;
+    private boolean isAdmin; // TODO Provavelmente não deveria ficar aqui, deve mudar quando colocar controle de acesso.
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

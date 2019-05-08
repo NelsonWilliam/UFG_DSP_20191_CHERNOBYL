@@ -9,11 +9,11 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "exemplo")
-public class ExemploEntity {
+public class Exemplo {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     @NotBlank
     @Size(min = 3, max = 100)
@@ -21,11 +21,11 @@ public class ExemploEntity {
 
     private String texto;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
