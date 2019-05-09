@@ -1,10 +1,19 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.presentation.business.entity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
+
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "filme")
@@ -28,6 +37,12 @@ public class Filme {
 
     @ElementCollection
     private List<String> premiacoes;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resenha")
+    private List<Resenha> resenhas;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "topico")
+    private List<Topico> topicos;
 
     public Long getId() {
         return id;
@@ -76,4 +91,21 @@ public class Filme {
     public void setPremiacoes(List<String> premiacoes) {
         this.premiacoes = premiacoes;
     }
+
+    public List<Resenha> getResenhas() {
+        return resenhas;
+    }
+
+    public void setResenhas(List<Resenha> resenhas) {
+        this.resenhas = resenhas;
+    }
+
+    public List<Topico> getTopicos() {
+        return topicos;
+    }
+
+    public void setTopicos(List<Topico> topicos) {
+        this.topicos = topicos;
+    }
+
 }
