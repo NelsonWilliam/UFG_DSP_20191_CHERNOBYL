@@ -94,3 +94,140 @@ body .card_right__review a {
     padding: 0 0 0 40px;
     margin: 0;
 }
+
+.heading {
+    color: black;
+    text-align: center;
+}
+
+.container {
+    width: 520px;
+    margin-top: 20px;
+}
+
+.button-group {
+    margin-bottom: 20px;
+}
+
+.counter {
+    display: inline;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 10px;
+}
+
+.posts {
+    clear: both;
+    list-style: none;
+    padding-left: 0;
+    width: 100%;
+    text-align: left;
+}
+
+.posts li {
+    background-color: #fff;
+    border: 1.5px solid #d8d8d8;
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    min-height: 42px;
+    box-shadow: 8px 8px 5px #888888;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.clear {
+    clear: both;
+}
+
+.wrapper {
+    width: 400px;
+    margin: 10px auto;
+}
+
+fieldset {
+    padding: 10px;
+    background: #69bdf4;
+}
+
+.form_grp {
+    margin-bottom: 10px;
+}
+
+label {
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #fff;
+    padding-left: 34px;
+    background: url(https://cdn3.iconfinder.com/data/icons/glypho-free/64/pen-checkbox-32.png) no-repeat left center;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #eee;
+    resize: none;
+}
+
+button {
+    padding: 5px 20px;
+    background-color: #0e7ec7;
+    color: #fff;
+    float: right;
+}
+
+.viewCmnt {
+    clear: both;
+    overflow: hidden;
+    position: relative;
+    background: #c8e7fb;
+    border-bottom: 1px solid #A6DAFC;
+}
+
+.viewCmnt p {
+    width: 100%;
+    float: left;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.edit,
+.delete {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    display: none;
+    cursor: pointer;
+    bottom: 5px;
+    padding: 2px;
+}
+
+.viewCmnt:hover .edit,
+.viewCmnt:hover .delete {
+    display: block;
+}
+
+.edit {
+    right: 26px;
+    background: url(https://cdn4.iconfinder.com/data/icons/miu/22/editor_pencil_pen_edit_write_-16.png) no-repeat center #0e7ec7;
+}
+
+.delete {
+    right: 5px;
+    background: url(https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/cross-24-16.png) no-repeat center #0e7ec7;
+    z-index: 2;
+}
