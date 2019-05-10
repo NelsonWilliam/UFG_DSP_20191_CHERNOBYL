@@ -1,0 +1,96 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+body {
+    background: #5db1b1;
+    background: -webkit-linear-gradient(to right, #c2ffff, #5db1b1);
+    background: linear-gradient(to right, #c2ffff, #5db1b1);
+}
+
+body .card {
+    width: 800px;
+    height: 400px;
+    background: transparent;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    box-shadow: 0px 20px 30px 3px rgba(0, 0, 0, 0.55);
+}
+
+body .card_left {
+    width: 40%;
+    height: 400px;
+    float: left;
+    overflow: hidden;
+    background: transparent;
+}
+
+body .card_left img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px 0 0 10px;
+    -webkit-border-radius: 10px 0 0 10px;
+    -moz-border-radius: 10px 0 0 10px;
+    position: relative;
+}
+
+body .card_right {
+    width: 60%;
+    float: left;
+    background: #000000;
+    margin-bottom: 50px;
+    height: 400px;
+    border-radius: 0 10px 10px 0;
+    -webkit-border-radius: 0 10px 10px 0;
+    -moz-border-radius: 0 10px 10px 0;
+}
+
+body .card_right h1 {
+    color: white;
+    font-weight: 400;
+    text-align: left;
+    font-size: 40px;
+    margin: 30px 0 0 0;
+    padding: 0 0 0 40px;
+    letter-spacing: 1px;
+}
+
+body .card_right__details ul {
+    list-style-type: none;
+    padding: 0 0 0 40px;
+    margin: 10px 0 0 0;
+}
+
+body .card_right__details ul i {
+    color: lightblue;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+body .card_right__details ul li {
+    display: inline;
+    color: #e3e3e3;
+    font-weight: 400;
+    font-size: 14px;
+    padding: 0 40px 0 0;
+}
+
+body .card_right__review p {
+    color: white;
+    font-size: 14px;
+    padding: 0 40px 0 40px;
+    letter-spacing: 1px;
+    margin: 10px 0 10px 0;
+    line-height: 20px;
+}
+
+body .card_right__review a {
+    text-decoration: none;
+    font-size: 14px;
+    padding: 0 0 0 40px;
+    margin: 0;
+}
