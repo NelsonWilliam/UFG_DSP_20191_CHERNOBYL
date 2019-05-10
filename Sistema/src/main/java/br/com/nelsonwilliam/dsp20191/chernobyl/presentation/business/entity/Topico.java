@@ -27,7 +27,7 @@ public class Topico {
     @ManyToOne(fetch = FetchType.LAZY)
     private Filme filme;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "avaliacaoTopico")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "topico")
     private List<AvaliacaoTopico> avaliacoes;
 
     public Long getId() {

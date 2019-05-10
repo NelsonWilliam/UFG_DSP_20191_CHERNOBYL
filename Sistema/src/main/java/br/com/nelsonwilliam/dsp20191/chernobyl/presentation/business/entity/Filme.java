@@ -38,10 +38,10 @@ public class Filme {
     @ElementCollection
     private List<String> premiacoes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resenha")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme")
     private List<Resenha> resenhas;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "topico")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme")
     private List<Topico> topicos;
 
     public Long getId() {
