@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exemplo</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/exemplo.css}"/>
+</head>
+<body>
+<h2>Entidades</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Texto</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="entidade : ${entidades}">
+        <td th:text="${entidade.id}">1</td>
+        <td th:text="${entidade.nome}">Nome</td>
+        <td th:text="${entidade.texto}">Texto</td>
+        <td><a th:href="@{/exemplo/entity/edit/{id}(id=${entidade.id})}">Editar (por id)</a> </td>
+        <td><a th:href="@{/exemplo/entity/delete/{id}(id=${entidade.id})}">Deletar (por id)</a> </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
