@@ -9,6 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.CargoEnum;
 
 @Entity
 @Table(name = "profissional")
@@ -18,13 +22,70 @@ public class Profissional {
     @GeneratedValue
     private Long id;
 
+    @NotBlank
+    @Size(min = 2, max = 128)
+    private String nome;
+
+    @NotBlank
+    private CargoEnum cargo;
+
+    private Double grauRadioatividade;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "diretor")
     private List<Filme> filmesDirigidos;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "atores")
     private List<Filme> filmesAtuados;
 
-    // NOTA PRA QUEM FOR FAZER AS PRÓXIMAS ENTIDADES e não souber como funciona relacionamento no JPA:
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public CargoEnum getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(CargoEnum cargo) {
+        this.cargo = cargo;
+    }
+
+    public Double getGrauRadioatividade() {
+        return grauRadioatividade;
+    }
+
+    public void setGrauRadioatividade(Double grauRadioatividade) {
+        this.grauRadioatividade = grauRadioatividade;
+    }
+
+    public List<Filme> getFilmesDirigidos() {
+        return filmesDirigidos;
+    }
+
+    public void setFilmesDirigidos(List<Filme> filmesDirigidos) {
+        this.filmesDirigidos = filmesDirigidos;
+    }
+
+    public List<Filme> getFilmesAtuados() {
+        return filmesAtuados;
+    }
+
+    public void setFilmesAtuados(List<Filme> filmesAtuados) {
+        this.filmesAtuados = filmesAtuados;
+    }
+
+    // NOTA: Relacionamento no JPA:
     // ---
     // Veja nas entidades existentes que o Filme tem um atributo pro seu diretor e o Profissional tem um atributo pros
     // seus filmes dirigidos.
