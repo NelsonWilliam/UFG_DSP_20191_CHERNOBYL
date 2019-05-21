@@ -33,7 +33,13 @@ public class Filme {
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Profissional> atores;
 
+    /**
+     * "Nivel de radiacao" de um filme baseado em todas as avaliacoes feitas por usuários
+     */
     private Float grauRadioatividade;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme")
+    private List<AvaliacaoFilme> avaliacoes;
 
     @ElementCollection
     private List<String> premiacoes;
