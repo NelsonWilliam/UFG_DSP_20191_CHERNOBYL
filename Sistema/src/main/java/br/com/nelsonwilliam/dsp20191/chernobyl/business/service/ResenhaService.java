@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,4 +27,18 @@ public class ResenhaService {
     public void save(Resenha resenha) {
         resenhaRepository.save(resenha);
     }
+
+    public Resenha findById(Long id) {
+        Optional<Resenha> resenha = resenhaRepository.findById(id);
+        return resenha.orElse(null);
+    }
+
+    public boolean resenhaExists(Resenha resenha) {
+        Resenha resenha1 = findById(resenha.getId());
+        if (resenha1.getTexto().equals(null)) {
+            return true;
+        }
+        return false;
+    }
+
 }
