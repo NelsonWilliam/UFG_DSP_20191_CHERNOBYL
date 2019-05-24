@@ -57,7 +57,6 @@ public class ExemploController {
         Exemplo exemplo = exemploService.findFirstByNome(nome);
         if (exemplo == null)
             return "index";
-
         model.addAttribute("exemplo", exemplo);
         return "Exemplo/cadastrar";
     }

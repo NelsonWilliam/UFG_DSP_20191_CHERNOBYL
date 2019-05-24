@@ -4,12 +4,19 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:include="fragments/layout :: head(title=~{::title})">
-    <title>Início</title>
+    <title>Filme</title>
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
 <div th:fragment="content">
-    <p>Bem-vindo(a)!</p>
+    <h1>Filme</h1>
+
+    <h5>Título</h5>
+    <p th:text="${filmeDto.titulo}"></p>
+
+    <h5>Diretor</h5>
+    <p th:text="${@pessoaService.findById(filmeDto.idDiretor)?.nome}"></p>
+    <br>
 </div>
 </body>
 

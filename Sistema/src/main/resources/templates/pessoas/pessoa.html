@@ -4,12 +4,18 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:include="fragments/layout :: head(title=~{::title})">
-    <title>Início</title>
+    <title>Filme</title>
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
 <div th:fragment="content">
-    <p>Bem-vindo(a)!</p>
+    <h1>Pessoa</h1>
+
+    <h5>Nome</h5>
+    <p th:text="${pessoaDto.nome}"></p>
+
+    <h5>Cargo</h5>
+    <p th:text="${pessoaDto.cargo}"></p>
 </div>
 </body>
 

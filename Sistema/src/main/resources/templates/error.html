@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:include="fragments/layout :: head(title=~{::title})">
+    <title>Erro</title>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+<div th:fragment="content">
+    <h1>Erro</h1>
+    <table>
+        <tr>
+            <td>Data</td>
+            <td th:text="${timestamp}"></td>
+        </tr>
+        <tr>
+            <td>Caminho</td>
+            <td th:text="${path}"></td>
+        </tr>
+        <tr>
+            <td>Erro</td>
+            <td th:text="${error}"></td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td th:text="${status}"></td>
+        </tr>
+        <tr>
+            <td>Mensagem</td>
+            <td th:text="${message}"></td>
+        </tr>
+        <tr>
+            <td>Exceção</td>
+            <td th:text="${exception}"></td>
+        </tr>
+        <tr>
+            <td>Pilha de execução</td>
+            <td>
+                <pre th:text="${trace}"></pre>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+
+</html>

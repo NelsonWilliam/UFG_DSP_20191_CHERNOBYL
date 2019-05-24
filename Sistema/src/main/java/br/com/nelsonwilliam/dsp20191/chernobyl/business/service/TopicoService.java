@@ -23,8 +23,8 @@ public class TopicoService {
         topicoRepository.deleteById(id);
     }
 
-    public void save(Topico topico) {
-        topicoRepository.save(topico);
+    public Topico save(Topico topico) {
+        return topicoRepository.save(topico);
     }
 
 }

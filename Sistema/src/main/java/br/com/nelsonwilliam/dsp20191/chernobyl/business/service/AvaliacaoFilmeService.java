@@ -39,8 +39,8 @@ public class AvaliacaoFilmeService {
         avaliacaoFilmeRepository.deleteById(id);
     }
 
-    public void save(AvaliacaoFilme avaliacaoFilme) {
-        avaliacaoFilmeRepository.save(avaliacaoFilme);
+    public AvaliacaoFilme save(AvaliacaoFilme avaliacaoFilme) {
+        return avaliacaoFilmeRepository.save(avaliacaoFilme);
     }
 
     public void validate(AvaliacaoFilme avalFilme, Usuario user) throws IllegalInsertException {

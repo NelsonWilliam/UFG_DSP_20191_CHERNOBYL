@@ -24,8 +24,8 @@ public class ResenhaService {
         resenhaRepository.deleteById(id);
     }
 
-    public void save(Resenha resenha) {
-        resenhaRepository.save(resenha);
+    public Resenha save(Resenha resenha) {
+        return resenhaRepository.save(resenha);
     }
 
     public Resenha findById(Long id) {

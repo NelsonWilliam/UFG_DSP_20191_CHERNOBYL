@@ -32,19 +32,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 // Authorization
                 .authorizeRequests()
-                .antMatchers("/testeAcesso/admin/**").hasRole(PapelEnum.ADMIN.getRole())
-                .antMatchers("/testeAcesso/usuario/**").hasRole(PapelEnum.USUARIO.getRole())
-                .antMatchers("/testeAcesso/logout").authenticated()
+                .antMatchers("/resources/**").permitAll()
+                .antMatchers("/admin/**").hasRole(PapelEnum.ADMIN.getRole())
+                .antMatchers("/usuario/logout").authenticated()
                 .anyRequest().permitAll()
                 // Login
                 .and()
                 .formLogin()
-                .loginPage("/testeAcesso/login")
-                .defaultSuccessUrl("/testeAcesso/", true)
+                .loginPage("/usuario/login")
+                .defaultSuccessUrl("/", true)
+                .permitAll()
                 // Logout
                 .and()
                 .logout()
-                .logoutUrl("/testeAcesso/logout")
+                .logoutUrl("/usuario/logout")
                 .deleteCookies("JSESSIONID")
                 // Remember-me
                 .and()

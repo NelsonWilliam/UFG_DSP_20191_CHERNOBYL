@@ -1,5 +1,6 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.business.service;
 
+import br.com.nelsonwilliam.dsp20191.chernobyl.business.dto.FilmeDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Filme;
 import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.FilmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,6 +24,11 @@ public class FilmeService {
         return filmeRepository.findAll();
     }
 
+    public Filme findById(Long id) {
+        Optional<Filme> exemplo = filmeRepository.findById(id);
+        return exemplo.orElse(null);
+    }
+
     public Collection<Filme> findByDiretor(Long idDiretor) {
         return filmeRepository.findByDiretor(idDiretor);
     }
@@ -30,9 +37,9 @@ public class FilmeService {
         return filmeRepository.findByAtores(idAtor);
     }
 
-    public List<Filme> findByProfissional(Long idProfissional) {
-        Collection<Filme> porDiretor = findByDiretor(idProfissional);
-        Collection<Filme> porAtor = findByAtor(idProfissional);
+    public List<Filme> findByPessoa(Long idPessoa) {
+        Collection<Filme> porDiretor = findByDiretor(idPessoa);
+        Collection<Filme> porAtor = findByAtor(idPessoa);
         return Stream.of(porDiretor, porAtor).flatMap(Collection::stream).collect(Collectors.toList());
     }
 
@@ -40,8 +47,12 @@ public class FilmeService {
         filmeRepository.deleteById(id);
     }
 
-    public void save(Filme filme) {
-        filmeRepository.save(filme);
+    public Filme save(Filme filme) {
+        return filmeRepository.save(filme);
+    }
+
+    public List<FilmeDto> findAllDto() {
+        return findAll().stream().map(FilmeDto::fromFilme).collect(Collectors.toList());
     }
 
 }

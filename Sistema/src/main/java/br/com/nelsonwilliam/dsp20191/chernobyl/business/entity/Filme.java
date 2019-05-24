@@ -1,19 +1,10 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.business.entity;
 
-import java.util.Collection;
-import java.util.List;
-
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "filme")
@@ -28,27 +19,25 @@ public class Filme {
     private String titulo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Profissional diretor;
+    private Pessoa diretor;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private Collection<Profissional> atores;
-
-    /**
-     * "Nivel de radiacao" de um filme baseado em todas as avaliacoes feitas por usuários
-     */
-    private Float grauRadioatividade;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme")
-    private List<AvaliacaoFilme> avaliacoes;
+    private List<Pessoa> atores;
 
     @ElementCollection
     private List<String> premiacoes;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme")
+    private List<AvaliacaoFilme> avaliacoes;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme")
     private List<Resenha> resenhas;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme")
     private List<Topico> topicos;
+
+    @Transient
+    private Float grauRadioatividade;
 
     public Long getId() {
         return id;
@@ -66,19 +55,19 @@ public class Filme {
         this.titulo = titulo;
     }
 
-    public Profissional getDiretor() {
+    public Pessoa getDiretor() {
         return diretor;
     }
 
-    public void setDiretor(Profissional diretor) {
+    public void setDiretor(Pessoa diretor) {
         this.diretor = diretor;
     }
 
-    public Collection<Profissional> getAtores() {
+    public Collection<Pessoa> getAtores() {
         return atores;
     }
 
-    public void setAtores(Collection<Profissional> atores) {
+    public void setAtores(List<Pessoa> atores) {
         this.atores = atores;
     }
 
@@ -114,4 +103,11 @@ public class Filme {
         this.topicos = topicos;
     }
 
+    public List<AvaliacaoFilme> getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    public void setAvaliacoes(List<AvaliacaoFilme> avaliacoes) {
+        this.avaliacoes = avaliacoes;
+    }
 }

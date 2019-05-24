@@ -1,6 +1,5 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.presentation.controller;
 
-import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Exemplo;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Usuario;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.PapelEnum;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.service.UsuarioService;
@@ -13,11 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.security.Principal;
 import java.util.Arrays;
 
 @Controller
-public class AcessoController {
+public class TesteAcessoController {
 
     @Autowired
     private UsuarioService usuarioService;
@@ -62,18 +60,9 @@ public class AcessoController {
         return "TesteAcesso/homeGuest";
     }
 
-    @GetMapping("/testeAcesso/login")
-    public String login(Model model) {
-        return "TesteAcesso/login";
-    }
-
-    @GetMapping("/testeAcesso/logout")
-    public String logout(Model model) {
-        return "TesteAcesso/logout";
-    }
 
     @GetMapping("/testeAcesso/cadastrar")
-    public String cadastrar(Model model) {
+    public String cadastrar2(Model model) {
         Usuario usuario = new Usuario();
         model.addAttribute("usuario", usuario);
         return "TesteAcesso/cadastrar";
@@ -86,4 +75,5 @@ public class AcessoController {
         usuarioService.save(usuario);
         return "redirect:/testeAcesso";
     }
+
 }

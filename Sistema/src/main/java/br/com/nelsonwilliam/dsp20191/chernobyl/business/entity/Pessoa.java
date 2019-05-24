@@ -1,22 +1,16 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.business.entity;
 
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.CargoEnum;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "profissional")
-public class Profissional {
+public class Pessoa {
 
     @Id
     @GeneratedValue
@@ -26,16 +20,17 @@ public class Profissional {
     @Size(min = 2, max = 128)
     private String nome;
 
-    @NotBlank
+    @NotNull
     private CargoEnum cargo;
-
-    private Double grauRadioatividade;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "diretor")
     private List<Filme> filmesDirigidos;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "atores")
     private List<Filme> filmesAtuados;
+
+    @Transient
+    private Double grauRadioatividade;
 
     public Long getId() {
         return id;
@@ -87,7 +82,7 @@ public class Profissional {
 
     // NOTA: Relacionamento no JPA:
     // ---
-    // Veja nas entidades existentes que o Filme tem um atributo pro seu diretor e o Profissional tem um atributo pros
+    // Veja nas entidades existentes que o Filme tem um atributo pro seu diretor e o Pessoa tem um atributo pros
     // seus filmes dirigidos.
     // Em ambos os atributos do relacionamento é precisso que colocar as anotações
     // OneToMany/ManyToOne/ManyToMany/OneToOne corretamente.

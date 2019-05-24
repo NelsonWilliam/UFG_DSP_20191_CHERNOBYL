@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:include="fragments/layout :: head(title=~{::title})">
+    <title>Cadastrar</title>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+<div th:fragment="content">
+    <h2>Cadastrar</h2>
+    <form th:action="@{/usuario/cadastrar/enviar}" th:object=${usuarioDto} method="post">
+        <fieldset>
+
+            <label for="login">Login</label>
+            <input id="login" type="text" th:field="*{login}"/>
+            <div th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Erro</div>
+            <br>
+
+            <label for="senha">Senha</label>
+            <input id="senha" type="password" th:field="*{senha}"/>
+            <div th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">Erro</div>
+            <br>
+
+            <label for="nome">Nome</label>
+            <input id="nome" type="text" th:field="*{nome}"/>
+            <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Erro</div>
+            <br>
+
+            <label for="email">E-mail</label>
+            <input id="email" type="email" th:field="*{email}"/>
+            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Erro</div>
+            <br>
+
+            <button type="submit">Cadastrar</button>
+        </fieldset>
+    </form>
+</div>
+</body>
+
+</html>
