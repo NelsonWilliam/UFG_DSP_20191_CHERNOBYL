@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
+    <title>Resenha</title>
+    <extras></extras>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}, customScript=~{::customScript}">
+<div th:fragment="content">
+
+    <h2 th:text="${resenhaDto.id == null ? 'Inserir resenha' : 'Editar resenha'}"></h2>
+
+    <form th:action="@{/filmes/} + ${resenhaDto.idFilme + '/editar-resenha/enviar'}" th:object=${resenhaDto}
+          method="post">
+        <fieldset>
+            <!-- Campos que não editaremos mas precisamos guardar os valores -->
+            <input type="hidden" th:value="*{id}" th:field="*{id}"/>
+            <input type="hidden" th:value="*{idFilme}" th:field="*{idFilme}"/>
+            <input type="hidden" th:value="*{idAutor}" th:field="*{idAutor}"/>
+            <input type="hidden" th:value="*{minhaAvaliacao}" th:field="*{minhaAvaliacao}"/>
+            <input type="hidden" th:value="*{mediaAvaliacao}" th:field="*{mediaAvaliacao}"/>
+
+            <label for="texto">Texto</label>
+            <textarea id="texto" name="texto" rows="5" th:field="*{texto}"></textarea>
+            <div th:if="${#fields.hasErrors('texto')}" th:errors="*{texto}">Erro</div>
+            <br>
+
+            <button type="submit" class="btn btn-primary">Confirmar</button>
+            <a class="btn btn-secondary" th:href="@{/filmes/} + ${resenhaDto.idFilme}" role="button">
+                Cancelar
+            </a>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>

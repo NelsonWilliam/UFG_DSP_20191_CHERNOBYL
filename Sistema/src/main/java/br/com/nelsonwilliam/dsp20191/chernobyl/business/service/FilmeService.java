@@ -55,7 +55,9 @@ public class FilmeService {
     }
 
     public List<FilmeDto> findAllDto() {
-        return findAll().stream().map(FilmeDto::fromFilme).collect(Collectors.toList());
+        return findAll().stream().map(f -> {
+            return FilmeDto.fromFilme(f);
+        }).collect(Collectors.toList());
     }
 
 }

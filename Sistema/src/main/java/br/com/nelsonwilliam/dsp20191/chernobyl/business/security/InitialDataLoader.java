@@ -2,11 +2,13 @@ package br.com.nelsonwilliam.dsp20191.chernobyl.business.security;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Filme;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Pessoa;
+import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Resenha;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Usuario;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.CargoEnum;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.PapelEnum;
 import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.FilmeRepository;
 import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.PessoaRepository;
+import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.ResenhaRepository;
 import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -34,6 +36,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     @Autowired
     private FilmeRepository filmeRepository;
+
+    @Autowired
+    private ResenhaRepository resenhaRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -82,6 +87,11 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         filme.setDiretor(quentin);
         filme.setPremiacoes(Arrays.asList("Pior filme de 2021"));
         filme = filmeRepository.save(filme);
+        Resenha res = new Resenha();
+        res.setAutor(user);
+        res.setTexto("Não gostei, ou seja, é muito bom");
+        res.setFilme(filme);
+        res = resenhaRepository.save(res);
 
         alreadySetup = true;
     }

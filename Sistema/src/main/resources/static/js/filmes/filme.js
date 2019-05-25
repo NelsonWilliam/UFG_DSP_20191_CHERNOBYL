@@ -1,14 +1,37 @@
-function replaceAvaliacao (html) {
-    $('#avaliacao').html(html);
-    addAvaliacaoVotoListeners();
+function replaceAvaliacaoFilme (html) {
+    $('#avaliacaoFilme').html(html);
+    addAvaliarFilmeListeners();
 }
 
-function addAvaliacaoVotoListeners() {
-    $('button[name="avaliacaoVoto"]').click(function (event) {
+function replaceResenhas (html) {
+    $('#resenhas').html(html);
+    addAvaliarResenhaListeners();
+}
+
+function addAvaliarFilmeListeners() {
+    $('button[name="avaliarFilme"]').click(function (event) {
         event.preventDefault();
-        var data = '&votar=' + $(this).val();
-        $.get(window.location, data, replaceAvaliacao);
+        var data = '&avaliarFilme=' + $(this).val();
+        $.get(window.location.pathname, data, replaceAvaliacaoFilme);
     });
 }
 
-addAvaliacaoVotoListeners();
+function avaliarResenha(event, positivo, id) {
+    event.preventDefault();
+    var data = '&avaliarResenha=' + id;
+    data += "&positivo=" + positivo;
+    console.log
+    $.get(window.location.pathname, data, replaceResenhas);
+}
+
+function addAvaliarResenhaListeners() {
+    $('button[name="avaliarResenhaPositivo"]').click(function (event) {
+        avaliarResenha(event, true, $(this).val());
+    });
+    $('button[name="avaliarResenhaNegativo"]').click(function (event) {
+        avaliarResenha(event, false, $(this).val());
+    });
+}
+
+addAvaliarFilmeListeners();
+addAvaliarResenhaListeners();

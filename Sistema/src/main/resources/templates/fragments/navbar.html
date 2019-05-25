@@ -21,7 +21,7 @@
             </li>
         </ul>
         <span sec:authorize="isAuthenticated()" class="nav-link text-light">
-            Olá, <b sec:authentication="name">Nome</b>!
+            Olá, <b th:text="${@authService.getUsuario()?.getNome()}">Nome</b>!
             <i sec:authorize="hasRole('ROLE_ADMIN')" class="fas fa-lock text-warning"></i>
         </span>
         <a sec:authorize="isAuthenticated()" class="btn btn-secondary" th:href="@{/usuario/logout}" role="button">

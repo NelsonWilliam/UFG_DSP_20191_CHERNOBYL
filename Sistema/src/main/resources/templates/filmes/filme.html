@@ -15,10 +15,23 @@
     <div th:if="${param.updated}" class="alert alert-success" role="alert">
         Filme editado!
     </div>
+    <div th:if="${param.createdresenha}" class="alert alert-success" role="alert">
+        Resenha inserida!
+    </div>
+    <div th:if="${param.updatedresenha}" class="alert alert-success" role="alert">
+        Resenha atualizada!
+    </div>
+    <div th:if="${param.deletedresenha}" class="alert alert-success" role="alert">
+        Resenha excluída!
+    </div>
 
     <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
        th:href="@{/admin/filmes/editar/} + ${filmeDto.id}" role="button">
         Editar filme
+    </a>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
+       th:href="@{/admin/filmes/} + ${filmeDto.id + '/excluir'}" role="button">
+        Excluir filme
     </a>
 
     <h5>Título</h5>
@@ -45,33 +58,83 @@
     </ul>
 
     <h5>Grau de radioatividade</h5>
-    <div id="avaliacao" th:fragment="avaliacao" sec:authorize="isAuthenticated()">
+    <div id="avaliacaoFilme" th:fragment="avaliacaoFilme">
+        <!-- Média atual da avaliação do filme -->
         <p>Média atual: <b><span th:text="${mediaAvaliacao <= 0 ? 'Não avaliado' : mediaAvaliacao}"></span></b></p>
-
-        <p>Seu voto:</p>
-        <div class="btn-toolbar" role="toolbar">
-            <div class="btn-group btn-group-toggle" role="group">
-                <button th:classappend="${minhaAvaliacao == 0} ? active : ''"
-                        name="avaliacaoVoto" type="button" class="btn btn-danger" value="0">X
-                </button>
-                <button th:classappend="${minhaAvaliacao == 1} ? active : ''"
-                        name="avaliacaoVoto" type="button" class="btn btn-secondary" value="1">1
-                </button>
-                <button th:classappend="${minhaAvaliacao == 2} ? active : ''"
-                        name="avaliacaoVoto" type="button" class="btn btn-secondary" value="2">2
-                </button>
-                <button th:classappend="${minhaAvaliacao == 3} ? active : ''"
-                        name="avaliacaoVoto" type="button" class="btn btn-secondary" value="3">3
-                </button>
-                <button th:classappend="${minhaAvaliacao == 4} ? active : ''"
-                        name="avaliacaoVoto" type="button" class="btn btn-secondary" value="4">4
-                </button>
-                <button th:classappend="${minhaAvaliacao == 5} ? active : ''"
-                        name="avaliacaoVoto" type="button" class="btn btn-secondary" value="5">5
-                </button>
+        <!-- Botões de avaliar o filme -->
+        <div sec:authorize="isAuthenticated()">
+            <p>Seu voto:</p>
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group btn-group-toggle" role="group">
+                    <button th:classappend="${minhaAvaliacao == 0} ? active : ''"
+                            name="avaliarFilme" type="button" class="btn btn-danger" value="0">X
+                    </button>
+                    <button th:classappend="${minhaAvaliacao == 1} ? active : ''"
+                            name="avaliarFilme" type="button" class="btn btn-secondary" value="1">1
+                    </button>
+                    <button th:classappend="${minhaAvaliacao == 2} ? active : ''"
+                            name="avaliarFilme" type="button" class="btn btn-secondary" value="2">2
+                    </button>
+                    <button th:classappend="${minhaAvaliacao == 3} ? active : ''"
+                            name="avaliarFilme" type="button" class="btn btn-secondary" value="3">3
+                    </button>
+                    <button th:classappend="${minhaAvaliacao == 4} ? active : ''"
+                            name="avaliarFilme" type="button" class="btn btn-secondary" value="4">4
+                    </button>
+                    <button th:classappend="${minhaAvaliacao == 5} ? active : ''"
+                            name="avaliarFilme" type="button" class="btn btn-secondary" value="5">5
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+
+    <h5>Resenhas</h5>
+    <div id="resenhas" th:fragment="resenhas">
+        <div th:if="${resenhas == null || resenhas.size() == 0}">
+            Nenhuma resenha
+        </div>
+        <div th:if="${resenhas != null && resenhas.size() > 0}"
+             th:each="resenha: ${resenhas}"
+             style="border: 1px solid #666; margin-top:1rem;padding:10px;">
+
+            <!-- Autor e texto-->
+            <p><b th:text="${@usuarioService.findById(resenha.idAutor)?.nome}"></b>:</p>
+            <p th:text="${resenha.texto}"></p>
+
+            <!-- Porcentagem das avaliações da resenha -->
+            <p th:text="${resenha.mediaAvaliacao < 0 ? 'Não avaliado' : ((resenha.mediaAvaliacao*100) + '% de aprovação')}"></p>
+
+            <!-- Botões de avaliar a resenha -->
+            <div class="btn-group btn-group-sm btn-group-toggle" role="group" sec:authorize="isAuthenticated()">
+                <button th:classappend="${resenha.minhaAvaliacao != null && resenha.minhaAvaliacao == true} ? active : ''"
+                        name="avaliarResenhaPositivo" type="button" class="btn btn-sm btn-success"
+                        th:value="${resenha?.id}">
+                    Concordo
+                </button>
+                <button th:classappend="${resenha.minhaAvaliacao != null && resenha.minhaAvaliacao == false} ? active : ''"
+                        name="avaliarResenhaNegativo" type="button" class="btn btn-sm btn-danger"
+                        th:value="${resenha?.id}">
+                    Discordo
+                </button>
+                <a th:if="${@authService.isAdmin() || (@authService.isAuthenticated() && @authService.getUsuario()?.getId() == resenha.idAutor)}"
+                   th:href="@{/filmes/} + ${resenha.idFilme + '/editar-resenha/' + resenha.id}" role="button"
+                   class="btn btn-sm btn-secondary">
+                    Editar
+                </a>
+                <a th:if="${@authService.isAdmin() || (@authService.isAuthenticated() && @authService.getUsuario()?.getId() == resenha.idAutor)}"
+                   th:href="@{/filmes/} + ${resenha.idFilme + '/excluir-resenha/' + resenha.id}" role="button"
+                   class="btn btn-sm btn-secondary">
+                    Excluir
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <a sec:authorize="isAuthenticated()" th:href="@{/filmes/} + ${filmeDto.id + '/editar-resenha'}"
+       class="btn btn-primary" role="button">
+        Inserir resenha
+    </a>
 </div>
 <div th:fragment="customScript">
     <script type="text/javascript" th:src="@{/js/filmes/filme.js}"></script>

@@ -31,6 +31,12 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private List<PapelEnum> papeis;
 
+    @OneToMany(mappedBy = "autor")
+    private List<Resenha> resenhas;
+
+    @OneToMany(mappedBy = "autor")
+    private List<Topico> topicos;
+
     public Long getId() {
         return id;
     }

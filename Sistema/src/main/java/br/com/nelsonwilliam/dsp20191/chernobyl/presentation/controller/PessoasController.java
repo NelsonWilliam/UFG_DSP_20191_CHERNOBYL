@@ -70,4 +70,10 @@ public class PessoasController {
             return "redirect:/pessoas?created";
         }
     }
+
+    @GetMapping("/admin/pessoas/{id}/excluir")
+    public String excluir(@PathVariable Long id) {
+        pessoaService.deleteById(id);
+        return "redirect:/pessoas?deleted";
+    }
 }

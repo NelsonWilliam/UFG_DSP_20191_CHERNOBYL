@@ -1,16 +1,10 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.business.entity;
 
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "resenha")
@@ -19,6 +13,10 @@ public class Resenha {
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotNull
+    @ManyToOne
+    private Usuario autor;
 
     @NotBlank
     @Size(min = 1, max = 500)
@@ -62,4 +60,11 @@ public class Resenha {
         this.avaliacoes = avaliacoes;
     }
 
+    public Usuario getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Usuario autor) {
+        this.autor = autor;
+    }
 }

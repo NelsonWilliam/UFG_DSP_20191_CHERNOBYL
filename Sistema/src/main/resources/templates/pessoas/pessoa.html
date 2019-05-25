@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
-    <title>Filme</title>
+    <title>Pessoa</title>
     <extras></extras>
 </head>
 
@@ -19,6 +19,10 @@
     <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
        th:href="@{/admin/pessoas/editar/} + ${pessoaDto.id}" role="button">
         Editar pessoa
+    </a>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
+       th:href="@{/admin/pessoas/} + ${pessoaDto.id + '/excluir'}" role="button">
+        Excluir pessoa
     </a>
 
     <h5>Nome</h5>
