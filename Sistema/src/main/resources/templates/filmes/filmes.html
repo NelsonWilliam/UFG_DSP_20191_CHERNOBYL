@@ -11,25 +11,31 @@
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
 <div th:fragment="content">
 
-    <h1>Filmes</h1>
+    <div class="row">
+        <div class="col">
+            <h1>Filmes</h1>    
+        </div>
+        <div class="col-auto">
+            <div th:if="${param.created}" class="alert alert-success" role="alert">
+                Filme inserido!
+            </div>
+            <div th:if="${param.deleted}" class="alert alert-success" role="alert">
+                Filme excluído!
+            </div>
 
-    <div th:if="${param.created}" class="alert alert-success" role="alert">
-        Filme inserido!
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
+            th:href="@{/admin/filmes/editar}" role="button">
+                Inserir filme
+            </a>
+        </div>
     </div>
-    <div th:if="${param.deleted}" class="alert alert-success" role="alert">
-        Filme excluído!
+
+    <div class="row">
+        <div th:each="filme: ${filmes}" class="col-auto">
+            <img th:src="@{/imagens/poster.png}" alt="Poster do filme" />
+            <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filme.id}" th:text="${filme.titulo}"></a></figcaption>
+        </div>
     </div>
-
-    <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
-       th:href="@{/admin/filmes/editar}" role="button">
-        Inserir filme
-    </a>
-
-    <table>
-        <tr th:each="filme: ${filmes}">
-            <td>• <a th:href="@{/filmes/} + ${filme.id}" th:text="${filme.titulo}"></a></td>
-        </tr>
-    </table>
 
 </div>
 </body>
