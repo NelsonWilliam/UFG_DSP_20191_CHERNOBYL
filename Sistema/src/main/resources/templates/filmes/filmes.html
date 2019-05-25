@@ -3,8 +3,9 @@
       xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:include="fragments/layout :: head(title=~{::title})">
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title>Início</title>
+    <extras></extras>
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
@@ -17,7 +18,7 @@
     </div>
 
     <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
-       th:href="@{/admin/filmes/inserir}" role="button">
+       th:href="@{/admin/filmes/editar}" role="button">
         Inserir novo filme
     </a>
 

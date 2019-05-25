@@ -1,8 +1,6 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.business.service;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.AvaliacaoFilme;
-import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Usuario;
-import br.com.nelsonwilliam.dsp20191.chernobyl.business.exception.IllegalInsertException;
 import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.AvaliacaoFilmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,11 +26,15 @@ public class AvaliacaoFilmeService {
     }
 
     public Collection<AvaliacaoFilme> findByFilme(Long idFilme) {
-        return avaliacaoFilmeRepository.findByFilme(idFilme);
+        return avaliacaoFilmeRepository.findByFilme_Id(idFilme);
     }
 
     public Collection<AvaliacaoFilme> findByUsuario(Long idUsuario) {
-        return avaliacaoFilmeRepository.findByUsuario(idUsuario);
+        return avaliacaoFilmeRepository.findByUsuario_Id(idUsuario);
+    }
+
+    public AvaliacaoFilme findByFilmeAndUsuario(Long idFilme, Long idUsuario) {
+        return avaliacaoFilmeRepository.findByFilme_IdAndUsuario_Id(idFilme, idUsuario).orElse(null);
     }
 
     public void deleteById(Long id) {
@@ -40,73 +42,37 @@ public class AvaliacaoFilmeService {
     }
 
     public AvaliacaoFilme save(AvaliacaoFilme avaliacaoFilme) {
+        // Se já existe avaliação desse usuário para esse filme, substitui a avaliação anterior em vez de criar uma nova
+        AvaliacaoFilme avaliacaoExistente = findByFilmeAndUsuario(avaliacaoFilme.getFilme().getId(), avaliacaoFilme.getUsuario().getId());
+        if (avaliacaoExistente != null) {
+            avaliacaoFilme.setId(avaliacaoExistente.getId());
+        }
         return avaliacaoFilmeRepository.save(avaliacaoFilme);
     }
 
-    public void validate(AvaliacaoFilme avalFilme, Usuario user) throws IllegalInsertException {
-        // Campos nulos
-        if (avalFilme.equals(null)) {
-            throw new IllegalInsertException("Avaliação não pode ser nula");
-        }
-
-        if (avalFilme.getGrauRadiacao() == null) {
-            throw new IllegalInsertException("O grau de radiação não pode ser nulo");
-        }
-
-        if (avalFilme.getFilme().equals(null)) {
-            throw new IllegalInsertException("Avaliação deve possuir um filme");
-        }
-
-        if (avalFilme.getUsuario().equals(null)) {
-            throw new IllegalInsertException("Avaliação deve ser possuir usuário");
-        }
-
-        if (user.equals(null)) {
-            throw new IllegalInsertException("Avaliação deve ser feita por um usuário");
-        }
-
-        // Integridade
-        if (avalFilme.getUsuario().getId() != user.getId()) {
-            throw new IllegalInsertException("Um usuário não pode fazer uma avaliação por outro usuário");
-        }
-
-        // Avaliacao duplicada
-        if (!findById(avalFilme.getId()).equals(null)) {
-            throw new IllegalInsertException("Avaliação já existe");
-        }
-
-        // Se o usuario for o mesmo, a avaliacao deve ser diferente
-        Collection<AvaliacaoFilme> avaliacoes = findByUsuario(user.getId());
-        for (AvaliacaoFilme aval : avaliacoes) {
-            if (aval.getUsuario().getId() == user.getId()) {
-                if (aval.getGrauRadiacao() == avalFilme.getGrauRadiacao()) {
-                    throw new IllegalInsertException("Avaliação por um mesmo usuário deve ser diferente da anterior");
-                }
-            }
-        }
-
-
+    public boolean existePorUsuario(Long idUsuario) {
+        return avaliacaoFilmeRepository.countByUsuario_Id(idUsuario) > 0;
     }
 
-    public boolean jaExistePorUsuario(Long idUsuario) {
-        Collection<AvaliacaoFilme> avaliacoes = findByUsuario(idUsuario);
-        for (AvaliacaoFilme aval : avaliacoes) {
-            if (aval.getUsuario().getId() == idUsuario) {
-                return true;
-            }
-        }
-        return false;
+    public boolean existePorFilme(Long idFilme) {
+        return avaliacaoFilmeRepository.countByFilme_Id(idFilme) > 0;
     }
 
-    public boolean jaExistePorFilme(Long idFilme) {
+    public double calcularGrauPorFilme(Long idFilme) {
+        Double soma = 0.0;
+        Long contagem = 0L;
         Collection<AvaliacaoFilme> avaliacoes = findByFilme(idFilme);
-        for (AvaliacaoFilme aval : avaliacoes) {
-            if (aval.getUsuario().getId() == idFilme) {
-                return true;
+        if (avaliacoes.isEmpty())
+            return 0.0;
+        for (AvaliacaoFilme ava : avaliacoes) {
+            if (ava.getGrauRadiacao() > 0) {
+                soma += ava.getGrauRadiacao();
+                contagem++;
             }
         }
-        return false;
+        if (contagem == 0)
+            return 0.0;
+        return soma / contagem;
     }
-
 
 }

@@ -3,20 +3,78 @@
       xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:include="fragments/layout :: head(title=~{::title})">
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title>Filme</title>
+    <extras></extras>
 </head>
 
-<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+<body th:include="fragments/layout :: body" th:with="content=~{::content}, customScript=~{::customScript}">
 <div th:fragment="content">
     <h1>Filme</h1>
+
+    <div th:if="${param.updated}" class="alert alert-success" role="alert">
+        Filme editado!
+    </div>
+
+    <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
+       th:href="@{/admin/filmes/editar/} + ${filmeDto.id}" role="button">
+        Editar filme
+    </a>
 
     <h5>Título</h5>
     <p th:text="${filmeDto.titulo}"></p>
 
     <h5>Diretor</h5>
-    <p th:text="${@pessoaService.findById(filmeDto.idDiretor)?.nome}"></p>
-    <br>
+    <p>
+        <a th:href="@{/pessoas/} + ${filmeDto.idDiretor}"
+           th:text="${@pessoaService.findById(filmeDto.idDiretor)?.nome}"></a>
+    </p>
+
+    <h5>Atores</h5>
+    <ul>
+        <li th:each="idAtor : ${filmeDto.idAtores}">
+            <a th:href="@{/pessoas/} + ${idAtor}" th:text="${@pessoaService.findById(idAtor)?.nome}"></a>
+        </li>
+    </ul>
+
+    <h5>Premiações</h5>
+    <ul>
+        <li th:each="premiacao : ${filmeDto.premiacoes}">
+            <span th:text="${premiacao}"></span>
+        </li>
+    </ul>
+
+    <h5>Grau de radioatividade</h5>
+    <div id="avaliacao" th:fragment="avaliacao" sec:authorize="isAuthenticated()">
+        <p>Média atual: <b><span th:text="${mediaAvaliacao <= 0 ? 'Não avaliado' : mediaAvaliacao}"></span></b></p>
+
+        <p>Seu voto:</p>
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group btn-group-toggle" role="group">
+                <button th:classappend="${minhaAvaliacao == 0} ? active : ''"
+                        name="avaliacaoVoto" type="button" class="btn btn-danger" value="0">X
+                </button>
+                <button th:classappend="${minhaAvaliacao == 1} ? active : ''"
+                        name="avaliacaoVoto" type="button" class="btn btn-secondary" value="1">1
+                </button>
+                <button th:classappend="${minhaAvaliacao == 2} ? active : ''"
+                        name="avaliacaoVoto" type="button" class="btn btn-secondary" value="2">2
+                </button>
+                <button th:classappend="${minhaAvaliacao == 3} ? active : ''"
+                        name="avaliacaoVoto" type="button" class="btn btn-secondary" value="3">3
+                </button>
+                <button th:classappend="${minhaAvaliacao == 4} ? active : ''"
+                        name="avaliacaoVoto" type="button" class="btn btn-secondary" value="4">4
+                </button>
+                <button th:classappend="${minhaAvaliacao == 5} ? active : ''"
+                        name="avaliacaoVoto" type="button" class="btn btn-secondary" value="5">5
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:fragment="customScript">
+    <script type="text/javascript" th:src="@{/js/filmes/filme.js}"></script>
 </div>
 </body>
 

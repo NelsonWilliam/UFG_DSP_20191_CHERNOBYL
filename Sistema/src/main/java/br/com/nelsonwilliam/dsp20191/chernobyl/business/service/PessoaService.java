@@ -29,6 +29,14 @@ public class PessoaService {
         return exemplo.orElse(null);
     }
 
+    public PessoaDto findByIdDto(Long id) {
+        Pessoa pessoa = findById(id);
+        if (pessoa == null)
+            return null;
+        return PessoaDto.fromPessoa(pessoa);
+    }
+
+
     public Collection<Pessoa> findByCargo(CargoEnum cargo) {
         if (cargo == null)
             return Collections.emptyList();
@@ -61,6 +69,6 @@ public class PessoaService {
     }
 
     public List<PessoaDto> findAllAtoresDto() {
-        return findByCargo(CargoEnum.DIRETOR).stream().map(PessoaDto::fromPessoa).collect(Collectors.toList());
+        return findByCargo(CargoEnum.ATOR).stream().map(PessoaDto::fromPessoa).collect(Collectors.toList());
     }
 }

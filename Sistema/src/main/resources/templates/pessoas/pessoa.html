@@ -3,19 +3,49 @@
       xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:include="fragments/layout :: head(title=~{::title})">
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title>Filme</title>
+    <extras></extras>
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
 <div th:fragment="content">
     <h1>Pessoa</h1>
 
+    <div th:if="${param.updated}" class="alert alert-success" role="alert">
+        Pessoa editada!
+    </div>
+
+    <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
+       th:href="@{/admin/pessoas/editar/} + ${pessoaDto.id}" role="button">
+        Editar pessoa
+    </a>
+
     <h5>Nome</h5>
     <p th:text="${pessoaDto.nome}"></p>
 
     <h5>Cargo</h5>
     <p th:text="${pessoaDto.cargo}"></p>
+
+    <hr>
+
+    <div th:if="${pessoaDto.cargo == 'Diretor'}">
+        <h5>Filmes dirigidos</h5>
+        <ul>
+            <li th:each="filmeDirigido : ${@pessoaService.findById(pessoaDto.id).filmesDirigidos}">
+                <a th:href="@{/filmes/} + ${filmeDirigido.id}" th:text="${filmeDirigido.titulo}"></a>
+            </li>
+        </ul>
+    </div>
+
+    <div th:if="${pessoaDto.cargo == 'Ator'}">
+        <h5>Filmes atuados</h5>
+        <ul>
+            <li th:each="filmeAtuado : ${@pessoaService.findById(pessoaDto.id).filmesAtuados}">
+                <a th:href="@{/filmes/} + ${filmeAtuado.id}" th:text="${filmeAtuado.titulo}"></a>
+            </li>
+        </ul>
+    </div>
 </div>
 </body>
 

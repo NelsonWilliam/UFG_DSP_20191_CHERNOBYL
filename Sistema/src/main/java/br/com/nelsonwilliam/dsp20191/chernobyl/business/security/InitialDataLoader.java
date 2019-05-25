@@ -1,7 +1,12 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.business.security;
 
+import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Filme;
+import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Pessoa;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Usuario;
+import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.CargoEnum;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.PapelEnum;
+import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.FilmeRepository;
+import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.PessoaRepository;
 import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -25,6 +30,12 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private PessoaRepository pessoaRepository;
+
+    @Autowired
+    private FilmeRepository filmeRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -44,6 +55,33 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
             admin.setPapeis(Arrays.asList(PapelEnum.ADMIN, PapelEnum.USUARIO));
             usuarioRepository.save(admin);
         }
+
+        // TODO Remover
+        Usuario user = new Usuario();
+        user.setLogin("user");
+        user.setSenha(passwordEncoder.encode("user"));
+        user.setEmail("user@user.com");
+        user.setNome("Usuário");
+        user.setPapeis(Arrays.asList(PapelEnum.USUARIO));
+        user = usuarioRepository.save(user);
+        Pessoa bette = new Pessoa();
+        bette.setNome("Bette Davis");
+        bette.setCargo(CargoEnum.ATOR);
+        bette = pessoaRepository.save(bette);
+        Pessoa fernanda = new Pessoa();
+        fernanda.setNome("Fernanda Montenegro");
+        fernanda.setCargo(CargoEnum.ATOR);
+        fernanda = pessoaRepository.save(fernanda);
+        Pessoa quentin = new Pessoa();
+        quentin.setNome("Qutentin Tarantulino");
+        quentin.setCargo(CargoEnum.DIRETOR);
+        quentin = pessoaRepository.save(quentin);
+        Filme filme = new Filme();
+        filme.setTitulo("O Fim do Mundo");
+        filme.setAtores(Arrays.asList(bette, fernanda));
+        filme.setDiretor(quentin);
+        filme.setPremiacoes(Arrays.asList("Pior filme de 2021"));
+        filme = filmeRepository.save(filme);
 
         alreadySetup = true;
     }

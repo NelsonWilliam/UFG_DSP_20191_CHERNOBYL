@@ -17,9 +17,9 @@ public class AvaliacaoFilme {
     private Filme filme;
 
     /**
-     * Porcentagem representando o "nível de radiacao" dado a um filme por um usuário;
+     * Porcentagem representando o "nível de radiacao" dado a um filme por um usuário. De 0 (não avaliado) a 5.
      */
-    private Integer grauRadiacao;
+    private int grauRadiacao = 0;
 
     public Long getId() {
         return id;
@@ -45,11 +45,11 @@ public class AvaliacaoFilme {
         this.filme = filme;
     }
 
-    public Integer getGrauRadiacao() {
+    public int getGrauRadiacao() {
         return grauRadiacao;
     }
 
-    public void setGrauRadiacao(Integer grauRadiacao) {
+    public void setGrauRadiacao(int grauRadiacao) {
         this.grauRadiacao = grauRadiacao;
     }
 }

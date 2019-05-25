@@ -20,6 +20,9 @@ public class FilmeService {
     @Autowired
     private FilmeRepository filmeRepository;
 
+    @Autowired
+    private AvaliacaoFilmeService avaliacaoFilmeService;
+
     public List<Filme> findAll() {
         return filmeRepository.findAll();
     }

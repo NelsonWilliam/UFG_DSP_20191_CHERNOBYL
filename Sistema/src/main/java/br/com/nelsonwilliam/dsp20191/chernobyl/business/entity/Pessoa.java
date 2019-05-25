@@ -29,9 +29,6 @@ public class Pessoa {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "atores")
     private List<Filme> filmesAtuados;
 
-    @Transient
-    private Double grauRadioatividade;
-
     public Long getId() {
         return id;
     }
@@ -54,14 +51,6 @@ public class Pessoa {
 
     public void setCargo(CargoEnum cargo) {
         this.cargo = cargo;
-    }
-
-    public Double getGrauRadioatividade() {
-        return grauRadioatividade;
-    }
-
-    public void setGrauRadioatividade(Double grauRadioatividade) {
-        this.grauRadioatividade = grauRadioatividade;
     }
 
     public List<Filme> getFilmesDirigidos() {

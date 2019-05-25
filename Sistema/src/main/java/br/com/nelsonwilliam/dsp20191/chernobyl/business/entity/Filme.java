@@ -36,9 +36,6 @@ public class Filme {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme")
     private List<Topico> topicos;
 
-    @Transient
-    private Float grauRadioatividade;
-
     public Long getId() {
         return id;
     }
@@ -69,14 +66,6 @@ public class Filme {
 
     public void setAtores(List<Pessoa> atores) {
         this.atores = atores;
-    }
-
-    public Float getGrauRadioatividade() {
-        return grauRadioatividade;
-    }
-
-    public void setGrauRadioatividade(Float grauRadioatividade) {
-        this.grauRadioatividade = grauRadioatividade;
     }
 
     public List<String> getPremiacoes() {

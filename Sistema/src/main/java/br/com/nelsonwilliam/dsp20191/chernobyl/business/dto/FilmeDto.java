@@ -22,9 +22,9 @@ public class FilmeDto {
     @NotNull
     private Long idDiretor;
 
-    private List<Long> idAtores;
+    private List<Long> idAtores = new ArrayList<>();
 
-    private List<String> premiacoes;
+    private List<String> premiacoes = new ArrayList<>();
 
     public static FilmeDto fromFilme(Filme filme) {
         FilmeDto filmeDto = new FilmeDto();
@@ -53,8 +53,8 @@ public class FilmeDto {
         filme.setDiretor(pessoaService.findById(getIdDiretor()));
 
         List<Pessoa> atores = new ArrayList<>();
-        if (idAtores != null)
-            for (Long idAtor : idAtores) {
+        if (this.idAtores != null)
+            for (Long idAtor : this.idAtores) {
                 atores.add(pessoaService.findById(idAtor));
             }
         filme.setAtores(atores);

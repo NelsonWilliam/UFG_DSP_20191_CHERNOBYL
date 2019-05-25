@@ -3,16 +3,20 @@
       xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:include="fragments/layout :: head(title=~{::title})">
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title>Início</title>
+    <extras></extras>
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
 <div th:fragment="content">
 
-    <h2>Inserir nova pessoa</h2>
-    <form th:action="@{/admin/pessoas/inserir/enviar}" th:object=${pessoaDto} method="post">
+    <h2 th:text="${pessoaDto.id == null ? 'Inserir pessoa' : 'Editar pessoa'}">Editar pessoa</h2>
+
+    <form th:action="@{/admin/pessoas/editar/enviar}" th:object=${pessoaDto} method="post">
         <fieldset>
+            <!-- O ID da pessoa deve ser guardado escondido no formulário. -->
+            <input type="hidden" th:value="*{id}" th:field="*{id}"/>
 
             <label for="nome">Nome</label>
             <input id="nome" type="text" th:field="*{nome}"/>
@@ -26,7 +30,7 @@
             <div th:if="${#fields.hasErrors('cargo')}" th:errors="*{cargo}">Erro</div>
             <br>
 
-            <button type="submit">Inserir</button>
+            <button type="submit">Salvar</button>
         </fieldset>
     </form>
 

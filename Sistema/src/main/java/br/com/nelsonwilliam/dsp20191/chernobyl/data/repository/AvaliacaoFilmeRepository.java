@@ -2,22 +2,22 @@ package br.com.nelsonwilliam.dsp20191.chernobyl.data.repository;
 
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.AvaliacaoFilme;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 public interface AvaliacaoFilmeRepository extends JpaRepository<AvaliacaoFilme, Long> {
 
-    Collection<AvaliacaoFilme> findByFilme (Long idFilme);
+    Collection<AvaliacaoFilme> findByFilme_Id(Long idFilme);
 
-    Collection<AvaliacaoFilme> findByUsuario (Long idUsuario);
+    Collection<AvaliacaoFilme> findByUsuario_Id(Long idUsuario);
+
+    Optional<AvaliacaoFilme> findByFilme_IdAndUsuario_Id(Long idFilme, Long idUsuario);
+
+    long countByFilme_Id(Long idFilme);
+
+    long countByUsuario_Id(Long idUsuario);
 
     void deleteById(Long id);
-
 }
