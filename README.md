@@ -5,8 +5,6 @@ Trabalho da disciplina de Desenvolvimento de Software para Persistência. INF, U
 ## Grupo
 
 - João Pedro Arruda Vieira (201602498)
-- Josimar Morais dos Santos (201404903)
-- Larissa Chyevena Lopes de Melo (201607109)
 - Nelson William Viana de Siqueira (201602509)
 - Sofia Martins Moraes (201602517)
 
