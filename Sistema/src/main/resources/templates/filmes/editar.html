@@ -5,93 +5,132 @@
 
 <head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title>Filme</title>
-    <extras></extras>
+    <extras>
+        <link th:href="@{/css/editar.css}" rel="stylesheet">
+    </extras>
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}, customScript=~{::customScript}">
 <div th:fragment="content">
 
-    <h2 th:text="${filmeDto.id == null ? 'Inserir filme' : 'Editar filme'}">Editar filme</h2>
+    <div class="row">
+        <div class="col">
+            <h2 th:text="${filmeDto.id == null ? 'Inserir filme' : 'Editar filme'}">Editar filme</h2>
+        </div>
+    </div>
 
-    <form th:action="@{/admin/filmes/editar/enviar}" th:object=${filmeDto} method="post">
-        <fieldset>
-            <!-- O ID do filme deve ser guardado escondido no formulário. -->
-            <input type="hidden" th:value="*{id}" th:field="*{id}"/>
+    <div class="row">
+        <div class="col-md-6">
+            <form th:action="@{/admin/filmes/editar/enviar}" th:object=${filmeDto} method="post">
+                <fieldset>
+                    <!-- O ID do filme deve ser guardado escondido no formulário. -->
+                    <input type="hidden" th:value="*{id}" th:field="*{id}"/>
 
-            <!-- Título -->
-            <label for="titulo">Título</label>
-            <input id="titulo" type="text" th:field="*{titulo}"/>
-            <div th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}">Erro</div>
-            <br>
-            <br>
-            <br>
+                    <!-- Título -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="titulo"><b>Título</b></label>
+                        </div>
+                        <div class="col-md-6">
+                            <input id="titulo" type="text" th:field="*{titulo}"/>
+                            <div th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}">Erro</div>
+                        </div>
+                    </div>
 
-            <!-- Diretor -->
-            <label for="idDiretor">Diretor</label>
-            <select id="idDiretor" class="selectpicker" data-live-search="true" th:field="*{idDiretor}">
-                <option th:each="diretor: ${@pessoaService.findAllDiretoresDto()}"
-                        th:value="${diretor.id}"
-                        th:text="${diretor.nome}"></option>
-            </select>
-            <div th:if="${#fields.hasErrors('idDiretor')}" th:errors="*{idDiretor}">Erro</div>
-            <br>
-            <br>
-            <br>
+                    <!-- Diretor -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="idDiretor"><b>Direção</b></label>
+                        </div>
+                        <div class="col-md-6">
+                            <select id="idDiretor" class="selectpicker" data-live-search="true" th:field="*{idDiretor}">
+                                <option th:each="diretor: ${@pessoaService.findAllDiretoresDto()}"
+                                        th:value="${diretor.id}"
+                                        th:text="${diretor.nome}"></option>
+                            </select>
+                            <div th:if="${#fields.hasErrors('idDiretor')}" th:errors="*{idDiretor}">Erro</div>
+                        </div>
+                    </div>
 
-            <!-- Atores -->
-            <label for="idAtores">Atores</label>
-            <table th:fragment="idAtores" id="idAtores" class="table">
-                <tbody>
-                <tr th:each="idAtor, stat : ${filmeDto.idAtores}">
-                    <td>
-                        <span th:text="${@pessoaService.findById(idAtor)?.nome}"></span>
-                        <input type="hidden" th:value="${idAtor}" th:field="${filmeDto.idAtores[__${stat.index}__]}"/>
-                    </td>
-                    <td>
-                        <button type="button" name="removeAtor" th:value="${stat.index}">-
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <label for="idNovoAtor">Novo Ator</label>
-            <select id="idNovoAtor" class="selectpicker" data-live-search="true">
-                <option th:each="idAtor: ${@pessoaService.findAllAtoresDto()}"
-                        th:value="${idAtor.id}"
-                        th:text="${idAtor.nome}"></option>
-            </select>
-            <button type="button" name="addAtor">+</button>
-            <br>
-            <br>
-            <br>
+                    <!-- Atores -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="idAtores"><b>Atores</b></label>
+                        </div>
+                        <div class="col-md-7">
+                            <table th:fragment="idAtores" id="idAtores" class="table">
+                                <tbody>
+                                <tr th:each="idAtor, stat : ${filmeDto.idAtores}">
+                                    <td>
+                                        <span th:text="${@pessoaService.findById(idAtor)?.nome}"></span>
+                                        <input type="hidden" th:value="${idAtor}" th:field="${filmeDto.idAtores[__${stat.index}__]}"/>
+                                    </td>
+                                    <td class="left">
+                                        <button type="button" class="btn btn-sm btn-danger" name="removeAtor" th:value="${stat.index}">-
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-            <!-- Premiações -->
-            <label for="premiacoes">Premiações</label>
-            <table th:fragment="premiacoes" id="premiacoes" class="table">
-                <tbody>
-                <tr th:each="premiacao, stat : ${filmeDto.premiacoes}">
-                    <td>
-                        <span th:text="${premiacao}"></span>
-                        <input type="hidden" th:value="${premiacao}"
-                               th:field="${filmeDto.premiacoes[__${stat.index}__]}"/>
-                    </td>
-                    <td>
-                        <button type="button" name="removePremiacao" th:value="${stat.index}">-
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <label for="novaPremiacao">Nova Premiação</label>
-            <input id="novaPremiacao" type="text"/>
-            <button type="button" name="addPremiacao">+</button>
-            <br>
-            <br>
-            <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="idNovoAtor"><b>Novo Ator</b></label>
+                        </div>
+                        <div class="col-md-5">
+                            <select id="idNovoAtor" class="selectpicker" data-live-search="true">
+                                <option th:each="idAtor: ${@pessoaService.findAllAtoresDto()}"
+                                        th:value="${idAtor.id}"
+                                        th:text="${idAtor.nome}"></option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" name="addAtor" class="btn btn-sm btn-primary">+</button>
+                        </div>
+                    </div>
 
-            <button type="submit">Salvar</button>
-        </fieldset>
-    </form>
+                    <!-- Premiações -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="premiacoes"><b>Premiações</b></label>
+                        </div>
+                        <div class="col-md-7">
+                            <table th:fragment="premiacoes" id="premiacoes" class="table">
+                                <tbody>
+                                <tr th:each="premiacao, stat : ${filmeDto.premiacoes}">
+                                    <td>
+                                        <span th:text="${premiacao}"></span>
+                                        <input type="hidden" th:value="${premiacao}"
+                                            th:field="${filmeDto.premiacoes[__${stat.index}__]}">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-danger" name="removePremiacao" th:value="${stat.index}">-
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="novaPremiacao"><b>Nova Premiação</b></label>
+                        </div>
+                        <div class="col-md-5">
+                            <input id="novaPremiacao" type="text"/>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" name="addPremiacao" class="btn btn-sm btn-primary">+</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 3%">Salvar</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </div>
 <div th:fragment="customScript">
     <script type="text/javascript" th:src="@{/js/filmes/editar.js}"></script>
