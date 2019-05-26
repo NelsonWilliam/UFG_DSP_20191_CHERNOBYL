@@ -57,16 +57,16 @@
                         <div class="col-md-3">
                             <label for="idAtores"><b>Atores</b></label>
                         </div>
-                        <div class="col-md-7">
-                            <table th:fragment="idAtores" id="idAtores" class="table">
+                        <div class="col">
+                            <table th:fragment="idAtores" id="idAtores" class="table" cellspacing="0" cellpadding="0">
                                 <tbody>
                                 <tr th:each="idAtor, stat : ${filmeDto.idAtores}">
                                     <td>
                                         <span th:text="${@pessoaService.findById(idAtor)?.nome}"></span>
                                         <input type="hidden" th:value="${idAtor}" th:field="${filmeDto.idAtores[__${stat.index}__]}"/>
                                     </td>
-                                    <td class="left">
-                                        <button type="button" class="btn btn-sm btn-danger" name="removeAtor" th:value="${stat.index}">-
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-danger" name="removeAtor" th:value="${stat.index}" style="margin-left: 17%">-
                                         </button>
                                     </td>
                                 </tr>
@@ -96,7 +96,7 @@
                         <div class="col-md-3">
                             <label for="premiacoes"><b>Premiações</b></label>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col">
                             <table th:fragment="premiacoes" id="premiacoes" class="table">
                                 <tbody>
                                 <tr th:each="premiacao, stat : ${filmeDto.premiacoes}">
@@ -106,7 +106,7 @@
                                             th:field="${filmeDto.premiacoes[__${stat.index}__]}">
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-danger" name="removePremiacao" th:value="${stat.index}">-
+                                        <button type="button" class="btn btn-sm btn-danger" name="removePremiacao" th:value="${stat.index}" style="margin-left: 17%">-
                                         </button>
                                     </td>
                                 </tr>

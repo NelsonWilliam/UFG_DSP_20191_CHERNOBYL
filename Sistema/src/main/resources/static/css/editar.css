@@ -11,3 +11,13 @@ label, input, select {
 input, select {
     margin-bottom: 3%;
 }
+
+table, tr, td {
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: none;
+}
+
+td {
+    border:none !important;
+}
