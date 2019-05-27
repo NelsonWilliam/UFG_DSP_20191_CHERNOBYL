@@ -1,7 +1,5 @@
 <!doctype html>
-<html lang="pt"
-      xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="pt" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title>Pessoa</title>
@@ -9,48 +7,66 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
-<div th:fragment="content">
-    <h1>Pessoa</h1>
+    <div th:fragment="content" class="container"><br>
 
-    <div th:if="${param.updated}" class="alert alert-success" role="alert">
-        Pessoa editada!
+        <div class="row">
+            <div class="col">
+                <h1>Pessoa</h1>
+            </div>
+            <div class="col-auto">
+                <div th:if="${param.updated}" class="alert alert-success" role="alert">
+                    Pessoa editada!
+                </div>
+
+                <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
+                    th:href="@{/admin/pessoas/editar/} + ${pessoaDto.id}" role="button">
+                    Editar pessoa
+                </a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
+                    th:href="@{/admin/pessoas/} + ${pessoaDto.id + '/excluir'}" role="button">
+                    Excluir pessoa
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-auto">
+                <img th:src="@{/imagens/actor.png}" alt="Foto da pessoa" style="width: 360px; height: 360px;" />
+            </div>
+            <div class="col-auto">
+                <h5>Nome</h5>
+                <p th:text="${pessoaDto.nome}"></p>
+
+                <h5>Cargo</h5>
+                <p th:text="${pessoaDto.cargo}"></p>
+            </div>
+        </div>
+        <hr>
+        
+        <div th:if="${pessoaDto.cargo == 'Diretor'}">
+            <h5>Filmes dirigidos</h5>
+            <div class="row">
+                <div th:each="filmeDirigido : ${@pessoaService.findById(pessoaDto.id).filmesDirigidos}"
+                    class="col-auto">
+                    <img th:src="@{/imagens/poster.png}" alt="Poster do filme" />
+                    <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filmeDirigido.id}"
+                            th:text="${filmeDirigido.titulo}"></a></figcaption>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${pessoaDto.cargo == 'Ator'}">
+            <h5>Filmes atuados</h5>
+            <div class="row">
+                <div th:each="filmeAtuado : ${@pessoaService.findById(pessoaDto.id).filmesAtuados}" class="col-auto">
+                    <img th:src="@{/imagens/poster.png}" alt="Poster do filme" />
+                    <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filmeAtuado.id}"
+                            th:text="${filmeAtuado.titulo}"></a></figcaption>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
-       th:href="@{/admin/pessoas/editar/} + ${pessoaDto.id}" role="button">
-        Editar pessoa
-    </a>
-    <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
-       th:href="@{/admin/pessoas/} + ${pessoaDto.id + '/excluir'}" role="button">
-        Excluir pessoa
-    </a>
-
-    <h5>Nome</h5>
-    <p th:text="${pessoaDto.nome}"></p>
-
-    <h5>Cargo</h5>
-    <p th:text="${pessoaDto.cargo}"></p>
-
-    <hr>
-
-    <div th:if="${pessoaDto.cargo == 'Diretor'}">
-        <h5>Filmes dirigidos</h5>
-        <ul>
-            <li th:each="filmeDirigido : ${@pessoaService.findById(pessoaDto.id).filmesDirigidos}">
-                <a th:href="@{/filmes/} + ${filmeDirigido.id}" th:text="${filmeDirigido.titulo}"></a>
-            </li>
-        </ul>
-    </div>
-
-    <div th:if="${pessoaDto.cargo == 'Ator'}">
-        <h5>Filmes atuados</h5>
-        <ul>
-            <li th:each="filmeAtuado : ${@pessoaService.findById(pessoaDto.id).filmesAtuados}">
-                <a th:href="@{/filmes/} + ${filmeAtuado.id}" th:text="${filmeAtuado.titulo}"></a>
-            </li>
-        </ul>
-    </div>
-</div>
 </body>
 
 </html>

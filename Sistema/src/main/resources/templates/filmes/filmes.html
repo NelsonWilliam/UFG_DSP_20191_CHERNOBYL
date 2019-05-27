@@ -9,7 +9,8 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
-<div th:fragment="content">
+<div th:fragment="content"><br>
+
 
     <div class="row">
         <div class="col">
@@ -29,6 +30,7 @@
             </a>
         </div>
     </div>
+    <hr style="border-width: 2px;">
 
     <div class="row">
         <div th:each="filme: ${filmes}" class="col-auto">

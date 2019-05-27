@@ -1,7 +1,5 @@
 <!doctype html>
-<html lang="pt"
-      xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="pt" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title>Entrar</title>
@@ -9,32 +7,43 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
-<div th:fragment="content">
-    <h1>Entrar</h1>
-    <form th:action="@{/usuario/login}" method="post">
-        <fieldset>
-            <div th:if="${param.error}" class="alert alert-danger" role="alert">
-                Usuário e/ou senha inválidos.
-            </div>
-            <div th:if="${param.logout}" class="alert alert-success" role="alert">
-                Você foi desautenticado.
-            </div>
-            <div th:if="${param.created}" class="alert alert-success" role="alert">
-                Usuário cadastrado!
-            </div>
+    <div th:fragment="content" class="container"><br>
 
-            <label for="username">Login</label>
-            <input id="username" type="text" name="username"/>
-            <br>
+        <div class="row justify-content-md-center">
+            <div class="card" style="width: 36rem;">
+                <div class="card-header">
+                    <h2>Entrar</h2>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/usuario/login}" method="post">
+                        <fieldset>
+                            <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                                Usuário e/ou senha inválidos.
+                            </div>
+                            <div th:if="${param.logout}" class="alert alert-success" role="alert">
+                                Você foi desautenticado.
+                            </div>
+                            <div th:if="${param.created}" class="alert alert-success" role="alert">
+                                Usuário cadastrado!
+                            </div>
 
-            <label for="password">Senha</label>
-            <input id="password" type="password" name="password"/>
-            <br>
+                            <div class="form-group">
+                                <label for="username">Login</label>
+                                <input id="username" type="text" name="username" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Senha</label>
+                                <input id="password" type="password" name="password" class="form-control" />
+                            </div>
 
-            <button type="submit">Entrar</button>
-        </fieldset>
-    </form>
-</div>
+                            <button type="submit" class="btn btn-primary">Entrar</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </body>
 
 </html>

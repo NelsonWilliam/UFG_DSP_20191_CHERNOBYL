@@ -1,7 +1,5 @@
 <!doctype html>
-<html lang="pt"
-      xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="pt" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title>Pessoa</title>
@@ -9,28 +7,30 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
-<div th:fragment="content">
+    <div th:fragment="content"><br>
 
-    <h2 th:text="${pessoaDto.id == null ? 'Inserir pessoa' : 'Editar pessoa'}">Editar pessoa</h2>
+        <h2 th:text="${pessoaDto.id == null ? 'Inserir pessoa' : 'Editar pessoa'}">Editar pessoa</h2><br>
 
-    <form th:action="@{/admin/pessoas/editar/enviar}" th:object=${pessoaDto} method="post">
-        <fieldset>
-            <!-- O ID da pessoa deve ser guardado escondido no formulário. -->
-            <input type="hidden" th:value="*{id}" th:field="*{id}"/>
+        <form th:action="@{/admin/pessoas/editar/enviar}" th:object=${pessoaDto} method="post">
+            <fieldset>
+                <!-- O ID da pessoa deve ser guardado escondido no formulário. -->
+                <input type="hidden" th:value="*{id}" th:field="*{id}" />
 
-            <label for="nome">Nome</label>
-            <input id="nome" type="text" th:field="*{nome}"/>
-            <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Erro</div>
-            <br>
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input id="nome" type="text" th:field="*{nome}" class="form-control" />
+                    <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Erro</div>
+                </div>
 
-            <label for="cargo">Cargo</label>
-            <select id="cargo" class="selectpicker" th:field="*{cargo}">
-                <option th:each="cargo: ${@pessoaService.getNomesCargos()}" th:value="${cargo}" th:text="${cargo}"></option>
-            </select>
-            <div th:if="${#fields.hasErrors('cargo')}" th:errors="*{cargo}">Erro</div>
-            <br>
+                <div class="form-group">     
+                    <label for="cargo">Cargo</label>
+                    <select id="cargo" class="selectpicker form-control" th:field="*{cargo}">
+                        <option th:each="cargo: ${@pessoaService.getNomesCargos()}" th:value="${cargo}" th:text="${cargo}"></option>
+                    </select>
+                    <div th:if="${#fields.hasErrors('cargo')}" th:errors="*{cargo}">Erro</div>
+                </div>
 
-            <button type="submit">Salvar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
         </fieldset>
     </form>
 

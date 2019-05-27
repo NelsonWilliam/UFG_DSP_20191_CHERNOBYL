@@ -11,7 +11,7 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}, customScript=~{::customScript}">
-<div th:fragment="content">
+<div th:fragment="content"><br>
 
     <div class="row">
         <div class="col">
@@ -32,7 +32,7 @@
                             <label for="titulo"><b>Título</b></label>
                         </div>
                         <div class="col-md-6">
-                            <input id="titulo" type="text" th:field="*{titulo}"/>
+                            <input id="titulo" type="text" th:field="*{titulo}" class="form-control"/>
                             <div th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}">Erro</div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                             <label for="idDiretor"><b>Direção</b></label>
                         </div>
                         <div class="col-md-6">
-                            <select id="idDiretor" class="selectpicker" data-live-search="true" th:field="*{idDiretor}">
+                            <select id="idDiretor" class="selectpicker form-control" data-live-search="true" th:field="*{idDiretor}">
                                 <option th:each="diretor: ${@pessoaService.findAllDiretoresDto()}"
                                         th:value="${diretor.id}"
                                         th:text="${diretor.nome}"></option>
@@ -63,7 +63,7 @@
                                 <tr th:each="idAtor, stat : ${filmeDto.idAtores}">
                                     <td>
                                         <span th:text="${@pessoaService.findById(idAtor)?.nome}"></span>
-                                        <input type="hidden" th:value="${idAtor}" th:field="${filmeDto.idAtores[__${stat.index}__]}"/>
+                                        <input type="hidden" th:value="${idAtor}" th:field="${filmeDto.idAtores[__${stat.index}__]}" class="form-control"/>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-danger" name="removeAtor" th:value="${stat.index}" style="margin-left: 17%">-
@@ -80,7 +80,7 @@
                             <label for="idNovoAtor"><b>Novo Ator</b></label>
                         </div>
                         <div class="col-md-5">
-                            <select id="idNovoAtor" class="selectpicker" data-live-search="true">
+                            <select id="idNovoAtor" class="selectpicker form-control" data-live-search="true">
                                 <option th:each="idAtor: ${@pessoaService.findAllAtoresDto()}"
                                         th:value="${idAtor.id}"
                                         th:text="${idAtor.nome}"></option>
@@ -102,7 +102,7 @@
                                 <tr th:each="premiacao, stat : ${filmeDto.premiacoes}">
                                     <td>
                                         <span th:text="${premiacao}"></span>
-                                        <input type="hidden" th:value="${premiacao}"
+                                        <input type="hidden" th:value="${premiacao}" class="form-control"
                                             th:field="${filmeDto.premiacoes[__${stat.index}__]}">
                                     </td>
                                     <td>
@@ -120,7 +120,7 @@
                             <label for="novaPremiacao"><b>Nova Premiação</b></label>
                         </div>
                         <div class="col-md-5">
-                            <input id="novaPremiacao" type="text"/>
+                            <input id="novaPremiacao" type="text" class="form-control"/>
                         </div>
                         <div class="col-auto">
                             <button type="button" name="addPremiacao" class="btn btn-sm btn-primary">+</button>

@@ -1,7 +1,5 @@
 <!doctype html>
-<html lang="pt"
-      xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="pt" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title>Pessoas</title>
@@ -9,29 +7,37 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
-<div th:fragment="content">
+    <div th:fragment="content"><br>
 
-    <h1>Pessoas</h1>
+        <div class="row">
+            <div class="col">
+                <h1>Pessoas</h1>
+            </div>
+            <div class="col-auto">
+                <div th:if="${param.created}" class="alert alert-success" role="alert">
+                    Pessoa inserida!
+                </div>
+                <div th:if="${param.deleted}" class="alert alert-success" role="alert">
+                    Pessoa excluída!
+                </div>
 
-    <div th:if="${param.created}" class="alert alert-success" role="alert">
-        Pessoa inserida!
+                <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
+                    th:href="@{/admin/pessoas/editar}" role="button">
+                    Inserir pessoa
+                </a>
+            </div>
+        </div>
+        <hr style="border-width: 2px;">
+
+        <div class="row">
+            <div th:each="pessoa: ${pessoas}" class="col-auto">
+                <img th:src="@{/imagens/actor.png}" alt="Foto pessoa" style="width: 180px; height: 180px;" />
+                <figcaption style="text-align: center"><a th:href="@{/pessoas/} + ${pessoa.id}"
+                        th:text="${pessoa.nome}"></a></figcaption>
+            </div>
+        </div>
+
     </div>
-    <div th:if="${param.deleted}" class="alert alert-success" role="alert">
-        Pessoa excluída!
-    </div>
-
-    <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
-       th:href="@{/admin/pessoas/editar}" role="button">
-        Inserir pessoa
-    </a>
-
-    <table>
-        <tr th:each="pessoa: ${pessoas}">
-            <td>• <a th:href="@{/pessoas/} + ${pessoa.id}" th:text="${pessoa.nome}"></a></td>
-        </tr>
-    </table>
-
-</div>
 </body>
 
 </html>

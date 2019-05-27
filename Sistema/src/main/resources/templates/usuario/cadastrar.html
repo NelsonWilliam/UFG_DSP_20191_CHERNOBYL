@@ -1,7 +1,5 @@
 <!doctype html>
-<html lang="pt"
-      xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="pt" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title>Cadastrar</title>
@@ -9,34 +7,46 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
-<div th:fragment="content">
-    <h2>Cadastrar</h2>
-    <form th:action="@{/usuario/cadastrar/enviar}" th:object=${usuarioDto} method="post">
-        <fieldset>
+    <div th:fragment="content" class="container"><br>
 
-            <label for="login">Login</label>
-            <input id="login" type="text" th:field="*{login}"/>
-            <div th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Erro</div>
-            <br>
+        <div class="row justify-content-md-center">
+            <div class="card" style="width: 36rem;">
+                <div class="card-header">
+                    <h2>Cadastrar</h2>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/usuario/cadastrar/enviar}" th:object=${usuarioDto} method="post">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="login">Login</label>
+                                <input id="login" type="text" th:field="*{login}" class="form-control" />
+                                <div th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Erro</div>
+                            </div>
 
-            <label for="senha">Senha</label>
-            <input id="senha" type="password" th:field="*{senha}"/>
-            <div th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">Erro</div>
-            <br>
+                            <div class="form-group">
+                                    <label for="senha">Senha</label>
+                                    <input id="senha" type="password" th:field="*{senha}" class="form-control"/>
+                                    <div th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">Erro</div>
+                            </div>
 
-            <label for="nome">Nome</label>
-            <input id="nome" type="text" th:field="*{nome}"/>
-            <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Erro</div>
-            <br>
+                            <div class="form-group">
+                                    <label for="nome">Nome</label>
+                                    <input id="nome" type="text" th:field="*{nome}" class="form-control"/>
+                                    <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Erro</div>
+                            </div>
 
-            <label for="email">E-mail</label>
-            <input id="email" type="email" th:field="*{email}"/>
-            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Erro</div>
-            <br>
+                            <div class="form-group">
+                                    <label for="email">E-mail</label>
+                                    <input id="email" type="email" th:field="*{email}" class="form-control"/>
+                                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Erro</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Cadastrar</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-            <button type="submit">Cadastrar</button>
-        </fieldset>
-    </form>
 </div>
 </body>
 
