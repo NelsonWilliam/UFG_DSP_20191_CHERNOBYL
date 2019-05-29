@@ -13,25 +13,25 @@
 <body th:include="fragments/layout :: body" th:with="content=~{::content}, customScript=~{::customScript}">
 <div th:fragment="content"><br>
 
-
+    <div>
+        <div th:if="${param.updated}" class="alert alert-success" role="alert">
+            Filme editado!
+        </div>
+        <div th:if="${param.createdresenha}" class="alert alert-success" role="alert">
+            Resenha inserida!
+        </div>
+        <div th:if="${param.deletedresenha}" class="alert alert-success" role="alert">
+            Resenha excluída!
+        </div>
+        <div th:if="${param.updatedresenha}" class="alert alert-success" role="alert">
+            Resenha atualizada!
+        </div>
+    </div>
     <div class="row">
         <div class="col">
             <h1>Filme</h1>    
         </div>
-        <div class="col-auto">
-            <div th:if="${param.updated}" class="alert alert-success" role="alert">
-                Filme editado!
-            </div>
-            <div th:if="${param.createdresenha}" class="alert alert-success" role="alert">
-                Resenha inserida!
-            </div>
-            <div th:if="${param.deletedresenha}" class="alert alert-success" role="alert">
-                Resenha excluída!
-            </div>
-            <div th:if="${param.updatedresenha}" class="alert alert-success" role="alert">
-                Resenha atualizada!
-            </div>
-        </div>
+
         <div class="col-auto">
             <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
             th:href="@{/admin/filmes/editar/} + ${filmeDto.id}" role="button">

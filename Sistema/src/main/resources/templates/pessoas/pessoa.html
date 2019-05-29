@@ -9,15 +9,14 @@
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
     <div th:fragment="content" class="container"><br>
 
+        <div th:if="${param.updated}" class="alert alert-success" role="alert">
+            Pessoa editada!
+        </div>
         <div class="row">
             <div class="col">
                 <h1>Pessoa</h1>
             </div>
             <div class="col-auto">
-                <div th:if="${param.updated}" class="alert alert-success" role="alert">
-                    Pessoa editada!
-                </div>
-
                 <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
                     th:href="@{/admin/pessoas/editar/} + ${pessoaDto.id}" role="button">
                     Editar pessoa
