@@ -1,0 +1,16 @@
+.picture {
+    border: 1px solid;
+    box-shadow: 0 5px 8px #cccccc;
+}
+
+body {
+    background-image: url("../imagens/green-fibers.png");
+    font-family: 'Roboto', sans-serif;
+}
+
+.block {
+    background:rgba(255,255,255, 1);
+    padding: 10px;
+    margin: 50px;
+    border-radius: 16px;
+}

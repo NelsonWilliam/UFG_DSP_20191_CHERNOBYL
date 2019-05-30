@@ -24,7 +24,7 @@
                 Filme excluído!
             </div>
 
-            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm"
             th:href="@{/admin/filmes/editar}" role="button">
                 Inserir filme
             </a>
@@ -34,7 +34,7 @@
 
     <div class="row">
         <div th:each="filme: ${filmes}" class="col-auto">
-            <img th:src="@{/imagens/poster.png}" alt="Poster do filme" />
+            <img  class="picture" th:src="@{/imagens/poster.png}" alt="Poster do filme" />
             <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filme.id}" th:text="${filme.titulo}"></a></figcaption>
         </div>
     </div>
