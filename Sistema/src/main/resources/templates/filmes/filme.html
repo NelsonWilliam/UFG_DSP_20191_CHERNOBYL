@@ -26,27 +26,36 @@
         <div th:if="${param.updatedresenha}" class="alert alert-success" role="alert">
             Resenha atualizada!
         </div>
+        <div th:if="${param.createdtopico}" class="alert alert-success" role="alert">
+            Ponto negativo inserido!
+        </div>
+        <div th:if="${param.deletedtopico}" class="alert alert-success" role="alert">
+            Ponto negativo excluído!
+        </div>
+        <div th:if="${param.updatedtopico}" class="alert alert-success" role="alert">
+            Ponto negativo atualizado!
+        </div>
     </div>
     <div class="row">
         <div class="col">
-            <h1>Filme</h1>    
+            <h1>Filme</h1>
         </div>
 
         <div class="col-auto">
             <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
-            th:href="@{/admin/filmes/editar/} + ${filmeDto.id}" role="button">
+               th:href="@{/admin/filmes/editar/} + ${filmeDto.id}" role="button">
                 Editar filme
             </a>
             <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-sm"
-            th:href="@{/admin/filmes/} + ${filmeDto.id + '/excluir'}" role="button">
+               th:href="@{/admin/filmes/} + ${filmeDto.id + '/excluir'}" role="button">
                 Excluir filme
             </a>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
-            <img th:src="@{/imagens/poster.png}" alt="Poster do filme" />
-        </div> 
+            <img th:src="@{/imagens/poster.png}" alt="Poster do filme"/>
+        </div>
         <div class="col-md-3">
             <h5>Título</h5>
             <p th:text="${filmeDto.titulo}"></p>
@@ -54,7 +63,7 @@
             <h5>Diretor</h5>
             <p>
                 <a th:href="@{/pessoas/} + ${filmeDto.idDiretor}"
-                th:text="${@pessoaService.findById(filmeDto.idDiretor)?.nome}"></a>
+                   th:text="${@pessoaService.findById(filmeDto.idDiretor)?.nome}"></a>
             </p>
 
             <h5>Atores</h5>
@@ -71,12 +80,13 @@
                     <span th:text="${premiacao}"></span>
                 </li>
             </ul>
-        </div> 
+        </div>
         <div class="col-auto">
             <h5>Grau de radioatividade</h5>
             <div id="avaliacaoFilme" th:fragment="avaliacaoFilme">
                 <!-- Média atual da avaliação do filme -->
-                <p>Média atual: <b><span th:text="${mediaAvaliacao <= 0 ? 'Não avaliado' : mediaAvaliacao}"></span></b></p>
+                <p>Média atual: <b><span th:text="${mediaAvaliacao <= 0 ? 'Não avaliado' : mediaAvaliacao}"></span></b>
+                </p>
                 <!-- Botões de avaliar o filme -->
                 <div sec:authorize="isAuthenticated()">
                     <p>Seu voto:</p>
@@ -104,7 +114,67 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5 class="margin-avaliacaoTopico">Pontos negativos</h5>
+            <div id="topicos" th:fragment="topicos">
+                <div th:if="${topicos == null || topicos.size() == 0}">
+                    Nenhum ponto negativo
+                </div>
+                <div th:if="${topicos != null && topicos.size() > 0}"
+                     th:each="topico: ${topicos}"
+                     style="border: 1px solid #666; margin:1rem 0 0 0; padding:10px; height:64px;"
+                     class="row">
+
+                    <!-- Autor e texto-->
+                    <p class="col-md">
+                        <b th:text="${@usuarioService.findById(topico.idAutor)?.nome}"></b>:
+                        <span th:text="${topico.texto}"></span>
+                    </p>
+
+                    <!-- Porcentagem das avaliações do topico -->
+                    <p class="col-md-auto"
+                       th:text="${topico.mediaAvaliacao < 0 ? 'Não avaliado' : ((topico.mediaAvaliacao*100) + '% de aprovação')}"></p>
+
+                    <!-- Botões de avaliar o topico -->
+                    <div class="col-md-auto btn-group btn-group-sm btn-group-toggle" role="group"
+                         sec:authorize="isAuthenticated()">
+                        <button th:classappend="${topico.minhaAvaliacao != null && topico.minhaAvaliacao == true} ? active : ''"
+                                name="avaliarTopicoPositivo" type="button" class="btn btn-sm btn-success"
+                                th:value="${topico?.id}">
+                            <i class="fas fa-thumbs-up text-white"></i>
+                        </button>
+                        <button th:classappend="${topico.minhaAvaliacao != null && topico.minhaAvaliacao == false} ? active : ''"
+                                name="avaliarTopicoNegativo" type="button" class="btn btn-sm btn-danger"
+                                th:value="${topico?.id}">
+                            <i class="fas fa-thumbs-down text-white"></i>
+                        </button>
+                        <a th:if="${@authService.isAdmin() || (@authService.isAuthenticated() && @authService.getUsuario()?.getId() == topico.idAutor)}"
+                           th:href="@{/filmes/} + ${topico.idFilme + '/editar-topico/' + topico.id}" role="button"
+                           class="btn btn-sm btn-secondary">
+                            <i class="fas fa-pencil-alt text-white"></i>
+                        </a>
+                        <a th:if="${@authService.isAdmin() || (@authService.isAuthenticated() && @authService.getUsuario()?.getId() == topico.idAutor)}"
+                           th:href="@{/filmes/} + ${topico.idFilme + '/excluir-topico/' + topico.id}" role="button"
+                           class="btn btn-sm btn-secondary">
+                            <i class="fas fa-trash text-white"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col margin-resenha">
+            <a sec:authorize="isAuthenticated()" th:href="@{/filmes/} + ${filmeDto.id + '/editar-topico'}"
+               class="btn btn-primary" role="button">
+                Inserir ponto negativo
+            </a>
+        </div>
     </div>
 
     <div class="row">
@@ -115,8 +185,8 @@
                     Nenhuma resenha
                 </div>
                 <div th:if="${resenhas != null && resenhas.size() > 0}"
-                    th:each="resenha: ${resenhas}"
-                    style="border: 1px solid #666; margin-top:1rem;padding:10px;">
+                     th:each="resenha: ${resenhas}"
+                     style="border: 1px solid #666; margin-top:1rem;padding:10px;">
 
                     <!-- Autor e texto-->
                     <p><b th:text="${@usuarioService.findById(resenha.idAutor)?.nome}"></b>:</p>
@@ -138,13 +208,13 @@
                             Discordo
                         </button>
                         <a th:if="${@authService.isAdmin() || (@authService.isAuthenticated() && @authService.getUsuario()?.getId() == resenha.idAutor)}"
-                        th:href="@{/filmes/} + ${resenha.idFilme + '/editar-resenha/' + resenha.id}" role="button"
-                        class="btn btn-sm btn-secondary">
+                           th:href="@{/filmes/} + ${resenha.idFilme + '/editar-resenha/' + resenha.id}" role="button"
+                           class="btn btn-sm btn-secondary">
                             Editar
                         </a>
                         <a th:if="${@authService.isAdmin() || (@authService.isAuthenticated() && @authService.getUsuario()?.getId() == resenha.idAutor)}"
-                        th:href="@{/filmes/} + ${resenha.idFilme + '/excluir-resenha/' + resenha.id}" role="button"
-                        class="btn btn-sm btn-secondary">
+                           th:href="@{/filmes/} + ${resenha.idFilme + '/excluir-resenha/' + resenha.id}" role="button"
+                           class="btn btn-sm btn-secondary">
                             Excluir
                         </a>
                     </div>
@@ -156,9 +226,9 @@
     <div class="row">
         <div class="col margin-resenha">
             <a sec:authorize="isAuthenticated()" th:href="@{/filmes/} + ${filmeDto.id + '/editar-resenha'}"
-                class="btn btn-primary" role="button">
+               class="btn btn-primary" role="button">
                 Inserir resenha
-            </a>        
+            </a>
         </div>
     </div>
 

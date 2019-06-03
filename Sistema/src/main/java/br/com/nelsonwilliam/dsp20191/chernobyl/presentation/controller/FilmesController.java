@@ -2,6 +2,7 @@ package br.com.nelsonwilliam.dsp20191.chernobyl.presentation.controller;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.dto.FilmeDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.dto.ResenhaDto;
+import br.com.nelsonwilliam.dsp20191.chernobyl.business.dto.TopicoDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.*;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.PapelEnum;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.service.*;
@@ -41,12 +42,17 @@ public class FilmesController {
     @Autowired
     private AvaliacaoFilmeService avaliacaoFilmeService;
 
-
     @Autowired
     private ResenhaService resenhaService;
 
     @Autowired
     private AvaliacaoResenhaService avaliacaoResenhaService;
+
+    @Autowired
+    private TopicoService topicoService;
+
+    @Autowired
+    private AvaliacaoTopicoService avaliacaoTopicoService;
 
     @GetMapping("/filmes")
     public String verTodos(Model model) {
@@ -72,17 +78,19 @@ public class FilmesController {
         }
 
 
-        List<ResenhaDto> resenhasDto = getResenhaDtos(id, usuario);
+        List<ResenhaDto> resenhasDto = getResenhasDtos(id, usuario);
+        List<TopicoDto> topicosDto = getTopicosDtos(id, usuario);
 
         model.addAttribute("filmeDto", filmeDto);
         model.addAttribute("minhaAvaliacao", avaliacaoFilme.getGrauRadiacao());
         model.addAttribute("mediaAvaliacao", avaliacaoFilmeService.existePorFilme(filmeDto.getId()) ? avaliacaoFilmeService.calcularGrauPorFilme(filmeDto.getId()) : 0.0);
         model.addAttribute("resenhas", resenhasDto);
+        model.addAttribute("topicos", topicosDto);
         model.addAttribute("novaResenha", new ResenhaDto());
         return "filmes/filme";
     }
 
-    private List<ResenhaDto> getResenhaDtos(@PathVariable Long id, Usuario usuario) {
+    private List<ResenhaDto> getResenhasDtos(@PathVariable Long id, Usuario usuario) {
         Collection<Resenha> resenhas = resenhaService.findByFilme(id);
         List<ResenhaDto> resenhasDto = new ArrayList<>();
         if (resenhas != null)
@@ -93,6 +101,19 @@ public class FilmesController {
                     resenhasDto.add(dto);
             }
         return resenhasDto;
+    }
+
+    private List<TopicoDto> getTopicosDtos(@PathVariable Long id, Usuario usuario) {
+        Collection<Topico> topicos = topicoService.findByFilme(id);
+        List<TopicoDto> topicosDtos = new ArrayList<>();
+        if (topicos != null)
+            for (Topico top : topicos) {
+                AvaliacaoTopico avalTop = usuario == null ? null : avaliacaoTopicoService.findByTopicoAndUsuario(top.getId(), usuario.getId());
+                TopicoDto dto = TopicoDto.fromTopico(top, avalTop, avaliacaoTopicoService);
+                if (dto != null)
+                    topicosDtos.add(dto);
+            }
+        return topicosDtos;
     }
 
     @GetMapping(path = "/filmes/{id}", params = "avaliarFilme")
@@ -134,10 +155,34 @@ public class FilmesController {
         aval = avaliacaoResenhaService.save(aval);
 
         // Retorna o fragmento atualizado com o novo valor e a nova média
-        List<ResenhaDto> resenhasDto = getResenhaDtos(id, usuario);
+        List<ResenhaDto> resenhasDto = getResenhasDtos(id, usuario);
         model.addAttribute("resenhas", resenhasDto);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
             return "filmes/filme :: resenhas";
+        } else {
+            return "filmes/filme";
+        }
+    }
+
+    @GetMapping(path = "/filmes/{id}", params = {"avaliarTopico", "positivo"})
+    public String verUmAvaliarTopico(@PathVariable Long id,
+                                     @RequestParam("avaliarTopico") long idTopico,
+                                     @RequestParam("positivo") boolean positivo,
+                                     Model model,
+                                     HttpServletRequest request) {
+        // Salva a avaliação
+        Usuario usuario = usuarioService.findByLogin(request.getUserPrincipal().getName());
+        AvaliacaoTopico aval = new AvaliacaoTopico();
+        aval.setUsuario(usuario);
+        aval.setTopico(topicoService.findById(idTopico));
+        aval.setPositiva(positivo);
+        aval = avaliacaoTopicoService.save(aval);
+
+        // Retorna o fragmento atualizado com o novo valor e a nova média
+        List<TopicoDto> topicosDtos = getTopicosDtos(id, usuario);
+        model.addAttribute("topicos", topicosDtos);
+        if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
+            return "filmes/filme :: topicos";
         } else {
             return "filmes/filme";
         }
@@ -303,5 +348,77 @@ public class FilmesController {
 
         resenhaService.deleteById(idResenha);
         return "redirect:/filmes/" + id + "?deletedresenha=" + idResenha;
+    }
+
+    @GetMapping("/filmes/{id}/editar-topico")
+    public String editarNovoTopico(@PathVariable Long id, Model model) {
+        TopicoDto topicoDto = new TopicoDto();
+        topicoDto.setIdFilme(id);
+        model.addAttribute("topicoDto", topicoDto);
+        return "filmes/editar-topico";
+    }
+
+    @GetMapping("/filmes/{id}/editar-topico/{idTopico}")
+    public String editarTopicoExistente(@PathVariable Long id,
+                                        @PathVariable Long idTopico,
+                                        Model model,
+                                        Principal principal) {
+        Usuario usuario = principal == null ? null : usuarioService.findByLogin(principal.getName());
+        if (usuario == null) {
+            throw new AccessDeniedException("Usuário não autorizado");
+        }
+        Topico topico = topicoService.findById(idTopico);
+        if (topico.getAutor().getId() != usuario.getId() && !usuario.getPapeis().contains(PapelEnum.ADMIN)) {
+            throw new AccessDeniedException("Usuário não autorizado");
+        }
+
+        model.addAttribute("topicoDto", TopicoDto.fromTopico(topico));
+        return "filmes/editar-topico";
+    }
+
+    @PostMapping("/filmes/{id}/editar-topico/enviar")
+    public String editarTopicoEnviar(@PathVariable Long id,
+                                     @Valid TopicoDto topicoDto,
+                                     BindingResult bindingResult,
+                                     Principal principal) {
+
+        Usuario usuario = principal == null ? null : usuarioService.findByLogin(principal.getName());
+        if (usuario == null) {
+            throw new AccessDeniedException("Usuário não autorizado");
+        }
+        Topico topico = topicoDto.toTopico(filmeService, usuario);
+        if (topico.getAutor().getId() != usuario.getId() && !usuario.getPapeis().contains(PapelEnum.ADMIN)) {
+            throw new AccessDeniedException("Usuário não autorizado");
+        }
+        if (bindingResult.hasErrors()) {
+            return "filmes/editar-topico";
+        }
+
+        Long idAnterior = topico.getId();
+        topico = topicoService.save(topico);
+        Long idNovo = topico.getId();
+
+        if (Objects.equals(idAnterior, idNovo)) {
+            return "redirect:/filmes/" + id + "?updatedtopico=" + idAnterior;
+        } else {
+            return "redirect:/filmes/" + id + "?createdtopico=" + idNovo;
+        }
+    }
+
+    @GetMapping("/filmes/{id}/excluir-topico/{idTopico}")
+    public String excluirTopico(@PathVariable Long id,
+                                @PathVariable Long idTopico,
+                                Principal principal) {
+        Usuario usuario = principal == null ? null : usuarioService.findByLogin(principal.getName());
+        if (usuario == null) {
+            throw new AccessDeniedException("Usuário não autorizado");
+        }
+        Topico topico = topicoService.findById(idTopico);
+        if (topico.getAutor().getId() != usuario.getId() && !usuario.getPapeis().contains(PapelEnum.ADMIN)) {
+            throw new AccessDeniedException("Usuário não autorizado");
+        }
+
+        topicoService.deleteById(idTopico);
+        return "redirect:/filmes/" + id + "?deletedtopico=" + idTopico;
     }
 }
