@@ -33,11 +33,11 @@ public class FilmeService {
     }
 
     public Collection<Filme> findByDiretor(Long idDiretor) {
-        return filmeRepository.findByDiretor(idDiretor);
+        return filmeRepository.findByDiretor_Id(idDiretor);
     }
 
     public Collection<Filme> findByAtor(Long idAtor) {
-        return filmeRepository.findByAtores(idAtor);
+        return filmeRepository.findByAtores_Id(idAtor);
     }
 
     public List<Filme> findByPessoa(Long idPessoa) {

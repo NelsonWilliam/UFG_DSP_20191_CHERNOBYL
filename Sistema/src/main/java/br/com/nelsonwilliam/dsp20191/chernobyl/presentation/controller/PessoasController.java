@@ -46,12 +46,11 @@ public class PessoasController {
         if (pessoa == null)
             throw new IllegalArgumentException("Pessoa não encontrada");
         model.addAttribute("pessoaDto", PessoaDto.fromPessoa(pessoa));
-//        String teste = pessoaService.calcularRadiacao(getAvaliacoes(pessoa.getId()));
-//        model.addAttribute("mediaRadiacao", teste);
+        model.addAttribute("mediaRadiacao", getAvaliacoes(pessoa.getId()));
         return "pessoas/pessoa";
     }
 
-    public List<Double> getAvaliacoes(Long idPessoa) {
+    public String getAvaliacoes(Long idPessoa) {
         List<Double> avaliacoes = new ArrayList<>();
         CargoEnum cargo = pessoaService.findCargoById(idPessoa);
 
@@ -69,7 +68,7 @@ public class PessoasController {
             avaliacoes.add(nota);
         }
 
-        return avaliacoes;
+        return pessoaService.calcularRadiacao(avaliacoes);
 
     }
 

@@ -10,9 +10,9 @@ import java.util.Collection;
  */
 public interface FilmeRepository extends JpaRepository<Filme, Long> {
 
-    Collection<Filme> findByDiretor (Long idDiretor);
+    Collection<Filme> findByDiretor_Id(Long idDiretor);
 
-    Collection<Filme> findByAtores (Long idDiretor);
+    Collection<Filme> findByAtores_Id(Long idAtor);
 
     void deleteById(Long id);
 }
