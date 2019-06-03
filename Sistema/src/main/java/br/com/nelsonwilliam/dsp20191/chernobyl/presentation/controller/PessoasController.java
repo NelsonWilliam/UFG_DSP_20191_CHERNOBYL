@@ -1,8 +1,11 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.presentation.controller;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.dto.PessoaDto;
+import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Filme;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Pessoa;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.CargoEnum;
+import br.com.nelsonwilliam.dsp20191.chernobyl.business.service.AvaliacaoFilmeService;
+import br.com.nelsonwilliam.dsp20191.chernobyl.business.service.FilmeService;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 
 @Controller
@@ -20,6 +26,12 @@ public class PessoasController {
 
     @Autowired
     private PessoaService pessoaService;
+
+    @Autowired
+    private FilmeService filmeService;
+
+    @Autowired
+    private AvaliacaoFilmeService avaliacaoFilmeService;
 
     @GetMapping("/pessoas")
     public String verTodos(Model model) {
@@ -34,7 +46,31 @@ public class PessoasController {
         if (pessoa == null)
             throw new IllegalArgumentException("Pessoa não encontrada");
         model.addAttribute("pessoaDto", PessoaDto.fromPessoa(pessoa));
+//        String teste = pessoaService.calcularRadiacao(getAvaliacoes(pessoa.getId()));
+//        model.addAttribute("mediaRadiacao", teste);
         return "pessoas/pessoa";
+    }
+
+    public List<Double> getAvaliacoes(Long idPessoa) {
+        List<Double> avaliacoes = new ArrayList<>();
+        CargoEnum cargo = pessoaService.findCargoById(idPessoa);
+
+        //find filmes by user
+        Collection<Filme> filmes = null;
+        if (cargo == CargoEnum.ATOR) {
+            filmes = filmeService.findByAtor(idPessoa);
+        } else if (cargo == CargoEnum.DIRETOR) {
+            filmes = filmeService.findByDiretor(idPessoa);
+        }
+
+        //find all film scores
+        for (Filme filme: filmes) {
+            double nota = avaliacaoFilmeService.calcularGrauPorFilme(filme.getId());
+            avaliacoes.add(nota);
+        }
+
+        return avaliacoes;
+
     }
 
     @GetMapping("/admin/pessoas/editar")

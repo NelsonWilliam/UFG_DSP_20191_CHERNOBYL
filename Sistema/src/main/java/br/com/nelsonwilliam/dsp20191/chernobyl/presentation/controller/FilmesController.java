@@ -41,7 +41,6 @@ public class FilmesController {
     @Autowired
     private AvaliacaoFilmeService avaliacaoFilmeService;
 
-
     @Autowired
     private ResenhaService resenhaService;
 

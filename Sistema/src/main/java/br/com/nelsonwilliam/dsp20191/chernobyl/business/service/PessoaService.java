@@ -1,6 +1,7 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.business.service;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.dto.PessoaDto;
+import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Filme;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Pessoa;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.CargoEnum;
 import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.PessoaRepository;
@@ -17,6 +18,7 @@ public class PessoaService {
 
     @Autowired
     private PessoaRepository pessoaRepository;
+    private Collection<Filme> filmes;
 
     public List<Pessoa> findAll() {
         return pessoaRepository.findAll();
@@ -36,6 +38,10 @@ public class PessoaService {
         return PessoaDto.fromPessoa(pessoa);
     }
 
+    public CargoEnum findCargoById(Long id) {
+        Pessoa pessoa = findById(id);
+        return pessoa.getCargo();
+    }
 
     public Collection<Pessoa> findByCargo(CargoEnum cargo) {
         if (cargo == null)
@@ -70,5 +76,49 @@ public class PessoaService {
 
     public List<PessoaDto> findAllAtoresDto() {
         return findByCargo(CargoEnum.ATOR).stream().map(PessoaDto::fromPessoa).collect(Collectors.toList());
+    }
+
+    public String calcularRadiacao(List<Double> avaliacoes) {
+        double soma = 0, media = 0;
+        String resultado = "";
+//        CargoEnum cargo = findCargoById(id);
+//
+//        //find filmes by user
+//        Collection<Filme> filmes = null;
+//        if (cargo == CargoEnum.ATOR) {
+//            filmes = fs.findByAtor(id);
+//        } else if (cargo == CargoEnum.DIRETOR) {
+//            filmes = fs.findByDiretor(id);
+//        }
+//
+//        if (filmes.size() > 0) {
+//            //find all film scores
+//            for (Filme filme : filmes) {
+//                double i = afs.calcularGrauPorFilme(filme.getId());
+//                soma += i;
+//            }
+//
+//            //calc avarage
+//            media = soma / filmes.size();
+//
+//            //result
+//            resultado = Double.toString(media);
+//
+//        } else {
+//            resultado = "Sem avaliação";
+//        }
+
+        if (avaliacoes.size() > 0) {
+            for (Double aval : avaliacoes) {
+                soma += aval;
+            }
+            media = soma / avaliacoes.size();
+            resultado = Double.toString(media);
+        } else {
+            resultado = "Sem avaliação";
+        }
+
+        return resultado;
+
     }
 }
