@@ -4,12 +4,13 @@
 }
 
 body {
-    background-image: url("../imagens/green-fibers.png");
+    background-image: url("../imagens/bg.jpg");
+    background-size: cover;
     font-family: 'Roboto', sans-serif;
 }
 
 .block {
-    background:rgba(255,255,255, 1);
+    background:rgba(255,255,255, 0.9);
     padding: 10px;
     margin: 50px;
     border-radius: 16px;
