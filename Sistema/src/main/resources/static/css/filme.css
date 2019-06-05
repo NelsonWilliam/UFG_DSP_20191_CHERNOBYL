@@ -1,7 +1,12 @@
-.margin-resenha {
+.margin-title {
     margin-top: 3%;
 }
 
 input {
+    width: 100%;
+}
+
+.img-avatar {
+    height: 200px;
     width: 100%;
 }
