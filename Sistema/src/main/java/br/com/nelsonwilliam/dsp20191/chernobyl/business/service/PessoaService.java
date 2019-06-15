@@ -81,32 +81,6 @@ public class PessoaService {
     public String calcularRadiacao(List<Double> avaliacoes) {
         double soma = 0, media = 0;
         String resultado = "";
-//        CargoEnum cargo = findCargoById(id);
-//
-//        //find filmes by user
-//        Collection<Filme> filmes = null;
-//        if (cargo == CargoEnum.ATOR) {
-//            filmes = fs.findByAtor(id);
-//        } else if (cargo == CargoEnum.DIRETOR) {
-//            filmes = fs.findByDiretor(id);
-//        }
-//
-//        if (filmes.size() > 0) {
-//            //find all film scores
-//            for (Filme filme : filmes) {
-//                double i = afs.calcularGrauPorFilme(filme.getId());
-//                soma += i;
-//            }
-//
-//            //calc avarage
-//            media = soma / filmes.size();
-//
-//            //result
-//            resultado = Double.toString(media);
-//
-//        } else {
-//            resultado = "Sem avaliação";
-//        }
 
         if (avaliacoes.size() > 0) {
             for (Double aval : avaliacoes) {
