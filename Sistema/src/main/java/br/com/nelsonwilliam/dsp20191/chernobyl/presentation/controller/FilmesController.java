@@ -445,7 +445,8 @@ public class FilmesController {
         try {
             saveImage(file, id);
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("err", "Não foi possível realizar upload: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("err", "Não foi possível realizar upload: "
+                    + e.getClass().getSimpleName() + " - " + e.getMessage());
             return "redirect:/admin/filmes/editar/{id}";
         }
 
@@ -461,6 +462,8 @@ public class FilmesController {
 
         File f = new File(newFile);
         filmeService.alterarImagem(id, f);
-        f.delete();
+        if (!f.delete()) {
+            System.err.println("Couldn't delete " + f.getAbsolutePath());
+        }
     }
 }
