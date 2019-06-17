@@ -7,86 +7,78 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
-    <div th:fragment="content"><br>
+<div th:fragment="content"><br>
 
-        <div th:if="${param.updated}" class="alert alert-success" role="alert">
-            Pessoa editada!
-        </div>
-        <div th:if="${param.img_updated}" class="alert alert-success" role="alert">
-            Imagem Alterada!
-        </div>
-        <div class="row">
-            <div class="col">
-                <h1>Pessoa</h1>
-            </div>
-            <div class="col-auto">
-                <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm"
-                    th:href="@{/admin/pessoas/editar/} + ${pessoaDto.id}" role="button">
-                    Editar pessoa
-                </a>
-                <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm"
-                    th:href="@{/admin/pessoas/} + ${pessoaDto.id + '/excluir'}" role="button">
-                    Excluir pessoa
-                </a>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-auto">
-                <img th:src="${pessoaDto.image}" th:alt=${pessoaDto.nome} style="width: 360px; height: 360px;" />
-                <!-- Editar Imagem -->
-                <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')" style="max-width: 360px">
-                    <form method="POST" th:action="@{/admin/pessoas/} + ${pessoaDto.id + '/alterar_imagem'}"
-                        th:object=${file} enctype="multipart/form-data">
-                        <fieldset>
-                            <br>
-                            <label for="file"><b>Altere a imagem: </b></label>
-                            <input type="file" name="file" />
-                            <input type="submit" value="Submit" />
-                            <div th:if="${err}">
-                                <p th:text="${err}" style="color: red"></p>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
-            <div class="col-auto">
-                <h5>Nome</h5>
-                <p th:text="${pessoaDto.nome}"></p>
-
-                <h5>Cargo</h5>
-                <p th:text="${pessoaDto.cargo}"></p>
-
-                <h5>Radiação</h5>
-                <p th:text="${mediaRadiacao}"></p>
-            </div>
-        </div>
-        <hr>
-
-        <div th:if="${pessoaDto.cargo == 'Diretor'}">
-            <h5>Filmes dirigidos</h5>
-            <div class="row">
-                <div th:each="filmeDirigido : ${@pessoaService.findById(pessoaDto.id).filmesDirigidos}"
-                    class="col-auto">
-                    <img th:src="@{/imagens/poster.png}" alt="Poster do filme" />
-                    <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filmeDirigido.id}"
-                            th:text="${filmeDirigido.titulo}"></a></figcaption>
-                </div>
-            </div>
-        </div>
-
-        <div th:if="${pessoaDto.cargo == 'Ator'}">
-            <h5>Filmes atuados</h5>
-            <div class="row">
-                <div th:each="filmeAtuado : ${@pessoaService.findById(pessoaDto.id).filmesAtuados}" class="col-auto">
-                    <img th:src="@{/imagens/poster.png}" alt="Poster do filme" />
-                    <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filmeAtuado.id}"
-                            th:text="${filmeAtuado.titulo}"></a></figcaption>
-                </div>
-            </div>
-        </div>
-
+    <div th:if="${param.updated}" class="alert alert-success" role="alert">
+        Pessoa editada!
     </div>
+    <div th:if="${param.img_updated}" class="alert alert-success" role="alert">
+        Imagem alterada!
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h1>Pessoa</h1>
+        </div>
+        <div class="col-auto">
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm"
+               th:href="@{/admin/pessoas/editar/} + ${pessoaDto.id}" role="button">
+                Editar pessoa
+            </a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm"
+               th:href="@{/admin/pessoas/} + ${pessoaDto.id + '/excluir'}" role="button">
+                Excluir pessoa
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-auto">
+            <img th:src="${pessoaDto.image}" th:alt=${pessoaDto.nome} style="width: 188px; height: 188px;"/>
+        </div>
+        <div class="col-auto">
+            <h5>Nome</h5>
+            <p th:text="${pessoaDto.nome}"></p>
+
+            <h5>Cargo</h5>
+            <p th:text="${pessoaDto.cargo}"></p>
+
+            <h5>Radiação</h5>
+            <p th:text="${mediaRadiacao}"></p>
+        </div>
+    </div>
+    <hr>
+
+    <div th:if="${pessoaDto.cargo == 'Diretor'}">
+        <h5>Filmes dirigidos</h5>
+        <div class="row">
+            <div th:each="filmeDirigido : ${@pessoaService.findById(pessoaDto.id).filmesDirigidos}"
+                 class="col-auto">
+                <a th:href="@{/filmes/} + ${filmeDirigido.id}">
+                    <img class="picture" th:src="${filmeDirigido.image}" th:alt="${filmeDirigido.titulo}"
+                         style="height: 268px; width: 188px;"/>
+                    <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filmeDirigido.id}"
+                                                              th:text="${filmeDirigido.titulo}"></a></figcaption>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${pessoaDto.cargo == 'Ator'}">
+        <h5>Filmes atuados</h5>
+        <div class="row">
+            <div th:each="filmeAtuado : ${@pessoaService.findById(pessoaDto.id).filmesAtuados}" class="col-auto">
+                <a th:href="@{/filmes/} + ${filmeAtuado.id}">
+                    <img class="picture" th:src="${filmeAtuado.image}" th:alt="${filmeAtuado.titulo}"
+                         style="height: 268px; width: 188px;"/>
+                    <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filmeAtuado.id}"
+                                                              th:text="${filmeAtuado.titulo}"></a></figcaption>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
 </body>
 
 </html>

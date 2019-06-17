@@ -434,18 +434,19 @@ public class FilmesController {
     }
 
     @PostMapping("/admin/filmes/{id}/alterar_imagem")
-    public String alterarImagem(@PathVariable Long id, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
-
+    public String alterarImagem(@PathVariable Long id,
+                                @RequestParam("file") MultipartFile file,
+                                RedirectAttributes redirectAttributes) {
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("err", "Selecione um arquivo!");
-            return "redirect:/filmes/{id}";
+            return "redirect:/admin/filmes/editar/{id}";
         }
 
         try {
             saveImage(file, id);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("err", "Não foi possível realizar upload: " + e.getMessage());
-            return "redirect:/filmes/{id}";
+            return "redirect:/admin/filmes/editar/{id}";
         }
 
         return "redirect:/filmes/{id}?img_updated";

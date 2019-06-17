@@ -33,6 +33,10 @@
             <div th:if="${param.updatedtopico}" class="alert alert-success" role="alert">
                 Ponto negativo atualizado!
             </div>
+            <div th:if="${param.img_updated}" class="alert alert-success" role="alert">
+                Imagem alterada!
+            </div>
+
         </div>
         <div class="row">
             <div class="col">
@@ -53,22 +57,8 @@
         <div class="row">
             <div class="col-md-3">
                 <img th:src="${filmeDto.image}" th:alt="${filmeDto.titulo}" style="height: 268px; width: 188px;" />
-                <!-- Editar Imagem -->
-                <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')" style="max-width: 360px">
-                    <form method="POST" th:action="@{/admin/filmes/} + ${filmeDto.id + '/alterar_imagem'}"
-                        th:object=${file} enctype="multipart/form-data">
-                        <fieldset>
-                            <br>
-                            <label for="file"><b>Altere a imagem: </b></label>
-                            <input type="file" name="file" />
-                            <input type="submit" value="Submit" />
-                            <div th:if="${err}">
-                                <p th:text="${err}" style="color: red"></p>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
             </div>
+
             <div class="col-md-3">
                 <h5>Título</h5>
                 <p th:text="${filmeDto.titulo}"></p>

@@ -9,32 +9,53 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}, customScript=~{::customScript}">
-    <div th:fragment="content"><br>
-
-        <div class="row">
-            <div class="col">
-                <h2 th:text="${filmeDto.id == null ? 'Inserir filme' : 'Editar filme'}">Editar filme</h2>
-            </div>
+<div th:fragment="content"><br>
+    <div class="row">
+        <div class="col">
+            <h2 th:text="${filmeDto.id == null ? 'Inserir filme' : 'Editar filme'}">Editar filme</h2>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <form th:action="@{/admin/filmes/editar/enviar}" th:object=${filmeDto} method="post">
-                    <fieldset>
-                        <!-- O ID do filme deve ser guardado escondido no formulário. -->
-                        <input type="hidden" th:value="*{id}" th:field="*{id}" />
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Imagem -->
+            <form id="img-form" method="POST" th:action="@{/admin/filmes/} + ${filmeDto.id + '/alterar_imagem'}"
+                  th:object=${file} enctype="multipart/form-data" style="margin-bottom:3rem;">
+                <img th:src="${filmeDto.image}" th:alt="${filmeDto.titulo}"
+                     style="margin-bottom:1rem;height: 268px; width: 188px;"/>
+                <br>
+                <fieldset>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="file"><b>Imagem:</b></label>
+                        </div>
+                        <div class="col-md-6">
+                            <input id="file" type="file" name="file" data-max-size=1000000
+                                   accept=".png,.jpg,.jpeg,image/png,image/JPEG"/>
+                            <p id="img-form-err" th:text="${err}" style="color: red;margin-bottom:0;padding-bottom:0;"></p>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 5px">Enviar imagem</button>
+                </fieldset>
+            </form>
 
-                        <!-- Imagem do filme deve ser guardado escondido no formulário. -->
-                        <input type="hidden" th:value="*{image}" th:field="*{image}" />
+            <!-- Outros dados-->
+            <form th:action="@{/admin/filmes/editar/enviar}" th:object=${filmeDto} method="post">
+                <fieldset>
+                    <!-- O ID do filme deve ser guardado escondido no formulário. -->
+                    <input type="hidden" th:value="*{id}" th:field="*{id}"/>
 
-                        <!-- Título -->
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label for="titulo"><b>Título</b></label>
-                            </div>
-                            <div class="col-md-6">
-                                <input id="titulo" type="text" th:field="*{titulo}" class="form-control" />
-                                <div th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}">Erro</div>
+                    <!-- Imagem do filme deve ser guardada escondido no formulário. -->
+                    <input type="hidden" th:value="*{image}" th:field="*{image}"/>
+
+                    <!-- Título -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="titulo"><b>Título</b></label>
+                        </div>
+                        <div class="col-md-6">
+                            <input id="titulo" type="text" th:field="*{titulo}" class="form-control"/>
+                            <div th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}">Erro</div>
                         </div>
                     </div>
 
@@ -44,7 +65,8 @@
                             <label for="idDiretor"><b>Direção</b></label>
                         </div>
                         <div class="col-md-6">
-                            <select id="idDiretor" class="selectpicker form-control" data-live-search="true" th:field="*{idDiretor}">
+                            <select id="idDiretor" class="selectpicker form-control" data-live-search="true"
+                                    th:field="*{idDiretor}">
                                 <option th:each="diretor: ${@pessoaService.findAllDiretoresDto()}"
                                         th:value="${diretor.id}"
                                         th:text="${diretor.nome}"></option>
@@ -64,10 +86,12 @@
                                 <tr th:each="idAtor, stat : ${filmeDto.idAtores}">
                                     <td>
                                         <span th:text="${@pessoaService.findById(idAtor)?.nome}"></span>
-                                        <input type="hidden" th:value="${idAtor}" th:field="${filmeDto.idAtores[__${stat.index}__]}" class="form-control"/>
+                                        <input type="hidden" th:value="${idAtor}"
+                                               th:field="${filmeDto.idAtores[__${stat.index}__]}" class="form-control"/>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-danger" name="removeAtor" th:value="${stat.index}" style="margin-left: 17%">-
+                                        <button type="button" class="btn btn-sm btn-danger" name="removeAtor"
+                                                th:value="${stat.index}" style="margin-left: 17%">-
                                         </button>
                                     </td>
                                 </tr>
@@ -104,10 +128,11 @@
                                     <td>
                                         <span th:text="${premiacao}"></span>
                                         <input type="hidden" th:value="${premiacao}" class="form-control"
-                                            th:field="${filmeDto.premiacoes[__${stat.index}__]}">
+                                               th:field="${filmeDto.premiacoes[__${stat.index}__]}">
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-danger" name="removePremiacao" th:value="${stat.index}" style="margin-left: 17%">-
+                                        <button type="button" class="btn btn-sm btn-danger" name="removePremiacao"
+                                                th:value="${stat.index}" style="margin-left: 17%">-
                                         </button>
                                     </td>
                                 </tr>
@@ -132,6 +157,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 <div th:fragment="customScript">
     <script type="text/javascript" th:src="@{/js/filmes/editar.js}"></script>

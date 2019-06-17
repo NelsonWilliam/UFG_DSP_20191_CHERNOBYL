@@ -21,14 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Objects;
 
 @Controller
@@ -131,14 +129,14 @@ public class PessoasController {
 
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("err", "Please select a file to upload");
-            return "redirect:/pessoas/{id}";
+            return "redirect:/admin/pessoas/editar/{id}";
         }
 
         try {
             saveImage(file, id);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("err", "Não foi possível realizar upload de <br>" + e.getMessage());
-            return "redirect:/pessoas/{id}";
+            return "redirect:/admin/pessoas/editar/{id}";
         }
 
         return "redirect:/pessoas/{id}?img_updated";

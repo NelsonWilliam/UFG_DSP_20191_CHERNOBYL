@@ -6,38 +6,70 @@
     <extras></extras>
 </head>
 
-<body th:include="fragments/layout :: body" th:with="content=~{::content}">
-    <div th:fragment="content"><br>
+<body th:include="fragments/layout :: body" th:with="content=~{::content}, customScript=~{::customScript}">
+<div th:fragment="content"><br>
 
-        <h2 th:text="${pessoaDto.id == null ? 'Inserir pessoa' : 'Editar pessoa'}">Editar pessoa</h2><br>
+    <div class="row">
+        <div class="col">
+            <h2 th:text="${pessoaDto.id == null ? 'Inserir pessoa' : 'Editar pessoa'}">Editar pessoa</h2><br>
+        </div>
+    </div>
 
-        <form th:action="@{/admin/pessoas/editar/enviar}" th:object=${pessoaDto} method="post">
-            <fieldset>
-                <!-- O ID da pessoa deve ser guardado escondido no formulário. -->
-                <input type="hidden" th:value="*{id}" th:field="*{id}" />
-
-                <div class="form-group">
-                    <label for="nome">Nome</label>
-                    <input id="nome" type="text" th:field="*{nome}" class="form-control" />
-                    <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Erro</div>
+    <!-- Imagem -->
+    <form id="img-form" method="POST" th:action="@{/admin/pessoas/} + ${pessoaDto.id + '/alterar_imagem'}"
+          th:object=${file} enctype="multipart/form-data" style="margin-bottom:3rem;">
+        <img th:src="${pessoaDto.image}" th:alt="${pessoaDto.nome}"
+             style="margin-bottom:1rem;height: 188px; width: 188px;"/>
+        <br>
+        <fieldset>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="file"><b>Imagem:</b></label>
                 </div>
-
-                <div class="form-group">     
-                    <label for="cargo">Cargo</label>
-                    <select id="cargo" class="selectpicker form-control" th:field="*{cargo}">
-                        <option th:each="cargo: ${@pessoaService.getNomesCargos()}" th:value="${cargo}" th:text="${cargo}"></option>
-                    </select>
-                    <div th:if="${#fields.hasErrors('cargo')}" th:errors="*{cargo}">Erro</div>
+                <div class="col-md-6">
+                    <input id="file" type="file" name="file" data-max-size=500000
+                           accept=".png,.jpg,.jpeg,image/png,image/JPEG"/>
+                    <p id="img-form-err" th:text="${err}" style="color: red; margin-bottom:0;padding-bottom:0;"></p>
                 </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top: 5px">Enviar imagem</button>
+        </fieldset>
+    </form>
 
-                <!-- Imagem da pessoa deve ser guardada escondida no formulário. -->
-                <input type="hidden" th:value="*{image}" th:field="*{image}" />
+    <!--  Outros dados -->
+    <form th:action="@{/admin/pessoas/editar/enviar}" th:object=${pessoaDto} method="post">
+        <fieldset>
+            <!-- O ID da pessoa deve ser guardado escondido no formulário. -->
+            <input type="hidden" th:value="*{id}" th:field="*{id}"/>
+
+            <!-- Imagem da pessoa deve ser guardada escondido no formulário. -->
+            <input type="hidden" th:value="*{image}" th:field="*{image}"/>
+
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input id="nome" type="text" th:field="*{nome}" class="form-control"/>
+                <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Erro</div>
+            </div>
+
+            <div class="form-group">
+                <label for="cargo">Cargo</label>
+                <select id="cargo" class="selectpicker form-control" th:field="*{cargo}">
+                    <option th:each="cargo: ${@pessoaService.getNomesCargos()}" th:value="${cargo}"
+                            th:text="${cargo}"></option>
+                </select>
+                <div th:if="${#fields.hasErrors('cargo')}" th:errors="*{cargo}">Erro</div>
+            </div>
+
+            <!-- Imagem da pessoa deve ser guardada escondida no formulário. -->
+            <input type="hidden" th:value="*{image}" th:field="*{image}"/>
 
             <button type="submit" class="btn btn-primary">Salvar</button>
         </fieldset>
     </form>
 
 </div>
+<div th:fragment="customScript">
+    <script type="text/javascript" th:src="@{/js/filmes/editar.js}"></script>
+</div>
 </body>
-
 </html>
