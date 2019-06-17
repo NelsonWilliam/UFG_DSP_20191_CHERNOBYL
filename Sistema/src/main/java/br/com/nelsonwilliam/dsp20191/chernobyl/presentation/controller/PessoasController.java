@@ -128,14 +128,14 @@ public class PessoasController {
     public String alterarImagem(@PathVariable Long id, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 
         if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("err", "Please select a file to upload");
+            redirectAttributes.addFlashAttribute("err", "Selecione um arquivo!");
             return "redirect:/admin/pessoas/editar/{id}";
         }
 
         try {
             saveImage(file, id);
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("err", "Não foi possível realizar upload de <br>" + e.getMessage());
+            redirectAttributes.addFlashAttribute("err", "Não foi possível realizar upload: " + e.getMessage());
             return "redirect:/admin/pessoas/editar/{id}";
         }
 
@@ -152,6 +152,7 @@ public class PessoasController {
         File f = new File(newFile);
         pessoaService.alterarImagem(id, f);
         f.delete();
+        
     }
 
 
