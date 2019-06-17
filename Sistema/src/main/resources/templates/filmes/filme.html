@@ -12,29 +12,53 @@
 <div th:fragment="content"><br>
 
     <div>
-        <div th:if="${param.updated}" class="alert alert-success" role="alert">
+        <div th:if="${param.updated}" class="alert alert-success alert-dismissible fade show" role="alert">
             Filme editado!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <div th:if="${param.createdresenha}" class="alert alert-success" role="alert">
+        <div th:if="${param.createdresenha}" class="alert alert-success alert-dismissible fade show" role="alert">
             Resenha inserida!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <div th:if="${param.deletedresenha}" class="alert alert-success" role="alert">
+        <div th:if="${param.deletedresenha}" class="alert alert-success alert-dismissible fade show" role="alert">
             Resenha excluída!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <div th:if="${param.updatedresenha}" class="alert alert-success" role="alert">
+        <div th:if="${param.updatedresenha}" class="alert alert-success alert-dismissible fade show" role="alert">
             Resenha atualizada!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <div th:if="${param.createdtopico}" class="alert alert-success" role="alert">
+        <div th:if="${param.createdtopico}" class="alert alert-success alert-dismissible fade show" role="alert">
             Ponto negativo inserido!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <div th:if="${param.deletedtopico}" class="alert alert-success" role="alert">
+        <div th:if="${param.deletedtopico}" class="alert alert-success alert-dismissible fade show" role="alert">
             Ponto negativo excluído!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <div th:if="${param.updatedtopico}" class="alert alert-success" role="alert">
+        <div th:if="${param.updatedtopico}" class="alert alert-success alert-dismissible fade show" role="alert">
             Ponto negativo atualizado!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <div th:if="${param.img_updated}" class="alert alert-success" role="alert">
+        <div th:if="${param.img_updated}" class="alert alert-success alert-dismissible fade show" role="alert">
             Imagem alterada!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
 
     </div>
@@ -128,46 +152,60 @@
                 <div th:if="${topicos == null || topicos.size() == 0}">
                     Nenhum ponto negativo
                 </div>
-                <div th:if="${topicos != null && topicos.size() > 0}" th:each="topico: ${topicos}"
-                     style="border: 1px solid #666; margin:1rem 0 0 0; padding:10px; height:64px;" class="row">
+                <div th:if="${topicos != null && topicos.size() > 0}" th:each="topico: ${topicos}">
 
-                    <!-- Autor e texto-->
-                    <p class="col-md">
-                        <b th:text="${@usuarioService.findById(topico.idAutor)?.nome}"></b>:
-                        <span th:text="${topico.texto}"></span>
-                    </p>
-
-                    <!-- Porcentagem das avaliações do topico -->
-                    <p class="col-md-auto"
-                       th:text="${topico.mediaAvaliacao < 0 ? 'Não avaliado' : ((topico.mediaAvaliacao*100) + '% de aprovação')}">
-                    </p>
-
-                    <!-- Botões de avaliar o topico -->
-                    <div class="col-md-auto btn-group btn-group-sm btn-group-toggle" role="group"
-                         sec:authorize="isAuthenticated()">
-                        <button
-                                th:classappend="${topico.minhaAvaliacao != null && topico.minhaAvaliacao == true} ? active : ''"
-                                name="avaliarTopicoPositivo" type="button" class="btn btn-sm btn-success"
-                                th:value="${topico?.id}">
-                            <i class="fas fa-thumbs-up text-white"></i>
-                        </button>
-                        <button
-                                th:classappend="${topico.minhaAvaliacao != null && topico.minhaAvaliacao == false} ? active : ''"
-                                name="avaliarTopicoNegativo" type="button" class="btn btn-sm btn-danger"
-                                th:value="${topico?.id}">
-                            <i class="fas fa-thumbs-down text-white"></i>
-                        </button>
-                        <a th:if="${@authService.isAdmin() || (@authService.isAuthenticated() && @authService.getUsuario()?.getId() == topico.idAutor)}"
-                           th:href="@{/filmes/} + ${topico.idFilme + '/editar-topico/' + topico.id}" role="button"
-                           class="btn btn-sm btn-secondary">
-                            <i class="fas fa-pencil-alt text-white"></i>
-                        </a>
-                        <a th:if="${@authService.isAdmin() || (@authService.isAuthenticated() && @authService.getUsuario()?.getId() == topico.idAutor)}"
-                           th:href="@{/filmes/} + ${topico.idFilme + '/excluir-topico/' + topico.id}" role="button"
-                           class="btn btn-sm btn-secondary">
-                            <i class="fas fa-trash text-white"></i>
-                        </a>
+                    <div class="card" style="margin-bottom:1rem;">
+                        <div class="card-header">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-md-auto align-middle" style="margin-left:-0.5rem;margin-right:0.5rem;">
+                                    <img th:src="${'https://api.adorable.io/avatars/48/' + topico.idAutor + '.png'}"
+                                         class="img-avatar" alt="Avatar do autor"/>
+                                </div>
+                                <div class="col">
+                                    <b th:text="${@usuarioService.findById(topico.idAutor)?.nome}"></b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text" th:text="${topico.texto}"></p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <div class="row">
+                                <div class="col">
+                                    <!-- Botões de avaliar o topico -->
+                                    <div class="btn-group btn-group-sm btn-group-toggle" role="group"
+                                         sec:authorize="isAuthenticated()">
+                                        <button
+                                                th:classappend="${topico.minhaAvaliacao != null && topico.minhaAvaliacao == true} ? active : ''"
+                                                name="avaliarTopicoPositivo" type="button" class="btn btn-sm btn-success"
+                                                th:value="${topico?.id}">
+                                            <i class="fas fa-thumbs-up text-white"></i>
+                                        </button>
+                                        <button
+                                                th:classappend="${topico.minhaAvaliacao != null && topico.minhaAvaliacao == false} ? active : ''"
+                                                name="avaliarTopicoNegativo" type="button" class="btn btn-sm btn-danger"
+                                                th:value="${topico?.id}">
+                                            <i class="fas fa-thumbs-down text-white"></i>
+                                        </button>
+                                        <a th:if="${@authService.isAdmin() || (@authService.isAuthenticated() && @authService.getUsuario()?.getId() == topico.idAutor)}"
+                                           th:href="@{/filmes/} + ${topico.idFilme + '/editar-topico/' + topico.id}" role="button"
+                                           class="btn btn-sm btn-secondary">
+                                            <i class="fas fa-pencil-alt text-white"></i>
+                                        </a>
+                                        <a th:if="${@authService.isAdmin() || (@authService.isAuthenticated() && @authService.getUsuario()?.getId() == topico.idAutor)}"
+                                           th:href="@{/filmes/} + ${topico.idFilme + '/excluir-topico/' + topico.id}" role="button"
+                                           class="btn btn-sm btn-secondary">
+                                            <i class="fas fa-trash text-white"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <p th:text="${topico.mediaAvaliacao < 0 ? 'Não avaliado' : ((topico.mediaAvaliacao*100) + '% de aprovação')}"></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>

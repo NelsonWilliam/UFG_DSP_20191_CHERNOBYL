@@ -17,11 +17,17 @@
             <h1>Filmes</h1>
         </div>
         <div class="col-auto">
-            <div th:if="${param.created}" class="alert alert-success" role="alert">
+            <div th:if="${param.created}" class="alert alert-success alert-dismissible fade show" role="alert">
                 Filme inserido!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div th:if="${param.deleted}" class="alert alert-success" role="alert">
+            <div th:if="${param.deleted}" class="alert alert-success alert-dismissible fade show" role="alert">
                 Filme excluído!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
 
             <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm"
