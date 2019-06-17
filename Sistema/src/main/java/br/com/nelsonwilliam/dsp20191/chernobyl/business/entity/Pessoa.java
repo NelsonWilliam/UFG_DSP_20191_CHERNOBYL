@@ -29,6 +29,9 @@ public class Pessoa {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "atores")
     private List<Filme> filmesAtuados;
 
+    @Lob
+    private String image;
+
     public Long getId() {
         return id;
     }
@@ -67,6 +70,14 @@ public class Pessoa {
 
     public void setFilmesAtuados(List<Filme> filmesAtuados) {
         this.filmesAtuados = filmesAtuados;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     // NOTA: Relacionamento no JPA:

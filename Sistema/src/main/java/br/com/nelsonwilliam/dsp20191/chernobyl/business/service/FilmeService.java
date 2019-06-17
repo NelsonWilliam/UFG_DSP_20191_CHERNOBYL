@@ -3,10 +3,12 @@ package br.com.nelsonwilliam.dsp20191.chernobyl.business.service;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.dto.FilmeDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Filme;
 import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.FilmeRepository;
+import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.utils.Utilitario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -60,4 +62,10 @@ public class FilmeService {
         }).collect(Collectors.toList());
     }
 
+    public Filme alterarImagem(Long id, File f) throws Exception {
+        Filme filme = findById(id);
+        String img = Utilitario.imageToString(f);
+        filme.setImage(img);
+        return save(filme);
+    }
 }

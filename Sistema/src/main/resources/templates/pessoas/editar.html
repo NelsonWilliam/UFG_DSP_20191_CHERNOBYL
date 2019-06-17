@@ -30,6 +30,9 @@
                     <div th:if="${#fields.hasErrors('cargo')}" th:errors="*{cargo}">Erro</div>
                 </div>
 
+                <!-- Imagem da pessoa deve ser guardada escondida no formulário. -->
+                <input type="hidden" th:value="*{image}" th:field="*{image}" />
+
             <button type="submit" class="btn btn-primary">Salvar</button>
         </fieldset>
     </form>

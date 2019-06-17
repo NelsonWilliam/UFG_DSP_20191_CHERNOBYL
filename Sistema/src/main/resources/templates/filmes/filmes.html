@@ -34,7 +34,7 @@
 
     <div class="row">
         <div th:each="filme: ${filmes}" class="col-auto">
-            <img  class="picture" th:src="@{/imagens/poster.png}" alt="Poster do filme" />
+            <img  class="picture" th:src="${filme.image}" th:alt="${filme.titulo}" style="height: 268px; width: 188px;" />
             <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filme.id}" th:text="${filme.titulo}"></a></figcaption>
         </div>
     </div>

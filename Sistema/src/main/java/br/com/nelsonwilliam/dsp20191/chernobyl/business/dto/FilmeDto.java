@@ -26,6 +26,8 @@ public class FilmeDto {
 
     private List<String> premiacoes = new ArrayList<>();
 
+    private String image;
+
     public static FilmeDto fromFilme(Filme filme) {
         FilmeDto filmeDto = new FilmeDto();
         filmeDto.setId(filme.getId());
@@ -40,8 +42,8 @@ public class FilmeDto {
             idsAtores.add(ator.getId());
         }
         filmeDto.setIdAtores(idsAtores);
-
         filmeDto.setPremiacoes(filme.getPremiacoes());
+        filmeDto.setImage(filme.getImage());
         return filmeDto;
     }
 
@@ -58,8 +60,8 @@ public class FilmeDto {
                 atores.add(pessoaService.findById(idAtor));
             }
         filme.setAtores(atores);
-
         filme.setPremiacoes(getPremiacoes());
+        filme.setImage(getImage());
         return filme;
     }
 
@@ -101,5 +103,13 @@ public class FilmeDto {
 
     public void setPremiacoes(List<String> premiacoes) {
         this.premiacoes = premiacoes;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

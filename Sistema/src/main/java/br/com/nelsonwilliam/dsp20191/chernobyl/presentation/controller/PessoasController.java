@@ -7,6 +7,7 @@ import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.CargoEnum;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.service.AvaliacaoFilmeService;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.service.FilmeService;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.service.PessoaService;
+import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.utils.Utilitario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +15,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
@@ -63,7 +73,7 @@ public class PessoasController {
         }
 
         //find all film scores
-        for (Filme filme: filmes) {
+        for (Filme filme : filmes) {
             double nota = avaliacaoFilmeService.calcularGrauPorFilme(filme.getId());
             avaliacoes.add(nota);
         }
@@ -94,6 +104,10 @@ public class PessoasController {
             return "pessoas/editar";
         }
 
+        if (pessoaDto.getImage() == null || pessoaDto.getImage() == "") {
+            pessoaDto.setImage(Utilitario.getPersonImgString());
+        }
+
         Pessoa pessoa = pessoaDto.toPessoa();
         Long idAnterior = pessoa.getId();
         pessoa = pessoaService.save(pessoa);
@@ -111,4 +125,36 @@ public class PessoasController {
         pessoaService.deleteById(id);
         return "redirect:/pessoas?deleted";
     }
+
+    @PostMapping("/admin/pessoas/{id}/alterar_imagem")
+    public String alterarImagem(@PathVariable Long id, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("err", "Please select a file to upload");
+            return "redirect:/pessoas/{id}";
+        }
+
+        try {
+            saveImage(file, id);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("err", "Não foi possível realizar upload de <br>" + e.getMessage());
+            return "redirect:/pessoas/{id}";
+        }
+
+        return "redirect:/pessoas/{id}?img_updated";
+    }
+
+    public void saveImage(MultipartFile mFile, Long id) throws Exception {
+        String newFile = mFile.getOriginalFilename();
+
+        byte[] bytes = mFile.getBytes();
+        Path path = Paths.get(newFile);
+        Files.write(path, bytes);
+
+        File f = new File(newFile);
+        pessoaService.alterarImagem(id, f);
+        f.delete();
+    }
+
+
 }

@@ -36,6 +36,9 @@ public class Filme {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme")
     private List<Topico> topicos;
 
+    @Lob
+    private String image;
+
     public Long getId() {
         return id;
     }
@@ -98,5 +101,13 @@ public class Filme {
 
     public void setAvaliacoes(List<AvaliacaoFilme> avaliacoes) {
         this.avaliacoes = avaliacoes;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

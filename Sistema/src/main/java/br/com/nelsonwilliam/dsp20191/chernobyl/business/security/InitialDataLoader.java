@@ -72,21 +72,26 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         Pessoa bette = new Pessoa();
         bette.setNome("Bette Davis");
         bette.setCargo(CargoEnum.ATOR);
+        StringBuilder sb = new StringBuilder();
         bette = pessoaRepository.save(bette);
+
         Pessoa fernanda = new Pessoa();
         fernanda.setNome("Fernanda Montenegro");
         fernanda.setCargo(CargoEnum.ATOR);
         fernanda = pessoaRepository.save(fernanda);
+
         Pessoa quentin = new Pessoa();
         quentin.setNome("Qutentin Tarantulino");
         quentin.setCargo(CargoEnum.DIRETOR);
         quentin = pessoaRepository.save(quentin);
+
         Filme filme = new Filme();
         filme.setTitulo("O Fim do Mundo");
         filme.setAtores(Arrays.asList(bette, fernanda));
         filme.setDiretor(quentin);
         filme.setPremiacoes(Arrays.asList("Pior filme de 2021"));
         filme = filmeRepository.save(filme);
+
         Resenha res = new Resenha();
         res.setAutor(user);
         res.setTexto("Não gostei, ou seja, é muito bom");

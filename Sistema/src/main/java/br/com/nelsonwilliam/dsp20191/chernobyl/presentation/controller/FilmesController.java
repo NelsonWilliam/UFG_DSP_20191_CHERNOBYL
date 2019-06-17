@@ -6,6 +6,7 @@ import br.com.nelsonwilliam.dsp20191.chernobyl.business.dto.TopicoDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.*;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.PapelEnum;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.service.*;
+import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.utils.Utilitario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -260,6 +267,10 @@ public class FilmesController {
             return "filmes/editar";
         }
 
+        if (filmeDto.getImage() == null || filmeDto.getImage() == "") {
+            filmeDto.setImage(Utilitario.getFilmImgString());
+        }
+
         Filme filme = filmeDto.toFilme(pessoaService);
         Long idAnterior = filme.getId();
         filme = filmeService.save(filme);
@@ -420,5 +431,35 @@ public class FilmesController {
 
         topicoService.deleteById(idTopico);
         return "redirect:/filmes/" + id + "?deletedtopico=" + idTopico;
+    }
+
+    @PostMapping("/admin/filmes/{id}/alterar_imagem")
+    public String alterarImagem(@PathVariable Long id, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("err", "Selecione um arquivo!");
+            return "redirect:/filmes/{id}";
+        }
+
+        try {
+            saveImage(file, id);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("err", "Não foi possível realizar upload: " + e.getMessage());
+            return "redirect:/filmes/{id}";
+        }
+
+        return "redirect:/filmes/{id}?img_updated";
+    }
+
+    public void saveImage(MultipartFile mFile, Long id) throws Exception {
+        String newFile = mFile.getOriginalFilename();
+
+        byte[] bytes = mFile.getBytes();
+        Path path = Paths.get(newFile);
+        Files.write(path, bytes);
+
+        File f = new File(newFile);
+        filmeService.alterarImagem(id, f);
+        f.delete();
     }
 }

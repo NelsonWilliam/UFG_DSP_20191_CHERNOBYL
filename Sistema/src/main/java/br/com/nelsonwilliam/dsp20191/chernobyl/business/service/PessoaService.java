@@ -5,10 +5,12 @@ import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Filme;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Pessoa;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.CargoEnum;
 import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.PessoaRepository;
+import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.utils.Utilitario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -94,5 +96,12 @@ public class PessoaService {
 
         return resultado;
 
+    }
+
+    public Pessoa alterarImagem(Long id, File img) throws Exception {
+        Pessoa pessoa = findById(id);
+        String imagem = Utilitario.imageToString(img);
+        pessoa.setImage(imagem);
+        return save(pessoa);
     }
 }

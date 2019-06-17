@@ -12,6 +12,9 @@
         <div th:if="${param.updated}" class="alert alert-success" role="alert">
             Pessoa editada!
         </div>
+        <div th:if="${param.img_updated}" class="alert alert-success" role="alert">
+            Imagem Alterada!
+        </div>
         <div class="row">
             <div class="col">
                 <h1>Pessoa</h1>
@@ -30,7 +33,22 @@
 
         <div class="row">
             <div class="col-auto">
-                <img th:src="@{/imagens/actor.png}" alt="Foto da pessoa" style="width: 360px; height: 360px;" />
+                <img th:src="${pessoaDto.image}" th:alt=${pessoaDto.nome} style="width: 360px; height: 360px;" />
+                <!-- Editar Imagem -->
+                <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')" style="max-width: 360px">
+                    <form method="POST" th:action="@{/admin/pessoas/} + ${pessoaDto.id + '/alterar_imagem'}"
+                        th:object=${file} enctype="multipart/form-data">
+                        <fieldset>
+                            <br>
+                            <label for="file"><b>Altere a imagem: </b></label>
+                            <input type="file" name="file" />
+                            <input type="submit" value="Submit" />
+                            <div th:if="${err}">
+                                <p th:text="${err}" style="color: red"></p>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
             <div class="col-auto">
                 <h5>Nome</h5>
@@ -44,7 +62,7 @@
             </div>
         </div>
         <hr>
-        
+
         <div th:if="${pessoaDto.cargo == 'Diretor'}">
             <h5>Filmes dirigidos</h5>
             <div class="row">
