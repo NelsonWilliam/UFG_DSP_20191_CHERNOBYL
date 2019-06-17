@@ -38,7 +38,7 @@
     </div>
     <hr style="border-width: 2px;">
 
-    <div class="row">
+    <div class="row" style="margin-left: 5%">
         <div th:each="filme: ${filmes}" class="col-auto">
             <a th:href="@{/filmes/} + ${filme.id}">
                 <img class="picture" th:src="${filme.image}" th:alt="${filme.titulo}"
