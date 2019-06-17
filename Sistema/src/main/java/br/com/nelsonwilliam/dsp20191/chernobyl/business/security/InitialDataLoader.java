@@ -10,6 +10,7 @@ import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.FilmeRepository;
 import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.PessoaRepository;
 import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.ResenhaRepository;
 import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.UsuarioRepository;
+import br.com.nelsonwilliam.dsp20191.chernobyl.presentation.utils.Utilitario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -73,16 +74,19 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         bette.setNome("Bette Davis");
         bette.setCargo(CargoEnum.ATOR);
         StringBuilder sb = new StringBuilder();
+        bette.setImage(Utilitario.getPersonImgString());
         bette = pessoaRepository.save(bette);
 
         Pessoa fernanda = new Pessoa();
         fernanda.setNome("Fernanda Montenegro");
         fernanda.setCargo(CargoEnum.ATOR);
+        fernanda.setImage(Utilitario.getPersonImgString());
         fernanda = pessoaRepository.save(fernanda);
 
         Pessoa quentin = new Pessoa();
         quentin.setNome("Qutentin Tarantulino");
         quentin.setCargo(CargoEnum.DIRETOR);
+        quentin.setImage(Utilitario.getPersonImgString());
         quentin = pessoaRepository.save(quentin);
 
         Filme filme = new Filme();
@@ -90,6 +94,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         filme.setAtores(Arrays.asList(bette, fernanda));
         filme.setDiretor(quentin);
         filme.setPremiacoes(Arrays.asList("Pior filme de 2021"));
+        filme.setImage(Utilitario.getFilmImgString());
         filme = filmeRepository.save(filme);
 
         Resenha res = new Resenha();
