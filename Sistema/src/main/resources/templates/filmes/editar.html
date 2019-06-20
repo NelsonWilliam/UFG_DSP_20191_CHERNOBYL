@@ -19,7 +19,8 @@
     <div class="row">
         <div class="col-md-6">
             <!-- Imagem -->
-            <form id="img-form" method="POST" th:action="@{/admin/filmes/} + ${filmeDto.id + '/alterar_imagem'}"
+            <form th:if="${filmeDto.id != null}"
+                  id="img-form" method="POST" th:action="@{/admin/filmes/} + ${filmeDto.id + '/alterar_imagem'}"
                   th:object=${file} enctype="multipart/form-data" style="margin-bottom:3rem;">
                 <img th:src="${filmeDto.image}" th:alt="${filmeDto.titulo}"
                      style="margin-bottom:1rem;height: 268px; width: 188px;"/>
@@ -32,7 +33,8 @@
                         <div class="col-md-6">
                             <input id="file" type="file" name="file" data-max-size=1000000
                                    accept=".png,.jpg,.jpeg,image/png,image/JPEG"/>
-                            <p id="img-form-err" th:text="${err}" style="color: red;margin-bottom:0;padding-bottom:0;"></p>
+                            <p id="img-form-err" th:text="${err}"
+                               style="color: red;margin-bottom:0;padding-bottom:0;"></p>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary" style="margin-top: 5px">Enviar imagem</button>

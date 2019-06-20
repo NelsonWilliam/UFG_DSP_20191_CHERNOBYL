@@ -11,12 +11,8 @@
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
 <div th:fragment="content"><br>
 
-
     <div class="row">
         <div class="col">
-            <h1>Filmes</h1>
-        </div>
-        <div class="col-auto">
             <div th:if="${param.created}" class="alert alert-success alert-dismissible fade show" role="alert">
                 Filme inserido!
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -29,13 +25,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
+            <h1>Filmes</h1>
+        </div>
+        <div class="col-auto">
             <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm"
                th:href="@{/admin/filmes/editar}" role="button">
                 Inserir filme
             </a>
         </div>
     </div>
+
     <hr style="border-width: 2px;">
 
     <div class="row" style="margin-left: 5%">

@@ -16,7 +16,7 @@
     </div>
 
     <!-- Imagem -->
-    <form id="img-form" method="POST" th:action="@{/admin/pessoas/} + ${pessoaDto.id + '/alterar_imagem'}"
+    <form th:if="${pessoaDto.id != null}" id="img-form" method="POST" th:action="@{/admin/pessoas/} + ${pessoaDto.id + '/alterar_imagem'}"
           th:object=${file} enctype="multipart/form-data" style="margin-bottom:3rem;">
         <img th:src="${pessoaDto.image}" th:alt="${pessoaDto.nome}"
              style="margin-bottom:1rem;height: 188px; width: 188px;"/>
