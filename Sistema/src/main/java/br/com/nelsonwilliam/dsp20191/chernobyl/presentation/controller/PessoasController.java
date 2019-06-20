@@ -151,7 +151,9 @@ public class PessoasController {
 
         File f = new File(newFile);
         pessoaService.alterarImagem(id, f);
-        f.delete();
+        if (!f.delete()) {
+            System.err.println("Couldn't delete " + f.getAbsolutePath());
+        }
         
     }
 
