@@ -267,7 +267,7 @@ public class FilmesController {
             return "filmes/editar";
         }
 
-        if (filmeDto.getImage() == null || filmeDto.getImage() == "") {
+        if (filmeDto.getImage() == null || filmeDto.getImage().isEmpty()) {
             filmeDto.setImage(Utilitario.getFilmImgString());
         }
 

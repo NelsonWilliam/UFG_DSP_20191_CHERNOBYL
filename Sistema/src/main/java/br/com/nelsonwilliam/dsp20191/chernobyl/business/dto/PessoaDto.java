@@ -35,7 +35,7 @@ public class PessoaDto {
         pessoa.setId(id);
         pessoa.setCargo(CargoEnum.fromNome(cargo));
         pessoa.setNome(nome);
-        pessoa.setImage(getImage());
+        pessoa.setImage(image);
         return pessoa;
     }
 

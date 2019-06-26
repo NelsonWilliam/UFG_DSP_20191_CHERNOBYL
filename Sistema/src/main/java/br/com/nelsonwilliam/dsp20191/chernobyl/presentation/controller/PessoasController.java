@@ -102,7 +102,7 @@ public class PessoasController {
             return "pessoas/editar";
         }
 
-        if (pessoaDto.getImage() == null || pessoaDto.getImage() == "") {
+        if (pessoaDto.getImage() == null || pessoaDto.getImage().isEmpty()) {
             pessoaDto.setImage(Utilitario.getPersonImgString());
         }
 
