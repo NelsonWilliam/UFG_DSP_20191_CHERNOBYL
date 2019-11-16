@@ -1,14 +1,19 @@
-# UFG_DSP_20191_CHERNOBYL
+# Chernobyl Filmes
 
-Trabalho da disciplina de Desenvolvimento de Software para Persistência. INF, UFG, 2019/1.
+Sistema de avaliação de filmes de baixa qualidade.
+
+Feito inicialmente como trabalho para a disciplina de Desenvolvimento de Software para Persistência, INF, UFG, 2019/1.
+
+Posteriormente adaptado para atender boas práticas de construção e servir como projeto de referência de alta excelência técnica, para a disciplina de Técnicas Avançadas de Construção de Software, INF, UFG, 2019/2.
 
 ## Grupo
 
 - João Pedro Arruda Vieira (201602498)
+- Natália Lopes da Silva (201602508)
 - Nelson William Viana de Siqueira (201602509)
 - Sofia Martins Moraes (201602517)
 
-## Artefatos
+## Documentação
 
 ### Gerência de projeto
 
@@ -25,10 +30,10 @@ Trabalho da disciplina de Desenvolvimento de Software para Persistência. INF, U
 - [Histórias de usuário](./Documentos/Historias%20de%20Usuário.md)
 - [Diagrama entidade-relacionamento (alto nível)](./Documentos/DER%20Chernobyl%20Filmes.jpg)
 
-### Projeto
+### Design
 
 - [Arquitetura](./Documentos/Arquitetura.md)
 
-### Desenvolvimento
+### Construção
 
-- [Aplicação Java](./Sistema)
+- [Aplicação Java](./)
