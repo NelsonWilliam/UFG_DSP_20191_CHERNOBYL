@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="pt" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
+    <title>Filme</title>
+    <extras>
+        <link th:href="@{/css/editar.css}" rel="stylesheet">
+    </extras>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}, customScript=~{::customScript}">
+<div th:fragment="content"><br>
+    <div class="row">
+        <div class="col">
+            <h2 th:text="${filmeDto.id == null ? 'Inserir filme' : 'Editar filme'}">Editar filme</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Imagem -->
+            <form th:if="${filmeDto.id != null}"
+                  id="img-form" method="POST" th:action="@{/admin/filmes/} + ${filmeDto.id + '/alterar_imagem'}"
+                  th:object=${file} enctype="multipart/form-data" style="margin-bottom:3rem;">
+                <img th:src="${filmeDto.image}" th:alt="${filmeDto.titulo}"
+                     style="margin-bottom:1rem;height: 268px; width: 188px;"/>
+                <br>
+                <fieldset>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="file"><b>Imagem:</b></label>
+                        </div>
+                        <div class="col-md-6">
+                            <input id="file" type="file" name="file" data-max-size=1000000
+                                   accept=".png,.jpg,.jpeg,image/png,image/JPEG"/>
+                            <p id="img-form-err" th:text="${err}"
+                               style="color: red;margin-bottom:0;padding-bottom:0;"></p>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 5px">Enviar imagem</button>
+                </fieldset>
+            </form>
+
+            <!-- Outros dados-->
+            <form th:action="@{/admin/filmes/editar/enviar}" th:object=${filmeDto} method="post">
+                <fieldset>
+                    <!-- O ID do filme deve ser guardado escondido no formulário. -->
+                    <input type="hidden" th:value="*{id}" th:field="*{id}"/>
+
+                    <!-- Imagem do filme deve ser guardada escondido no formulário. -->
+                    <input type="hidden" th:value="*{image}" th:field="*{image}"/>
+
+                    <!-- Título -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="titulo"><b>Título</b></label>
+                        </div>
+                        <div class="col-md-6">
+                            <input id="titulo" type="text" th:field="*{titulo}" class="form-control"/>
+                            <div th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}">Erro</div>
+                        </div>
+                    </div>
+
+                    <!-- Diretor -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="idDiretor"><b>Direção</b></label>
+                        </div>
+                        <div class="col-md-6">
+                            <select id="idDiretor" class="selectpicker form-control" data-live-search="true"
+                                    th:field="*{idDiretor}">
+                                <option th:each="diretor: ${@pessoaService.findAllDiretoresDto()}"
+                                        th:value="${diretor.id}"
+                                        th:text="${diretor.nome}"></option>
+                            </select>
+                            <div th:if="${#fields.hasErrors('idDiretor')}" th:errors="*{idDiretor}">Erro</div>
+                        </div>
+                    </div>
+
+                    <!-- Atores -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="idAtores"><b>Atores</b></label>
+                        </div>
+                        <div class="col">
+                            <table th:fragment="idAtores" id="idAtores" class="table" cellspacing="0" cellpadding="0">
+                                <tbody>
+                                <tr th:each="idAtor, stat : ${filmeDto.idAtores}">
+                                    <td>
+                                        <span th:text="${@pessoaService.findById(idAtor)?.nome}"></span>
+                                        <input type="hidden" th:value="${idAtor}"
+                                               th:field="${filmeDto.idAtores[__${stat.index}__]}" class="form-control"/>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-danger" name="removeAtor"
+                                                th:value="${stat.index}" style="margin-left: 17%">-
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="idNovoAtor"><b>Novo Ator</b></label>
+                        </div>
+                        <div class="col-md-5">
+                            <select id="idNovoAtor" class="selectpicker form-control" data-live-search="true">
+                                <option th:each="idAtor: ${@pessoaService.findAllAtoresDto()}"
+                                        th:value="${idAtor.id}"
+                                        th:text="${idAtor.nome}"></option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" name="addAtor" class="btn btn-sm btn-primary">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Premiações -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="premiacoes"><b>Premiações</b></label>
+                        </div>
+                        <div class="col">
+                            <table th:fragment="premiacoes" id="premiacoes" class="table">
+                                <tbody>
+                                <tr th:each="premiacao, stat : ${filmeDto.premiacoes}">
+                                    <td>
+                                        <span th:text="${premiacao}"></span>
+                                        <input type="hidden" th:value="${premiacao}" class="form-control"
+                                               th:field="${filmeDto.premiacoes[__${stat.index}__]}">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-danger" name="removePremiacao"
+                                                th:value="${stat.index}" style="margin-left: 17%">-
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="novaPremiacao"><b>Nova Premiação</b></label>
+                        </div>
+                        <div class="col-md-5">
+                            <input id="novaPremiacao" type="text" class="form-control"/>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" name="addPremiacao" class="btn btn-sm btn-primary">+</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 3%">Salvar</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<div th:fragment="customScript">
+    <script type="text/javascript" th:src="@{/js/filmes/editar.js}"></script>
+</div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
+    <title>Pessoa</title>
+    <extras></extras>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+<div th:fragment="content"><br>
+
+    <div th:if="${param.updated}" class="alert alert-success alert-dismissible fade show" role="alert">
+        Pessoa editada!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div th:if="${param.img_updated}" class="alert alert-success alert-dismissible fade show" role="alert">
+        Imagem alterada!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h1>Pessoa</h1>
+        </div>
+        <div class="col-auto">
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm"
+               th:href="@{/admin/pessoas/editar/} + ${pessoaDto.id}" role="button">
+                Editar pessoa
+            </a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm"
+               th:href="@{/admin/pessoas/} + ${pessoaDto.id + '/excluir'}" role="button">
+                Excluir pessoa
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-auto">
+            <img th:src="${pessoaDto.image}" th:alt=${pessoaDto.nome} style="width: 188px; height: 188px;"/>
+        </div>
+        <div class="col-auto">
+            <h5>Nome</h5>
+            <p th:text="${pessoaDto.nome}"></p>
+
+            <h5>Cargo</h5>
+            <p th:text="${pessoaDto.cargo}"></p>
+
+            <h5>Radiação</h5>
+            <p th:text="${mediaRadiacao}"></p>
+        </div>
+    </div>
+    <hr>
+
+    <div th:if="${pessoaDto.cargo == 'Diretor'}">
+        <h5>Filmes dirigidos</h5>
+        <div class="row">
+            <div th:each="filmeDirigido : ${@pessoaService.findById(pessoaDto.id).filmesDirigidos}"
+                 class="col-auto">
+                <a th:href="@{/filmes/} + ${filmeDirigido.id}">
+                    <img class="picture" th:src="${filmeDirigido.image}" th:alt="${filmeDirigido.titulo}"
+                         style="height: 268px; width: 188px;"/>
+                    <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filmeDirigido.id}"
+                                                              th:text="${filmeDirigido.titulo}"></a></figcaption>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${pessoaDto.cargo == 'Ator'}">
+        <h5>Filmes atuados</h5>
+        <div class="row">
+            <div th:each="filmeAtuado : ${@pessoaService.findById(pessoaDto.id).filmesAtuados}" class="col-auto">
+                <a th:href="@{/filmes/} + ${filmeAtuado.id}">
+                    <img class="picture" th:src="${filmeAtuado.image}" th:alt="${filmeAtuado.titulo}"
+                         style="height: 268px; width: 188px;"/>
+                    <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filmeAtuado.id}"
+                                                              th:text="${filmeAtuado.titulo}"></a></figcaption>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+
+</html>

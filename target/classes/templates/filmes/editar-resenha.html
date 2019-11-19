@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
+    <title>Resenha</title>
+    <extras></extras>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}, customScript=~{::customScript}">
+<div th:fragment="content"><br>
+
+    <div class="row">
+        <div class="col">
+            <h2 th:text="${resenhaDto.id == null ? 'Inserir resenha' : 'Editar resenha'}"></h2>
+        </div>
+    </div>
+
+    <form th:action="@{/filmes/} + ${resenhaDto.idFilme + '/editar-resenha/enviar'}" th:object=${resenhaDto}
+          method="post">
+        <fieldset>
+            <!-- Campos que não editaremos mas precisamos guardar os valores -->
+            <input type="hidden" th:value="*{id}" th:field="*{id}"/>
+            <input type="hidden" th:value="*{idFilme}" th:field="*{idFilme}"/>
+            <input type="hidden" th:value="*{idAutor}" th:field="*{idAutor}"/>
+            <input type="hidden" th:value="*{minhaAvaliacao}" th:field="*{minhaAvaliacao}"/>
+            <input type="hidden" th:value="*{mediaAvaliacao}" th:field="*{mediaAvaliacao}"/>
+
+            <div class="row">
+                <div class="col-auto">
+                    <label for="texto"><b>Texto</b></label>    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-auto">
+                    <textarea id="texto" name="texto" rows="5" th:field="*{texto}"></textarea>
+                    <div th:if="${#fields.hasErrors('texto')}" th:errors="*{texto}">Erro</div>    
+                </div>
+            </div>
+            
+            <br>
+            <div class="row">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                </div>
+                <div class="col-auto">
+                    <a class="btn btn-secondary" th:href="@{/filmes/} + ${resenhaDto.idFilme}" role="button">
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>

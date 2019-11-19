@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark" th:fragment="navbar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" th:href="@{/}">
+            <img src="/imagens/icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            Chernobyl Filmes
+        </a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/filmes}">Filmes<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/pessoas}">Pessoas</a>
+            </li>
+        </ul>
+        <span sec:authorize="isAuthenticated()" class="nav-link text-light">
+            Olá, <b th:text="${@authService.getUsuario()?.getNome()}">Nome</b>!
+            <i sec:authorize="hasRole('ROLE_ADMIN')" class="fas fa-lock text-warning"></i>
+        </span>
+        <a sec:authorize="isAuthenticated()" class="btn btn-secondary" th:href="@{/usuario/logout}" role="button">
+            Sair
+        </a>&nbsp;
+        <a sec:authorize="!isAuthenticated()" class="btn btn-secondary" th:href="@{/usuario/login}" role="button">
+            Entrar
+        </a>
+        <a sec:authorize="!isAuthenticated()" class="btn btn-primary" th:href="@{/usuario/cadastrar}" role="button">
+            Cadastrar
+        </a>
+    </div>
+</nav>
+</body>
+</html>

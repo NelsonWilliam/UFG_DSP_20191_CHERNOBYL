@@ -2,6 +2,7 @@ package br.com.nelsonwilliam.dsp20191.chernobyl.business.dto;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Pessoa;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.CargoEnum;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;

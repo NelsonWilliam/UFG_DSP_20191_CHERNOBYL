@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="pt"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
+    <title>Início</title>
+    <extras></extras>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+<div th:fragment="content">
+    <p>Bem-vindo(a)!</p>
+</div>
+</body>
+
+</html>
