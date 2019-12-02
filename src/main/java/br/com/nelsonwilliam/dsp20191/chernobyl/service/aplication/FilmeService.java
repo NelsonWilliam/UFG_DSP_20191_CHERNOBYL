@@ -1,6 +1,6 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.service.aplication;
 
-import br.com.nelsonwilliam.dsp20191.chernobyl.web.dto.FilmeDto;
+import br.com.nelsonwilliam.dsp20191.chernobyl.service.dto.FilmeDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Filme;
 import br.com.nelsonwilliam.dsp20191.chernobyl.repository.FilmeRepository;
 import br.com.nelsonwilliam.dsp20191.chernobyl.service.infrastructure.ImageHandler;

@@ -1,6 +1,6 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.web.controller;
 
-import br.com.nelsonwilliam.dsp20191.chernobyl.web.dto.UsuarioDto;
+import br.com.nelsonwilliam.dsp20191.chernobyl.service.dto.UsuarioDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.service.aplication.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

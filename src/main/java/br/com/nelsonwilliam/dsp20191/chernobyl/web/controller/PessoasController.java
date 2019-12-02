@@ -1,7 +1,7 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.web.controller;
 
-import br.com.nelsonwilliam.dsp20191.chernobyl.web.dto.FilmeDto;
-import br.com.nelsonwilliam.dsp20191.chernobyl.web.dto.PessoaDto;
+import br.com.nelsonwilliam.dsp20191.chernobyl.service.dto.FilmeDto;
+import br.com.nelsonwilliam.dsp20191.chernobyl.service.dto.PessoaDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.CargoEnum;
 import br.com.nelsonwilliam.dsp20191.chernobyl.service.aplication.AvaliacaoFilmeService;
 import br.com.nelsonwilliam.dsp20191.chernobyl.service.aplication.FilmeService;

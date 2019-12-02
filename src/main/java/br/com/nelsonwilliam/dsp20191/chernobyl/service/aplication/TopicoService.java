@@ -4,7 +4,7 @@ import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.AvaliacaoTopico;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Topico;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Usuario;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.PapelEnum;
-import br.com.nelsonwilliam.dsp20191.chernobyl.web.dto.TopicoDto;
+import br.com.nelsonwilliam.dsp20191.chernobyl.service.dto.TopicoDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;

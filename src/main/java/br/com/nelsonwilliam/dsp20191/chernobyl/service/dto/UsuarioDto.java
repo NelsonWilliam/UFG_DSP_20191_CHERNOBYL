@@ -1,4 +1,4 @@
-package br.com.nelsonwilliam.dsp20191.chernobyl.web.dto;
+package br.com.nelsonwilliam.dsp20191.chernobyl.service.dto;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Usuario;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.PapelEnum;

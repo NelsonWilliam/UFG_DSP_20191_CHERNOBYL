@@ -1,4 +1,4 @@
-package br.com.nelsonwilliam.dsp20191.chernobyl.web.dto;
+package br.com.nelsonwilliam.dsp20191.chernobyl.service.dto;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.AvaliacaoFilme;
 import br.com.nelsonwilliam.dsp20191.chernobyl.service.aplication.FilmeService;
@@ -31,10 +31,9 @@ public class AvaliacaoFilmeDto {
     public static AvaliacaoFilmeDto fromAvaliacaoFilme(AvaliacaoFilme aval) {
         AvaliacaoFilmeDto dto = new AvaliacaoFilmeDto();
         dto.setId(aval.getId());
+        dto.setGrauRadiacao(aval.getGrauRadiacao());
         dto.setIdFilme(aval.getFilme().getId());
         dto.setIdUsuario(aval.getUsuario().getId());
-        dto.setGrauRadiacao(aval.getGrauRadiacao());
-
         return dto;
     }
 

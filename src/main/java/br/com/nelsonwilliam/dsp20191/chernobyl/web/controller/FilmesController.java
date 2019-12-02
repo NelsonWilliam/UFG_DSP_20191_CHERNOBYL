@@ -1,6 +1,7 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.web.controller;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.service.aplication.*;
+import br.com.nelsonwilliam.dsp20191.chernobyl.service.dto.*;
 import br.com.nelsonwilliam.dsp20191.chernobyl.web.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.service.aplication;
 
-import br.com.nelsonwilliam.dsp20191.chernobyl.web.dto.PessoaDto;
+import br.com.nelsonwilliam.dsp20191.chernobyl.service.dto.PessoaDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Filme;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Pessoa;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.CargoEnum;

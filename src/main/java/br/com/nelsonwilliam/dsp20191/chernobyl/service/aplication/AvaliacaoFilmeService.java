@@ -1,7 +1,7 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.service.aplication;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.AvaliacaoFilme;
-import br.com.nelsonwilliam.dsp20191.chernobyl.web.dto.AvaliacaoFilmeDto;
+import br.com.nelsonwilliam.dsp20191.chernobyl.service.dto.AvaliacaoFilmeDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.repository.AvaliacaoFilmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
