@@ -34,7 +34,7 @@ public class UsuarioController {
         if (bindingResult.hasErrors()) {
             return "usuario/cadastrar";
         }
-        if (usuarioService.findByLogin(usuarioDto.getLogin()) != null) {
+        if (usuarioService.findIdByLogin(usuarioDto.getLogin()) != null) {
             bindingResult.rejectValue("login", "error.usuarioDto", "Já existe um usuário com o login informado.");
             return "usuario/cadastrar";
         }

@@ -37,9 +37,18 @@ public class UsuarioService {
         return usuario.orElse(null);
     }
 
-    public Usuario findByLogin(String login) {
+    private Usuario findByLogin(String login) {
         Optional<Usuario> usuario = usuarioRepository.findByLogin(login);
         return usuario.orElse(null);
+    }
+
+    public Long findIdByLogin(String login) {
+        if (findByLogin(login) == null) {
+            return null;
+        } else {
+            Optional<Usuario> usuario = usuarioRepository.findByLogin(login);
+            return usuario.orElse(null).getId();
+        }
     }
 
     public void deleteById(long id) {

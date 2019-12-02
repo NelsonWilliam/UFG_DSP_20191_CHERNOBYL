@@ -64,7 +64,7 @@ public class FilmesController {
 
     @GetMapping("/filmes/{id}")
     public String verUm(@PathVariable Long id, Model model, Principal principal) {
-        Long idUsuario = usuarioService.findByLogin(principal.getName()).getId();
+        Long idUsuario = usuarioService.findIdByLogin(principal.getName());
 
         FilmeDto filmeDto = filmeService.findDtoById(id);
         if (filmeDto == null)
@@ -95,7 +95,7 @@ public class FilmesController {
                                     Model model,
                                     HttpServletRequest request) {
 
-        Long idUsuario = usuarioService.findByLogin(request.getUserPrincipal().getName()).getId();
+        Long idUsuario = usuarioService.findIdByLogin(request.getUserPrincipal().getName());
 
         // Salva a avaliação
         AvaliacaoFilmeDto aval = new AvaliacaoFilmeDto();
@@ -121,7 +121,7 @@ public class FilmesController {
                                       Model model,
                                       HttpServletRequest request) {
 
-        Long idUsuario = usuarioService.findByLogin(request.getUserPrincipal().getName()).getId();
+        Long idUsuario = usuarioService.findIdByLogin(request.getUserPrincipal().getName());
 
         // Salva a avaliação
         AvaliacaoResenhaDto aval = new AvaliacaoResenhaDto();
@@ -146,7 +146,7 @@ public class FilmesController {
                                      @RequestParam("positivo") boolean positivo,
                                      Model model,
                                      HttpServletRequest request) {
-        Long idUsuario = usuarioService.findByLogin(request.getUserPrincipal().getName()).getId();
+        Long idUsuario = usuarioService.findIdByLogin(request.getUserPrincipal().getName());
         // Salva a avaliação
         AvaliacaoTopicoDto aval = new AvaliacaoTopicoDto();
         aval.setIdUsuario(idUsuario);
