@@ -78,11 +78,10 @@ public class ResenhaService {
 
     public List<ResenhaDto> getResenhasDtos(@PathVariable Long idFilme, Long idUsuario) {
         Collection<Resenha> resenhas = resenhaService.findByFilme(idFilme);
-        Usuario usuario = usuarioService.findById(idUsuario);
         List<ResenhaDto> resenhasDto = new ArrayList<>();
         if (resenhas != null)
             for (Resenha res : resenhas) {
-                AvaliacaoResenha avalResenha = usuario == null ? null : avaliacaoResenhaService.findByResenhaAndUsuario(res.getId(), usuario.getId());
+                AvaliacaoResenha avalResenha = idUsuario == null ? null : avaliacaoResenhaService.findByResenhaAndUsuario(res.getId(), idUsuario);
                 ResenhaDto dto = ResenhaDto.fromResenha(res, avalResenha, avaliacaoResenhaService);
                 if (dto != null)
                     resenhasDto.add(dto);

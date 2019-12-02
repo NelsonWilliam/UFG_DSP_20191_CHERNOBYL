@@ -76,11 +76,10 @@ public class TopicoService {
 
     public List<TopicoDto> getTopicosDtos(Long idFilme, Long idUsuario) {
         Collection<Topico> topicos = topicoService.findByFilme(idFilme);
-        Usuario usuario = usuarioService.findById(idUsuario);
         List<TopicoDto> topicosDtos = new ArrayList<>();
         if (topicos != null)
             for (Topico top : topicos) {
-                AvaliacaoTopico avalTop = usuario == null ? null : avaliacaoTopicoService.findByTopicoAndUsuario(top.getId(), usuario.getId());
+                AvaliacaoTopico avalTop = idUsuario == null ? null : avaliacaoTopicoService.findByTopicoAndUsuario(top.getId(), idUsuario);
                 TopicoDto dto = TopicoDto.fromTopico(top, avalTop, avaliacaoTopicoService);
                 if (dto != null)
                     topicosDtos.add(dto);
