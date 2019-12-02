@@ -48,15 +48,24 @@ public class AvaliacaoTopicoService {
         avaliacaoTopicoRepository.deleteById(id);
     }
 
-    public Long save(AvaliacaoTopicoDto avaliacaoTopicoDto) {
+//    public Long save(AvaliacaoTopicoDto avaliacaoTopicoDto) {
+//
+//        AvaliacaoTopico avaliacaoTopico = AvaliacaoTopicoDto.toAvaliacaoTopico(avaliacaoTopicoDto, topicoService, usuarioService);
+//        // Se já existe avaliação desse usuário para essa resenha, substitui a avaliação anterior em vez de criar uma nova
+//        AvaliacaoTopico avaliacaoExistente = findByTopicoAndUsuario(avaliacaoTopico.getTopico().getId(), avaliacaoTopico.getUsuario().getId());
+//        if (avaliacaoExistente != null) {
+//            avaliacaoTopico.setId(avaliacaoExistente.getId());
+//        }
+//        return avaliacaoTopicoRepository.save(avaliacaoTopico).getId();
+//    }
 
-        AvaliacaoTopico avaliacaoTopico = AvaliacaoTopicoDto.toAvaliacaoTopico(avaliacaoTopicoDto, topicoService, usuarioService);
+    public AvaliacaoTopico save(AvaliacaoTopico avaliacaoTopico) {
         // Se já existe avaliação desse usuário para essa resenha, substitui a avaliação anterior em vez de criar uma nova
         AvaliacaoTopico avaliacaoExistente = findByTopicoAndUsuario(avaliacaoTopico.getTopico().getId(), avaliacaoTopico.getUsuario().getId());
         if (avaliacaoExistente != null) {
             avaliacaoTopico.setId(avaliacaoExistente.getId());
         }
-        return avaliacaoTopicoRepository.save(avaliacaoTopico).getId();
+        return avaliacaoTopicoRepository.save(avaliacaoTopico);
     }
 
     public boolean existePorUsuario(Long idUsuario) {

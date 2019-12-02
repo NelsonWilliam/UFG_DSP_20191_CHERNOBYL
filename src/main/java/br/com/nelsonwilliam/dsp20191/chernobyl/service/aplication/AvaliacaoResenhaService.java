@@ -48,14 +48,23 @@ public class AvaliacaoResenhaService {
         avaliacaoResenhaRepository.deleteById(id);
     }
 
-    public Long save(AvaliacaoResenhaDto avaliacaoResenhaDto) {
-        AvaliacaoResenha avaliacaoResenha = AvaliacaoResenhaDto.toAvaliacaoResenha(avaliacaoResenhaDto, resenhaService, usuarioService);
+//    public Long save(AvaliacaoResenhaDto avaliacaoResenhaDto) {
+//        AvaliacaoResenha avaliacaoResenha = AvaliacaoResenhaDto.toAvaliacaoResenha(avaliacaoResenhaDto, resenhaService, usuarioService);
+//        // Se já existe avaliação desse usuário para essa resenha, substitui a avaliação anterior em vez de criar uma nova
+//        AvaliacaoResenha avaliacaoExistente = findByResenhaAndUsuario(avaliacaoResenha.getResenha().getId(), avaliacaoResenha.getUsuario().getId());
+//        if (avaliacaoExistente != null) {
+//            avaliacaoResenha.setId(avaliacaoExistente.getId());
+//        }
+//        return avaliacaoResenhaRepository.save(avaliacaoResenha).getId();
+//    }
+
+    public AvaliacaoResenha save(AvaliacaoResenha avaliacaoResenha) {
         // Se já existe avaliação desse usuário para essa resenha, substitui a avaliação anterior em vez de criar uma nova
         AvaliacaoResenha avaliacaoExistente = findByResenhaAndUsuario(avaliacaoResenha.getResenha().getId(), avaliacaoResenha.getUsuario().getId());
         if (avaliacaoExistente != null) {
             avaliacaoResenha.setId(avaliacaoExistente.getId());
         }
-        return avaliacaoResenhaRepository.save(avaliacaoResenha).getId();
+        return avaliacaoResenhaRepository.save(avaliacaoResenha);
     }
 
     public boolean existePorUsuario(Long idUsuario) {

@@ -47,6 +47,17 @@ public class UsuarioService {
             return usuario.orElse(null).getId();
     }
 
+    public UsuarioDto findDtoByLogin(String login) {
+        Optional<Usuario> user = Optional.ofNullable(findByLogin(login));
+        UsuarioDto dto;
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = UsuarioDto.fromUsuario(user);
+        }
+
+        return dto;
+    }
     public void deleteById(long id) {
         usuarioRepository.deleteById(id);
     }

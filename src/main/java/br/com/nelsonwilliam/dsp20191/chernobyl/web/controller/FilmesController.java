@@ -69,7 +69,7 @@ public class FilmesController {
 
     @GetMapping("/filmes/{id}")
     public String verUm(@PathVariable Long id, Model model, Principal principal) {
-        Usuario usuario = principal == null ? null : usuarioService.findByLogin(principal.getName());
+        UsuarioDto usuario = principal == null ? null : usuarioService.findDtoByLogin(principal.getName());
 
         FilmeDto filmeDto = filmeService.findDtoById(id);
         if (filmeDto == null)
@@ -82,8 +82,8 @@ public class FilmesController {
                 avaliacaoFilmeDto = avaliacaoExistente;
         }
 
-        List<ResenhaDto> resenhasDto = getResenhasDtos(id, usuario);
-        List<TopicoDto> topicosDto = getTopicosDtos(id, usuario);
+        List<ResenhaDto> resenhasDto = resenhaService.getResenhasDtos(id, usuario.getId());
+        List<TopicoDto> topicosDto = topicoService.getTopicosDtos(id, usuario.getId());
 
         model.addAttribute("filmeDto", filmeDto);
         model.addAttribute("minhaAvaliacao", avaliacaoFilmeDto.getGrauRadiacao());
@@ -132,7 +132,7 @@ public class FilmesController {
         aval.setUsuario(usuario);
         aval.setFilme(filmeService.findById(id));
         aval.setGrauRadiacao(nota);
-        avaliacaoFilmeService.save(AvaliacaoFilmeDto.fromAvaliacaoFilme(aval));
+        avaliacaoFilmeService.save(aval);
 
         // Retorna o fragmento atualizado com o novo valor e a nova média
         model.addAttribute("minhaAvaliacao", nota);
@@ -156,7 +156,7 @@ public class FilmesController {
         aval.setUsuario(usuario);
         aval.setResenha(resenhaService.findById(idResenha));
         aval.setPositiva(positivo);
-        Long temp = avaliacaoResenhaService.save(AvaliacaoResenhaDto.fromAvaliacaoResenha(aval));
+        aval = avaliacaoResenhaService.save(aval);
 
         // Retorna o fragmento atualizado com o novo valor e a nova média
         List<ResenhaDto> resenhasDto = getResenhasDtos(id, usuario);
@@ -180,7 +180,7 @@ public class FilmesController {
         aval.setUsuario(usuario);
         aval.setTopico(topicoService.findById(idTopico));
         aval.setPositiva(positivo);
-        Long temp = avaliacaoTopicoService.save(AvaliacaoTopicoDto.fromAvaliacaoTopico(aval));
+        aval = avaliacaoTopicoService.save(aval);
 
         // Retorna o fragmento atualizado com o novo valor e a nova média
         List<TopicoDto> topicosDtos = getTopicosDtos(id, usuario);

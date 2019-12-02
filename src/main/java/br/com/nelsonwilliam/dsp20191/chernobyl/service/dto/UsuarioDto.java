@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Arrays;
+import java.util.Optional;
 
 public class UsuarioDto {
 
@@ -35,6 +36,16 @@ public class UsuarioDto {
         usuario.setEmail(getEmail());
         usuario.setPapeis(Arrays.asList(PapelEnum.USUARIO));
         return usuario;
+    }
+
+    public static UsuarioDto fromUsuario(Optional<Usuario> usuario){
+        UsuarioDto dto = new UsuarioDto();
+        dto.setEmail(usuario.orElse(null).getEmail());
+        dto.setId(usuario.orElse(null).getId());
+        dto.setLogin(usuario.orElse(null).getLogin());
+        dto.setNome(usuario.orElse(null).getNome());
+        dto.setSenha(usuario.orElse(null).getSenha());
+        return dto;
     }
 
     public Long getId() {

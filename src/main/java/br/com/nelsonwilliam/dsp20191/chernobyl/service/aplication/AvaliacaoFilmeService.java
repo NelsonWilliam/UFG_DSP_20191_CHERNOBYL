@@ -57,14 +57,23 @@ public class AvaliacaoFilmeService {
         avaliacaoFilmeRepository.deleteById(id);
     }
 
-    public Long save(AvaliacaoFilmeDto avaliacaoFilmeDto) {
-        AvaliacaoFilme avaliacaoFilme = AvaliacaoFilmeDto.toAvaliacaoFilme(avaliacaoFilmeDto, filmeService, usuarioService);
+//    public Long save(AvaliacaoFilmeDto avaliacaoFilmeDto) {
+//        AvaliacaoFilme avaliacaoFilme = AvaliacaoFilmeDto.toAvaliacaoFilme(avaliacaoFilmeDto, filmeService, usuarioService);
+//        // Se já existe avaliação desse usuário para esse filme, substitui a avaliação anterior em vez de criar uma nova
+//        AvaliacaoFilme avaliacaoExistente = findByFilmeAndUsuarioPrivate(avaliacaoFilme.getFilme().getId(), avaliacaoFilme.getUsuario().getId());
+//        if (avaliacaoExistente != null) {
+//            avaliacaoFilme.setId(avaliacaoExistente.getId());
+//        }
+//        return avaliacaoFilmeRepository.save(avaliacaoFilme).getId();
+//    }
+
+    public AvaliacaoFilme save(AvaliacaoFilme avaliacaoFilme) {
         // Se já existe avaliação desse usuário para esse filme, substitui a avaliação anterior em vez de criar uma nova
         AvaliacaoFilme avaliacaoExistente = findByFilmeAndUsuarioPrivate(avaliacaoFilme.getFilme().getId(), avaliacaoFilme.getUsuario().getId());
         if (avaliacaoExistente != null) {
             avaliacaoFilme.setId(avaliacaoExistente.getId());
         }
-        return avaliacaoFilmeRepository.save(avaliacaoFilme).getId();
+        return avaliacaoFilmeRepository.save(avaliacaoFilme);
     }
 
     public boolean existePorUsuario(Long idUsuario) {
