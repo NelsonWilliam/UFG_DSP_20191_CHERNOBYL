@@ -64,14 +64,14 @@ public class FilmesController {
 
     @GetMapping("/filmes/{id}")
     public String verUm(@PathVariable Long id, Model model, Principal principal) {
-        Long idUsuario = usuarioService.findIdByLogin(principal.getName());
+        Long idUsuario = principal == null ? null : usuarioService.findIdByLogin(principal.getName());
 
         FilmeDto filmeDto = filmeService.findDtoById(id);
         if (filmeDto == null)
             throw new IllegalArgumentException("Filme não encontrado");
 
         AvaliacaoFilmeDto avaliacaoFilmeDto = new AvaliacaoFilmeDto();
-        if (idUsuario != null) {
+        if (idUsuario > 0) {
             AvaliacaoFilmeDto avaliacaoExistente = avaliacaoFilmeService.findByFilmeAndUsuario(id, idUsuario);
             if (avaliacaoExistente != null)
                 avaliacaoFilmeDto = avaliacaoExistente;

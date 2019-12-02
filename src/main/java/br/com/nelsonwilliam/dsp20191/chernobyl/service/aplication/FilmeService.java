@@ -40,7 +40,11 @@ public class FilmeService {
 
     public FilmeDto findDtoById(Long id) {
         Optional<Filme> exemplo = filmeRepository.findById(id);
-        return FilmeDto.fromFilme(exemplo.orElse(null));
+        if (exemplo == null) {
+            return null;
+        } else {
+            return FilmeDto.fromFilme(exemplo.orElse(null));
+        }
     }
 
     private Collection<Filme> findByDiretorPrivate(Long idDiretor) {
