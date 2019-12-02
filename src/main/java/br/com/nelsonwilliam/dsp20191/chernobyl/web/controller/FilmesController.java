@@ -70,6 +70,7 @@ public class FilmesController {
     @GetMapping("/filmes/{id}")
     public String verUm(@PathVariable Long id, Model model, Principal principal) {
         UsuarioDto usuario = principal == null ? null : usuarioService.findDtoByLogin(principal.getName());
+        Long idUsuario = null;
 
         FilmeDto filmeDto = filmeService.findDtoById(id);
         if (filmeDto == null)
@@ -77,13 +78,14 @@ public class FilmesController {
 
         AvaliacaoFilmeDto avaliacaoFilmeDto = new AvaliacaoFilmeDto();
         if (usuario != null) {
+            idUsuario = usuario.getId();
             AvaliacaoFilmeDto avaliacaoExistente = avaliacaoFilmeService.findByFilmeAndUsuario(id, usuario.getId());
             if (avaliacaoExistente != null)
                 avaliacaoFilmeDto = avaliacaoExistente;
         }
 
-        List<ResenhaDto> resenhasDto = resenhaService.getResenhasDtos(id, usuario.getId());
-        List<TopicoDto> topicosDto = topicoService.getTopicosDtos(id, usuario.getId());
+        List<ResenhaDto> resenhasDto = resenhaService.getResenhasDtos(id, idUsuario);
+        List<TopicoDto> topicosDto = topicoService.getTopicosDtos(id, idUsuario);
 
         model.addAttribute("filmeDto", filmeDto);
         model.addAttribute("minhaAvaliacao", avaliacaoFilmeDto.getGrauRadiacao());
