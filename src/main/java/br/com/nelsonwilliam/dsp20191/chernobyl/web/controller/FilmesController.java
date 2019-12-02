@@ -109,11 +109,7 @@ public class FilmesController {
 //        aval.setFilme(filmeService.findById(id));
 //        aval.setGrauRadiacao(nota);
 //        avaliacaoFilmeService.save(aval);
-        AvaliacaoFilmeDto dto = new AvaliacaoFilmeDto();
-        dto.setGrauRadiacao(nota);
-        dto.setIdFilme(id);
-        dto.setIdUsuario(usuario.getId());
-        avaliacaoFilmeService.save(dto);
+        avaliacaoFilmeService.save(id, usuario.getId(), nota);
 
         // Retorna o fragmento atualizado com o novo valor e a nova média
         model.addAttribute("minhaAvaliacao", nota);
