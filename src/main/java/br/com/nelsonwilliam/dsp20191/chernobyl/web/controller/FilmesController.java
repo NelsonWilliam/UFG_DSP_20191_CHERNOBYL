@@ -96,32 +96,6 @@ public class FilmesController {
         return "filmes/filme";
     }
 
-    private List<ResenhaDto> getResenhasDtos(@PathVariable Long id, Usuario usuario) {
-        Collection<Resenha> resenhas = resenhaService.findByFilme(id);
-        List<ResenhaDto> resenhasDto = new ArrayList<>();
-        if (resenhas != null)
-            for (Resenha res : resenhas) {
-                AvaliacaoResenha avalResenha = usuario == null ? null : avaliacaoResenhaService.findByResenhaAndUsuario(res.getId(), usuario.getId());
-                ResenhaDto dto = ResenhaDto.fromResenha(res, avalResenha, avaliacaoResenhaService);
-                if (dto != null)
-                    resenhasDto.add(dto);
-            }
-        return resenhasDto;
-    }
-
-    private List<TopicoDto> getTopicosDtos(@PathVariable Long id, Usuario usuario) {
-        Collection<Topico> topicos = topicoService.findByFilme(id);
-        List<TopicoDto> topicosDtos = new ArrayList<>();
-        if (topicos != null)
-            for (Topico top : topicos) {
-                AvaliacaoTopico avalTop = usuario == null ? null : avaliacaoTopicoService.findByTopicoAndUsuario(top.getId(), usuario.getId());
-                TopicoDto dto = TopicoDto.fromTopico(top, avalTop, avaliacaoTopicoService);
-                if (dto != null)
-                    topicosDtos.add(dto);
-            }
-        return topicosDtos;
-    }
-
     @GetMapping(path = "/filmes/{id}", params = "avaliarFilme")
     public String verUmAvaliarFilme(@PathVariable Long id,
                                     @RequestParam("avaliarFilme") int nota,
@@ -129,12 +103,17 @@ public class FilmesController {
                                     HttpServletRequest request) {
 
         // Salva a avaliação
-        Usuario usuario = usuarioService.findByLogin(request.getUserPrincipal().getName());
-        AvaliacaoFilme aval = new AvaliacaoFilme();
-        aval.setUsuario(usuario);
-        aval.setFilme(filmeService.findById(id));
-        aval.setGrauRadiacao(nota);
-        avaliacaoFilmeService.save(aval);
+        UsuarioDto usuario = usuarioService.findDtoByLogin(request.getUserPrincipal().getName());
+//        AvaliacaoFilme aval = new AvaliacaoFilme();
+//        aval.setUsuario(usuarioService.findById(usuario.getId()));
+//        aval.setFilme(filmeService.findById(id));
+//        aval.setGrauRadiacao(nota);
+//        avaliacaoFilmeService.save(aval);
+        AvaliacaoFilmeDto dto = new AvaliacaoFilmeDto();
+        dto.setGrauRadiacao(nota);
+        dto.setIdFilme(id);
+        dto.setIdUsuario(usuario.getId());
+        avaliacaoFilmeService.save(dto);
 
         // Retorna o fragmento atualizado com o novo valor e a nova média
         model.addAttribute("minhaAvaliacao", nota);
@@ -153,15 +132,15 @@ public class FilmesController {
                                       Model model,
                                       HttpServletRequest request) {
         // Salva a avaliação
-        Usuario usuario = usuarioService.findByLogin(request.getUserPrincipal().getName());
+        UsuarioDto usuario = usuarioService.findDtoByLogin(request.getUserPrincipal().getName());
         AvaliacaoResenha aval = new AvaliacaoResenha();
-        aval.setUsuario(usuario);
+        aval.setUsuario(usuarioService.findById(usuario.getId()));
         aval.setResenha(resenhaService.findById(idResenha));
         aval.setPositiva(positivo);
         aval = avaliacaoResenhaService.save(aval);
 
         // Retorna o fragmento atualizado com o novo valor e a nova média
-        List<ResenhaDto> resenhasDto = getResenhasDtos(id, usuario);
+        List<ResenhaDto> resenhasDto = resenhaService.getResenhasDtos(id, usuario.getId());
         model.addAttribute("resenhas", resenhasDto);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
             return "filmes/filme :: resenhas";
@@ -177,15 +156,15 @@ public class FilmesController {
                                      Model model,
                                      HttpServletRequest request) {
         // Salva a avaliação
-        Usuario usuario = usuarioService.findByLogin(request.getUserPrincipal().getName());
+        UsuarioDto usuario = usuarioService.findDtoByLogin(request.getUserPrincipal().getName());
         AvaliacaoTopico aval = new AvaliacaoTopico();
-        aval.setUsuario(usuario);
+        aval.setUsuario(usuarioService.findById(usuario.getId()));
         aval.setTopico(topicoService.findById(idTopico));
         aval.setPositiva(positivo);
         aval = avaliacaoTopicoService.save(aval);
 
         // Retorna o fragmento atualizado com o novo valor e a nova média
-        List<TopicoDto> topicosDtos = getTopicosDtos(id, usuario);
+        List<TopicoDto> topicosDtos = topicoService.getTopicosDtos(id, usuario.getId());
         model.addAttribute("topicos", topicosDtos);
         if (AJAX_HEADER_VALUE.equals(request.getHeader(AJAX_HEADER_NAME))) {
             return "filmes/filme :: topicos";

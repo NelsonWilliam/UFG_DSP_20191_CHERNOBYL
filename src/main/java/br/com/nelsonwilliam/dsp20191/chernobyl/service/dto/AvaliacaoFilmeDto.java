@@ -21,8 +21,8 @@ public class AvaliacaoFilmeDto {
     public static AvaliacaoFilme toAvaliacaoFilme(AvaliacaoFilmeDto dto, FilmeService filmeService, UsuarioService usuarioService) {
         AvaliacaoFilme aval = new AvaliacaoFilme();
         aval.setFilme(filmeService.findById(dto.getId()));
-        aval.setUsuario(usuarioService.findById(dto.idUsuario));
-        aval.setGrauRadiacao(dto.grauRadiacao);
+        aval.setUsuario(usuarioService.findById(dto.getIdUsuario()));
+        aval.setGrauRadiacao(dto.getGrauRadiacao());
         aval.setId(dto.getId());
 
         return aval;
