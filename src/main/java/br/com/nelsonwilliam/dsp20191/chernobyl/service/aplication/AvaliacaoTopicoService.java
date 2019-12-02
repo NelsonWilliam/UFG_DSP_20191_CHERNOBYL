@@ -1,7 +1,6 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.service.aplication;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.AvaliacaoTopico;
-import br.com.nelsonwilliam.dsp20191.chernobyl.service.dto.AvaliacaoTopicoDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.repository.AvaliacaoTopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,24 +47,17 @@ public class AvaliacaoTopicoService {
         avaliacaoTopicoRepository.deleteById(id);
     }
 
-//    public Long save(AvaliacaoTopicoDto avaliacaoTopicoDto) {
-//
-//        AvaliacaoTopico avaliacaoTopico = AvaliacaoTopicoDto.toAvaliacaoTopico(avaliacaoTopicoDto, topicoService, usuarioService);
-//        // Se já existe avaliação desse usuário para essa resenha, substitui a avaliação anterior em vez de criar uma nova
-//        AvaliacaoTopico avaliacaoExistente = findByTopicoAndUsuario(avaliacaoTopico.getTopico().getId(), avaliacaoTopico.getUsuario().getId());
-//        if (avaliacaoExistente != null) {
-//            avaliacaoTopico.setId(avaliacaoExistente.getId());
-//        }
-//        return avaliacaoTopicoRepository.save(avaliacaoTopico).getId();
-//    }
-
-    public AvaliacaoTopico save(AvaliacaoTopico avaliacaoTopico) {
+    public Long save(Long idUsuario, Long idTopico, boolean positivo) {
+        AvaliacaoTopico aval = new AvaliacaoTopico();
+        aval.setUsuario(usuarioService.findById(idUsuario));
+        aval.setTopico(topicoService.findById(idTopico));
+        aval.setPositiva(positivo);
         // Se já existe avaliação desse usuário para essa resenha, substitui a avaliação anterior em vez de criar uma nova
-        AvaliacaoTopico avaliacaoExistente = findByTopicoAndUsuario(avaliacaoTopico.getTopico().getId(), avaliacaoTopico.getUsuario().getId());
+        AvaliacaoTopico avaliacaoExistente = findByTopicoAndUsuario(idTopico, idUsuario);
         if (avaliacaoExistente != null) {
-            avaliacaoTopico.setId(avaliacaoExistente.getId());
+            aval.setId(avaliacaoExistente.getId());
         }
-        return avaliacaoTopicoRepository.save(avaliacaoTopico);
+        return avaliacaoTopicoRepository.save(aval).getId();
     }
 
     public boolean existePorUsuario(Long idUsuario) {

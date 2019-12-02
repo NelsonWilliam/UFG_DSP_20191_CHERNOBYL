@@ -1,7 +1,6 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.service.aplication;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.AvaliacaoResenha;
-import br.com.nelsonwilliam.dsp20191.chernobyl.service.dto.AvaliacaoResenhaDto;
 import br.com.nelsonwilliam.dsp20191.chernobyl.repository.AvaliacaoResenhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,23 +47,17 @@ public class AvaliacaoResenhaService {
         avaliacaoResenhaRepository.deleteById(id);
     }
 
-//    public Long save(AvaliacaoResenhaDto avaliacaoResenhaDto) {
-//        AvaliacaoResenha avaliacaoResenha = AvaliacaoResenhaDto.toAvaliacaoResenha(avaliacaoResenhaDto, resenhaService, usuarioService);
-//        // Se já existe avaliação desse usuário para essa resenha, substitui a avaliação anterior em vez de criar uma nova
-//        AvaliacaoResenha avaliacaoExistente = findByResenhaAndUsuario(avaliacaoResenha.getResenha().getId(), avaliacaoResenha.getUsuario().getId());
-//        if (avaliacaoExistente != null) {
-//            avaliacaoResenha.setId(avaliacaoExistente.getId());
-//        }
-//        return avaliacaoResenhaRepository.save(avaliacaoResenha).getId();
-//    }
-
-    public AvaliacaoResenha save(AvaliacaoResenha avaliacaoResenha) {
+    public Long save(Long idUsuario, Long idResenha, boolean positivo) {
+        AvaliacaoResenha aval = new AvaliacaoResenha();
+        aval.setUsuario(usuarioService.findById(idUsuario));
+        aval.setResenha(resenhaService.findById(idResenha));
+        aval.setPositiva(positivo);
         // Se já existe avaliação desse usuário para essa resenha, substitui a avaliação anterior em vez de criar uma nova
-        AvaliacaoResenha avaliacaoExistente = findByResenhaAndUsuario(avaliacaoResenha.getResenha().getId(), avaliacaoResenha.getUsuario().getId());
+        AvaliacaoResenha avaliacaoExistente = findByResenhaAndUsuario(idResenha, idUsuario);
         if (avaliacaoExistente != null) {
-            avaliacaoResenha.setId(avaliacaoExistente.getId());
+            aval.setId(avaliacaoExistente.getId());
         }
-        return avaliacaoResenhaRepository.save(avaliacaoResenha);
+        return avaliacaoResenhaRepository.save(aval).getId();
     }
 
     public boolean existePorUsuario(Long idUsuario) {

@@ -1,6 +1,5 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.web.controller;
 
-import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.*;
 import br.com.nelsonwilliam.dsp20191.chernobyl.service.aplication.*;
 import br.com.nelsonwilliam.dsp20191.chernobyl.service.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,8 +62,6 @@ public class FilmesController {
         return "filmes/filmes";
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     @GetMapping("/filmes/{id}")
     public String verUm(@PathVariable Long id, Model model, Principal principal) {
         UsuarioDto usuario = principal == null ? null : usuarioService.findDtoByLogin(principal.getName());
@@ -104,11 +99,6 @@ public class FilmesController {
 
         // Salva a avaliação
         UsuarioDto usuario = usuarioService.findDtoByLogin(request.getUserPrincipal().getName());
-//        AvaliacaoFilme aval = new AvaliacaoFilme();
-//        aval.setUsuario(usuarioService.findById(usuario.getId()));
-//        aval.setFilme(filmeService.findById(id));
-//        aval.setGrauRadiacao(nota);
-//        avaliacaoFilmeService.save(aval);
         avaliacaoFilmeService.save(usuario.getId(), id, nota);
 
         // Retorna o fragmento atualizado com o novo valor e a nova média
@@ -129,11 +119,7 @@ public class FilmesController {
                                       HttpServletRequest request) {
         // Salva a avaliação
         UsuarioDto usuario = usuarioService.findDtoByLogin(request.getUserPrincipal().getName());
-        AvaliacaoResenha aval = new AvaliacaoResenha();
-        aval.setUsuario(usuarioService.findById(usuario.getId()));
-        aval.setResenha(resenhaService.findById(idResenha));
-        aval.setPositiva(positivo);
-        aval = avaliacaoResenhaService.save(aval);
+        avaliacaoResenhaService.save(usuario.getId(), idResenha, positivo);
 
         // Retorna o fragmento atualizado com o novo valor e a nova média
         List<ResenhaDto> resenhasDto = resenhaService.getResenhasDtos(id, usuario.getId());
@@ -153,11 +139,7 @@ public class FilmesController {
                                      HttpServletRequest request) {
         // Salva a avaliação
         UsuarioDto usuario = usuarioService.findDtoByLogin(request.getUserPrincipal().getName());
-        AvaliacaoTopico aval = new AvaliacaoTopico();
-        aval.setUsuario(usuarioService.findById(usuario.getId()));
-        aval.setTopico(topicoService.findById(idTopico));
-        aval.setPositiva(positivo);
-        aval = avaliacaoTopicoService.save(aval);
+        avaliacaoTopicoService.save(usuario.getId(), idTopico, positivo);
 
         // Retorna o fragmento atualizado com o novo valor e a nova média
         List<TopicoDto> topicosDtos = topicoService.getTopicosDtos(id, usuario.getId());
@@ -168,8 +150,6 @@ public class FilmesController {
             return "filmes/filme";
         }
     }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @GetMapping("/admin/filmes/editar")
     public String editarNovo(Model model) {
