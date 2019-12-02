@@ -59,12 +59,16 @@ public class AvaliacaoFilmeService {
 
     public AvaliacaoFilme save(AvaliacaoFilmeDto dto) {
         // Se já existe avaliação desse usuário para esse filme, substitui a avaliação anterior em vez de criar uma nova
-        AvaliacaoFilme avaliacaoFilme = AvaliacaoFilmeDto.toAvaliacaoFilme(dto, filmeService, usuarioService);
-        AvaliacaoFilme avaliacaoExistente = findByFilmeAndUsuarioPrivate(avaliacaoFilme.getFilme().getId(), avaliacaoFilme.getUsuario().getId());
+        AvaliacaoFilme aval = new AvaliacaoFilme();
+        aval.setUsuario(usuarioService.findById(dto.getIdUsuario()));
+        aval.setFilme(filmeService.findById(dto.getId()));
+        aval.setGrauRadiacao(dto.getGrauRadiacao());
+
+        AvaliacaoFilme avaliacaoExistente = findByFilmeAndUsuarioPrivate(dto.getIdFilme(), dto.getIdUsuario());
         if (avaliacaoExistente != null) {
-            avaliacaoFilme.setId(avaliacaoExistente.getId());
+            aval.setId(avaliacaoExistente.getId());
         }
-        return avaliacaoFilmeRepository.save(avaliacaoFilme);
+        return avaliacaoFilmeRepository.save(aval);
     }
 
     private AvaliacaoFilme savePrivate(AvaliacaoFilme avaliacaoFilme) {
