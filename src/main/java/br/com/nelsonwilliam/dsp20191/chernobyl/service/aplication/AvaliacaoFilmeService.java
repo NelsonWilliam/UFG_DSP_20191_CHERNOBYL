@@ -41,8 +41,12 @@ public class AvaliacaoFilmeService {
     }
 
     public AvaliacaoFilmeDto findByFilmeAndUsuario(Long idFilme, Long idUsuario) {
-        AvaliacaoFilmeDto avalDto = AvaliacaoFilmeDto.fromAvaliacaoFilme(avaliacaoFilmeRepository.findByFilme_IdAndUsuario_Id(idFilme, idUsuario).orElse(null));
-        return avalDto;
+        AvaliacaoFilme avaliacaoFilme = findByFilmeAndUsuarioPrivate(idFilme, idUsuario);
+        if(findByFilmeAndUsuarioPrivate(idFilme, idUsuario) == null) {
+            return null;
+        } else {
+            return AvaliacaoFilmeDto.fromAvaliacaoFilme(avaliacaoFilme);
+        }
     }
 
     private AvaliacaoFilme findByFilmeAndUsuarioPrivate(Long idFilme, Long idUsuario) {

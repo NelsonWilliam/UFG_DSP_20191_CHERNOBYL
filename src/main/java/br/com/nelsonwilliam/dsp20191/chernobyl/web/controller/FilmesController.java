@@ -2,7 +2,6 @@ package br.com.nelsonwilliam.dsp20191.chernobyl.web.controller;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.service.aplication.*;
 import br.com.nelsonwilliam.dsp20191.chernobyl.service.dto.*;
-import br.com.nelsonwilliam.dsp20191.chernobyl.web.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,7 +76,6 @@ public class FilmesController {
             if (avaliacaoExistente != null)
                 avaliacaoFilmeDto = avaliacaoExistente;
         }
-
 
         List<ResenhaDto> resenhasDto = resenhaService.getResenhasDtos(id, idUsuario);
         List<TopicoDto> topicosDto = topicoService.getTopicosDtos(id, idUsuario);
