@@ -1,0 +1,17 @@
+package br.com.nelsonwilliam.dsp20191.chernobyl.web.utils;
+
+public class AuthorizationUtils {
+
+    public boolean isConvidado() {
+        return true;
+    }
+
+    public boolean isUsuario() {
+        return false;
+    }
+
+    public boolean isAdmin() {
+        return false;
+    }
+
+}

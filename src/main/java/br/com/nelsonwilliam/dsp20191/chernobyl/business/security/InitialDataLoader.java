@@ -3,7 +3,7 @@ package br.com.nelsonwilliam.dsp20191.chernobyl.business.security;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.*;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.CargoEnum;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.PapelEnum;
-import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.*;
+import br.com.nelsonwilliam.dsp20191.chernobyl.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

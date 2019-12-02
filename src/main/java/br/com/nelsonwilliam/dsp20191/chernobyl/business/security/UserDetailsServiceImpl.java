@@ -2,7 +2,7 @@ package br.com.nelsonwilliam.dsp20191.chernobyl.business.security;
 
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Usuario;
 import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.PapelEnum;
-import br.com.nelsonwilliam.dsp20191.chernobyl.data.repository.UsuarioRepository;
+import br.com.nelsonwilliam.dsp20191.chernobyl.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
