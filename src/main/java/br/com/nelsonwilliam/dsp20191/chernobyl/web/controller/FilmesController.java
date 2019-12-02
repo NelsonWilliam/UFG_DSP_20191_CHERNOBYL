@@ -71,7 +71,7 @@ public class FilmesController {
             throw new IllegalArgumentException("Filme não encontrado");
 
         AvaliacaoFilmeDto avaliacaoFilmeDto = new AvaliacaoFilmeDto();
-        if (idUsuario == null) {
+        if (idUsuario != null) {
             AvaliacaoFilmeDto avaliacaoExistente = avaliacaoFilmeService.findByFilmeAndUsuario(id, idUsuario);
             if (avaliacaoExistente != null)
                 avaliacaoFilmeDto = avaliacaoExistente;
