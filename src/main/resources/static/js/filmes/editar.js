@@ -1,5 +1,5 @@
 function replaceAtores (html) {
-    $('#idAtores').html(html);
+    $('#atores').html(html);
     addRemoveAtorListeners();
 }
 

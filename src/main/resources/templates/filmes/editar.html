@@ -19,10 +19,11 @@
     <div class="row">
         <div class="col-md-6">
             <!-- Imagem -->
-            <form th:if="${filmeDto.id != null}"
-                  id="img-form" method="POST" th:action="@{/admin/filmes/} + ${filmeDto.id + '/alterar_imagem'}"
+            <form th:if="${filmeDto.id != null}" id="img-form" method="POST"
+                  th:action="@{/admin/filmes/} + ${filmeDto.id + '/alterar_imagem'}"
                   th:object=${file} enctype="multipart/form-data" style="margin-bottom:3rem;">
-                <img th:src="${filmeDto.image}" th:alt="${filmeDto.titulo}"
+                <img th:src="${#strings.length(filmeDto.image) > 10} ? ${filmeDto.image} : @{/imagens/poster.png}"
+                     th:alt="${filmeDto.titulo}"
                      style="margin-bottom:1rem;height: 268px; width: 188px;"/>
                 <br>
                 <fieldset>
@@ -69,7 +70,7 @@
                         <div class="col-md-6">
                             <select id="idDiretor" class="selectpicker form-control" data-live-search="true"
                                     th:field="*{idDiretor}">
-                                <option th:each="diretor: ${@pessoaService.findAllDiretoresDto()}"
+                                <option th:each="diretor: ${@pessoaService.findAllDiretores()}"
                                         th:value="${diretor.id}"
                                         th:text="${diretor.nome}"></option>
                             </select>
@@ -80,16 +81,17 @@
                     <!-- Atores -->
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="idAtores"><b>Atores</b></label>
+                            <label for="atores"><b>Atores</b></label>
                         </div>
                         <div class="col">
-                            <table th:fragment="idAtores" id="idAtores" class="table" cellspacing="0" cellpadding="0">
+                            <table th:fragment="atores" id="atores" class="table" cellspacing="0" cellpadding="0">
                                 <tbody>
-                                <tr th:each="idAtor, stat : ${filmeDto.idAtores}">
+                                <tr th:each="idAtor, stat : ${filmeDto.idsAtores}">
                                     <td>
                                         <span th:text="${@pessoaService.findById(idAtor)?.nome}"></span>
                                         <input type="hidden" th:value="${idAtor}"
-                                               th:field="${filmeDto.idAtores[__${stat.index}__]}" class="form-control"/>
+                                               th:field="${filmeDto.idsAtores[__${stat.index}__]}"
+                                               class="form-control"/>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-danger" name="removeAtor"
@@ -108,7 +110,7 @@
                         </div>
                         <div class="col-md-5">
                             <select id="idNovoAtor" class="selectpicker form-control" data-live-search="true">
-                                <option th:each="idAtor: ${@pessoaService.findAllAtoresDto()}"
+                                <option th:each="idAtor: ${@pessoaService.findAllAtores()}"
                                         th:value="${idAtor.id}"
                                         th:text="${idAtor.nome}"></option>
                             </select>

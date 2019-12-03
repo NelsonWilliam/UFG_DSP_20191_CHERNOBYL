@@ -37,7 +37,7 @@
         <div class="row">
             <div th:each="pessoa: ${pessoas}" class="col-auto">
                 <a th:href="@{/pessoas/} + ${pessoa.id}">
-                    <img class="picture" th:src="${pessoa.image}" th:alt=${pessoa.nome}
+                    <img class="picture" th:src="${#strings.length(pessoa.image) > 10} ? ${pessoa.image} : @{/imagens/actor.png}" th:alt=${pessoa.nome}
                         style="width: 180px; height: 180px;" />
                     <figcaption style="text-align: center"><a th:href="@{/pessoas/} + ${pessoa.id}"
                             th:text="${pessoa.nome}"></a></figcaption>

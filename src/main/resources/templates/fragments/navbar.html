@@ -27,9 +27,11 @@
         <a sec:authorize="isAuthenticated()" class="btn btn-secondary" th:href="@{/usuario/logout}" role="button">
             Sair
         </a>&nbsp;
+        &nbsp;
         <a sec:authorize="!isAuthenticated()" class="btn btn-secondary" th:href="@{/usuario/login}" role="button">
             Entrar
         </a>
+        &nbsp;
         <a sec:authorize="!isAuthenticated()" class="btn btn-primary" th:href="@{/usuario/cadastrar}" role="button">
             Cadastrar
         </a>

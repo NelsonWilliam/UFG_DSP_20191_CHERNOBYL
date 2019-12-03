@@ -40,7 +40,7 @@
 
     <div class="row">
         <div class="col-auto">
-            <img th:src="${pessoaDto.image}" th:alt=${pessoaDto.nome} style="width: 188px; height: 188px;"/>
+            <img th:src="${#strings.length(pessoaDto.image) > 10} ? ${pessoaDto.image} : @{/imagens/actor.png}" th:alt=${pessoaDto.nome} style="width: 188px; height: 188px;"/>
         </div>
         <div class="col-auto">
             <h5>Nome</h5>
@@ -50,37 +50,25 @@
             <p th:text="${pessoaDto.cargo}"></p>
 
             <h5>Radiação</h5>
-            <p th:text="${mediaRadiacao}"></p>
+            <p th:text="${pessoaDto.mediaAvaliacao}"></p>
         </div>
     </div>
     <hr>
 
     <div th:if="${pessoaDto.cargo == 'Diretor'}">
         <h5>Filmes dirigidos</h5>
-        <div class="row">
-            <div th:each="filmeDirigido : ${@pessoaService.findById(pessoaDto.id).filmesDirigidos}"
-                 class="col-auto">
-                <a th:href="@{/filmes/} + ${filmeDirigido.id}">
-                    <img class="picture" th:src="${filmeDirigido.image}" th:alt="${filmeDirigido.titulo}"
-                         style="height: 268px; width: 188px;"/>
-                    <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filmeDirigido.id}"
-                                                              th:text="${filmeDirigido.titulo}"></a></figcaption>
-                </a>
-            </div>
-        </div>
     </div>
-
     <div th:if="${pessoaDto.cargo == 'Ator'}">
         <h5>Filmes atuados</h5>
-        <div class="row">
-            <div th:each="filmeAtuado : ${@pessoaService.findById(pessoaDto.id).filmesAtuados}" class="col-auto">
-                <a th:href="@{/filmes/} + ${filmeAtuado.id}">
-                    <img class="picture" th:src="${filmeAtuado.image}" th:alt="${filmeAtuado.titulo}"
-                         style="height: 268px; width: 188px;"/>
-                    <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filmeAtuado.id}"
-                                                              th:text="${filmeAtuado.titulo}"></a></figcaption>
-                </a>
-            </div>
+    </div>
+    <div class="row">
+        <div th:each="filme : ${@filmeService.findByIds(pessoaDto.idsFilmes)}" class="col-auto">
+            <a th:href="@{/filmes/} + ${filme.id}">
+                <img class="picture" th:src="${filme.image}" th:alt="${filme.titulo}"
+                     style="height: 268px; width: 188px;"/>
+                <figcaption style="text-align: center"><a th:href="@{/filmes/} + ${filme.id}"
+                                                          th:text="${filme.titulo}"></a></figcaption>
+            </a>
         </div>
     </div>
 

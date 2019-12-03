@@ -1,7 +1,7 @@
 package br.com.nelsonwilliam.dsp20191.chernobyl.repository;
 
-import br.com.nelsonwilliam.dsp20191.chernobyl.business.entity.Usuario;
-import br.com.nelsonwilliam.dsp20191.chernobyl.business.enums.PapelEnum;
+import br.com.nelsonwilliam.dsp20191.chernobyl.domain.entities.Usuario;
+import br.com.nelsonwilliam.dsp20191.chernobyl.domain.values.enums.PapelEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
@@ -15,8 +15,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByLogin(String login);
 
     Optional<Usuario> findByEmail(String email);
-
-    Collection<Usuario> findByPapeis(PapelEnum papel);
 
     long countByPapeis(PapelEnum papel);
 
