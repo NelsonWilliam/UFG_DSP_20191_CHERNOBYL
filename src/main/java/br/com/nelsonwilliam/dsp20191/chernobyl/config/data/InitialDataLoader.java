@@ -66,8 +66,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         user.setPapeis(Collections.singletonList(PapelEnum.USUARIO));
         user = usuarioRepository.save(user);
 
-        // TODO: Talvez alterar essas strings pra ler imagens salvas em resources/static/imagens
-
         Pessoa bette = new Pessoa();
         bette.setNome("Bette Davis");
         bette.setCargo(CargoEnum.ATOR);

@@ -16,6 +16,17 @@ public class PessoaAssembler {
     @Autowired
     private AvaliacaoService avaliacaoService;
 
+    //Converte um Data Transfer Object "Pessoa" em uma Entidade "Pessoa"
+    public Pessoa toEntity(PessoaDto dto) {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setId(dto.getId());
+        pessoa.setCargo(CargoEnum.fromNome(dto.getCargo()));
+        pessoa.setNome(dto.getNome());
+        pessoa.setImage(dto.getImage());
+        return pessoa;
+    }
+
+    //Converte uma Entidade "Pessoa" em um Data Transfer Object "Pessoa"
     public PessoaDto toDto(Pessoa pessoa) {
         PessoaDto pessoaDto = new PessoaDto();
         pessoaDto.setId(pessoa.getId());
@@ -28,15 +39,6 @@ public class PessoaAssembler {
                         ? pessoa.getFilmesDirigidos().stream().map(Filme::getId).collect(Collectors.toList())
                         : pessoa.getFilmesAtuados().stream().map(Filme::getId).collect(Collectors.toList()));
         return pessoaDto;
-    }
-
-    public Pessoa toEntity(PessoaDto dto) {
-        Pessoa pessoa = new Pessoa();
-        pessoa.setId(dto.getId());
-        pessoa.setCargo(CargoEnum.fromNome(dto.getCargo()));
-        pessoa.setNome(dto.getNome());
-        pessoa.setImage(dto.getImage());
-        return pessoa;
     }
 
 }

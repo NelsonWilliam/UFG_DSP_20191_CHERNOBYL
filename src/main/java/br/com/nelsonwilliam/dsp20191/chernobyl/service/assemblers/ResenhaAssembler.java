@@ -29,6 +29,17 @@ public class ResenhaAssembler {
     @Autowired
     private UsuarioService usuarioService;
 
+    //Converte um Data Transfer Object "Resenha" em uma Entidade "Resenha"
+    public Resenha toEntity(ResenhaDto dto) {
+        Resenha resenha = new Resenha();
+        resenha.setId(dto.getId());
+        resenha.setFilme(filmeService.findEntityById(dto.getIdFilme()));
+        resenha.setTexto(dto.getTexto());
+        resenha.setAutor(usuarioService.findEntityById(dto.getIdAutor()));
+        return resenha;
+    }
+
+    //Converte uma Entidade "Resenha" em um Data Transfer Object "Resenha"
     public ResenhaDto toDto(Resenha resenha) {
         ResenhaDto resenhaDto = new ResenhaDto();
         resenhaDto.setId(resenha.getId());
@@ -40,15 +51,6 @@ public class ResenhaAssembler {
         resenhaDto.setMinhaAvaliacao(minhaAvaliacao == null ? null : minhaAvaliacao.isPositiva());
         resenhaDto.setMediaAvaliacao(avaliacaoService.calcularMediaAprovacao(resenha));
         return resenhaDto;
-    }
-
-    public Resenha toEntity(ResenhaDto dto) {
-        Resenha resenha = new Resenha();
-        resenha.setId(dto.getId());
-        resenha.setFilme(filmeService.findEntityById(dto.getIdFilme()));
-        resenha.setTexto(dto.getTexto());
-        resenha.setAutor(usuarioService.findEntityById(dto.getIdAutor()));
-        return resenha;
     }
 
 }

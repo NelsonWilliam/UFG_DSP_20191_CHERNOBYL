@@ -11,13 +11,9 @@ import java.util.List;
 @Table(name = "filme")
 public class Filme {
 
-    // Identificação
-
     @Id
     @GeneratedValue
     private Long id;
-
-    // Atributos
 
     @NotBlank
     @Size(min = 2, max = 128)
@@ -28,8 +24,6 @@ public class Filme {
 
     @Lob
     private String image;
-
-    // Relacionamentos
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa diretor;
@@ -45,8 +39,6 @@ public class Filme {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme", orphanRemoval = true)
     private List<Topico> topicos = new ArrayList<>();
-
-    // Métodos
 
     public Long getId() {
         return id;

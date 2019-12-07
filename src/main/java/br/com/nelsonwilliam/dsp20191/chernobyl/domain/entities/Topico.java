@@ -11,19 +11,13 @@ import java.util.List;
 @Table(name = "topico")
 public class Topico {
 
-    // Identificação
-
     @Id
     @GeneratedValue
     private Long id;
 
-    // Atributos
-
     @NotBlank
     @Size(min = 1, max = 100)
     private String texto;
-
-    // Relacionamentos
 
     @NotNull
     @ManyToOne
@@ -34,8 +28,6 @@ public class Topico {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "topico", orphanRemoval = true)
     private List<AvaliacaoTopico> avaliacoes = new ArrayList<>();
-
-    // Métodos
 
     public Long getId() {
         return id;

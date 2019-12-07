@@ -5,9 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
 
-/**
- * Created by aluno on 03/05/19.
- */
 public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
     void deleteById(Long id);

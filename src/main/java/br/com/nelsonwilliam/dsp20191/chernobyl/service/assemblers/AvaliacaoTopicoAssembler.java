@@ -16,6 +16,7 @@ public class AvaliacaoTopicoAssembler {
     @Autowired
     private UsuarioService usuarioService;
 
+    //Converte um Data Transfer Object "Avaliação Topico" em uma Entidade "Avaliação Topico"
     public AvaliacaoTopico toEntity(AvaliacaoTopicoDto dto) {
         AvaliacaoTopico avaliacaoTopico = new AvaliacaoTopico();
         avaliacaoTopico.setPositiva(dto.isPositiva());
@@ -25,6 +26,7 @@ public class AvaliacaoTopicoAssembler {
         return avaliacaoTopico;
     }
 
+    //Converte uma Entidade "Avaliação Topico" em um Data Transfer Object "Avaliação Topico"
     public AvaliacaoTopicoDto toDto(AvaliacaoTopico avaliacaoTopico) {
         AvaliacaoTopicoDto dto = new AvaliacaoTopicoDto();
         dto.setId(avaliacaoTopico.getId());

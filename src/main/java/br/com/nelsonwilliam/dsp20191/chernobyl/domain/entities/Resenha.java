@@ -11,19 +11,13 @@ import java.util.List;
 @Table(name = "resenha")
 public class Resenha {
 
-    // Identificação
-
     @Id
     @GeneratedValue
     private Long id;
 
-    // Atributos
-
     @NotBlank
     @Size(min = 1, max = 500)
     private String texto;
-
-    // Relacionamentos
 
     @NotNull
     @ManyToOne
@@ -34,8 +28,6 @@ public class Resenha {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "resenha", orphanRemoval = true)
     private List<AvaliacaoResenha> avaliacoes = new ArrayList<>();
-
-    // Métodos
 
     public Long getId() {
         return id;

@@ -13,13 +13,9 @@ import java.util.List;
 @Table(name = "profissional")
 public class Pessoa {
 
-    // Identificação
-
     @Id
     @GeneratedValue
     private Long id;
-
-    // Atributos
 
     @NotBlank
     @Size(min = 2, max = 128)
@@ -31,15 +27,11 @@ public class Pessoa {
     @Size(max = 1048576)
     private String image = null;
 
-    // Relacionamentos
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "diretor", orphanRemoval = true)
     private List<Filme> filmesDirigidos = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "atores")
     private List<Filme> filmesAtuados = new ArrayList<>();
-
-    // Métodos
 
     public Long getId() {
         return id;

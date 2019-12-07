@@ -11,25 +11,17 @@ import javax.persistence.Table;
 @Table(name = "avaltopico")
 public class AvaliacaoTopico {
 
-    // Identificação
-
     @Id
     @GeneratedValue
     private Long id;
 
-    // Atributos
-
     private boolean positiva;
-
-    // Relacionamentos
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Topico topico;
-
-    // Métodos
 
     public Long getId() {
         return id;

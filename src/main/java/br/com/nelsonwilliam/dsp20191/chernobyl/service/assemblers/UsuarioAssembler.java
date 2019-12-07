@@ -15,6 +15,7 @@ public class UsuarioAssembler {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    //Converte um Data Transfer Object "Usuario" em uma Entidade "Usuario"
     public Usuario toEntity(UsuarioDto dto) {
         Usuario usuario = new Usuario();
         usuario.setId(dto.getId());
@@ -26,6 +27,7 @@ public class UsuarioAssembler {
         return usuario;
     }
 
+    //Converte uma Entidade "Usuario" em um Data Transfer Object "Usuario"
     public UsuarioDto toDto(Usuario usuario) {
         UsuarioDto dto = new UsuarioDto();
         dto.setId(usuario.getId());

@@ -11,25 +11,17 @@ import javax.persistence.Table;
 @Table(name = "avalresenha")
 public class AvaliacaoResenha {
 
-    // Identificação
-
     @Id
     @GeneratedValue
     private Long id;
 
-    // Atributos
-
     private boolean positiva;
-
-    // Relacionamentos
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Resenha resenha;
-
-    // Métodos
 
     public Long getId() {
         return id;

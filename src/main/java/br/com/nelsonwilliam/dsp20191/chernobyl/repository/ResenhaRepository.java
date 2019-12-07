@@ -5,9 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
 
-/**
- * Created by aluno on 03/05/19.
- */
 public interface ResenhaRepository extends JpaRepository<Resenha, Long> {
 
     void deleteById(Long id);

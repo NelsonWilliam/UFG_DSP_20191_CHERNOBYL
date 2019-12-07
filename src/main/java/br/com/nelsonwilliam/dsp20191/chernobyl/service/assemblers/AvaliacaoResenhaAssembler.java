@@ -16,6 +16,7 @@ public class AvaliacaoResenhaAssembler {
     @Autowired
     private UsuarioService usuarioService;
 
+    //Converte um Data Transfer Object "Avaliação Resenha" em uma Entidade "Avaliação Resenha"
     public AvaliacaoResenha toEntity(AvaliacaoResenhaDto dto) {
         AvaliacaoResenha avaliacaoResenha = new AvaliacaoResenha();
         avaliacaoResenha.setId(dto.getId());
@@ -25,6 +26,7 @@ public class AvaliacaoResenhaAssembler {
         return avaliacaoResenha;
     }
 
+    //Converte uma Entidade "Avaliação Resenha" em um Data Transfer Object "Avaliação Resenha"
     public AvaliacaoResenhaDto toDto(AvaliacaoResenha avaliacaoResenha) {
         AvaliacaoResenhaDto dto = new AvaliacaoResenhaDto();
         dto.setId(avaliacaoResenha.getId());

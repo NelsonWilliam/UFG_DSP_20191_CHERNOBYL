@@ -37,6 +37,24 @@ public class FilmeAssembler {
     @Autowired
     private TopicoAssembler topicoAssembler;
 
+    //Converte um Data Transfer Object "Filme" em uma Entidade "Filme"
+    public Filme toEntity(FilmeDto dto) {
+        Filme filme = new Filme();
+        filme.setId(dto.getId());
+        filme.setTitulo(dto.getTitulo());
+        filme.setDiretor(pessoaRepository.findById(dto.getIdDiretor()).orElse(null));
+        List<Pessoa> atores = new ArrayList<>();
+        if (dto.getIdsAtores() != null)
+            for (Long idAtor : dto.getIdsAtores()) {
+                atores.add(pessoaRepository.findById(idAtor).orElse(null));
+            }
+        filme.setAtores(atores);
+        filme.setPremiacoes(dto.getPremiacoes());
+        filme.setImage(dto.getImage());
+        return filme;
+    }
+
+    //Converte uma Entidade "Filme" em um Data Transfer Object "Filme"
     public FilmeDto toDto(Filme filme) {
         FilmeDto filmeDto = new FilmeDto();
         filmeDto.setId(filme.getId());
@@ -61,22 +79,6 @@ public class FilmeAssembler {
         filmeDto.setMinhaAvaliacao(minhaAvaliacao == null ? null : minhaAvaliacao.getNota());
         filmeDto.setMediaAvaliacao(avaliacaoService.calcularMediaAvaliacao(filme));
         return filmeDto;
-    }
-
-    public Filme toEntity(FilmeDto dto) {
-        Filme filme = new Filme();
-        filme.setId(dto.getId());
-        filme.setTitulo(dto.getTitulo());
-        filme.setDiretor(pessoaRepository.findById(dto.getIdDiretor()).orElse(null));
-        List<Pessoa> atores = new ArrayList<>();
-        if (dto.getIdsAtores() != null)
-            for (Long idAtor : dto.getIdsAtores()) {
-                atores.add(pessoaRepository.findById(idAtor).orElse(null));
-            }
-        filme.setAtores(atores);
-        filme.setPremiacoes(dto.getPremiacoes());
-        filme.setImage(dto.getImage());
-        return filme;
     }
 
 }

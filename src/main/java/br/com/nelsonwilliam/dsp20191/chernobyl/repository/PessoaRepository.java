@@ -6,9 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
 
-/**
- * Created by aluno on 03/05/19.
- */
 public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 
     Collection<Pessoa> findByCargo(CargoEnum cargo);

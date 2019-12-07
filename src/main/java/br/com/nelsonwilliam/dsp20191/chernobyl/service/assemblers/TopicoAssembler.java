@@ -29,6 +29,17 @@ public class TopicoAssembler {
     @Autowired
     private UsuarioService usuarioService;
 
+    //Converte um Data Transfer Object "Topico" em uma Entidade "Topico"
+    public Topico toEntity(TopicoDto dto) {
+        Topico topico = new Topico();
+        topico.setId(dto.getId());
+        topico.setFilme(filmeService.findEntityById(dto.getIdFilme()));
+        topico.setTexto(dto.getTexto());
+        topico.setAutor(usuarioService.findEntityById(dto.getIdAutor()));
+        return topico;
+    }
+
+    //Converte uma Entidade "Topico" em um Data Transfer Object "Topico"
     public TopicoDto toDto(Topico topico) {
         TopicoDto topicoDto = new TopicoDto();
         topicoDto.setId(topico.getId());
@@ -40,15 +51,6 @@ public class TopicoAssembler {
         topicoDto.setMinhaAvaliacao(minhaAvaliacao == null ? null : minhaAvaliacao.isPositiva());
         topicoDto.setMediaAvaliacao(avaliacaoService.calcularMediaAprovacao(topico));
         return topicoDto;
-    }
-
-    public Topico toEntity(TopicoDto dto) {
-        Topico topico = new Topico();
-        topico.setId(dto.getId());
-        topico.setFilme(filmeService.findEntityById(dto.getIdFilme()));
-        topico.setTexto(dto.getTexto());
-        topico.setAutor(usuarioService.findEntityById(dto.getIdAutor()));
-        return topico;
     }
 
 }

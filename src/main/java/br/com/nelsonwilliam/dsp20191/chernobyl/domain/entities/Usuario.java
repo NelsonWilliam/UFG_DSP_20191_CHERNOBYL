@@ -12,13 +12,9 @@ import java.util.List;
 @Table(name = "usuario")
 public class Usuario {
 
-    // Identificação
-
     @Id
     @GeneratedValue
     private Long id;
-
-    // Atributos
 
     @Column(nullable = false, unique = true)
     @Size(min = 3, max = 32)
@@ -36,15 +32,11 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private List<PapelEnum> papeis = new ArrayList<>();
 
-    // Relacionamentos
-
     @OneToMany(mappedBy = "autor", orphanRemoval = true)
     private List<Resenha> resenhas = new ArrayList<>();
 
     @OneToMany(mappedBy = "autor", orphanRemoval = true)
     private List<Topico> topicos = new ArrayList<>();
-
-    // Métodos
 
     public Long getId() {
         return id;
