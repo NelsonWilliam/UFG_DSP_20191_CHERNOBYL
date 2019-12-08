@@ -17,23 +17,48 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Serviço responsável por manter a entidade Pessoa.
+ */
 @Service
 @Transactional
 public class PessoaService extends CrudService<Pessoa, PessoaDto, Long, PessoaRepository> {
 
+    /**
+     * Responsável pela conversão entre a entidade "Pessoa", seu respectivo DTO e vice-versa.
+     */
     @Autowired
     private PessoaAssembler pessoaAssembler;
 
+    /**
+     * Limita a escolha de um cargo que não seja DIRETOR ou ATOR.
+     *
+     * @param pessoaDto Instância de PessoaDTO.
+     * @throws InvalidFieldException Exceção de campo 'cargo' inválido.
+     */
     public void validar(PessoaDto pessoaDto) throws InvalidFieldException {
         if (CargoEnum.fromNome(pessoaDto.getCargo()) == null) {
             throw new InvalidFieldException("cargo", "cargo inválido");
         }
     }
 
+    /**
+     * Salva nova pessoa ou atualiza uma já existente.
+     *
+     * @param pessoaDto Instância de PessoaDto.
+     * @return Instância de PessoaDto.
+     */
     public PessoaDto salvar(PessoaDto pessoaDto) {
         return convertEntityToDto(saveDto(pessoaDto));
     }
 
+    /**
+     * Salva a imagem de perfil de uma pessoa.
+     *
+     * @param idPessoa
+     * @param imgFile Arquivo MultipartFile contendo a imagem.
+     * @throws IOException
+     */
     public void salvarImagem(Long idPessoa, MultipartFile imgFile) throws IOException {
         Pessoa pessoa = findEntityById(idPessoa);
         String imgString = ImageService.convertImageToString(imgFile);
@@ -41,17 +66,35 @@ public class PessoaService extends CrudService<Pessoa, PessoaDto, Long, PessoaRe
         saveEntity(pessoa);
     }
 
-    @SuppressWarnings("unused") // Método invocado diretamente nos templates
+    /**
+     * Obtém uma lista com o nome dos cargos de Pessoa.
+     * Método invocado diretamente nos templates.
+     *
+     * @return Lista com os cargos.
+     */
+    @SuppressWarnings("unused")
     public List<String> getNomesCargos() {
         return Arrays.stream(CargoEnum.values()).map(CargoEnum::getNome).collect(Collectors.toList());
     }
 
-    @SuppressWarnings("unused") // Método invocado diretamente nos templates
+    /**
+     * Procura todos as Pessoas cadastradas, em que o cargo é DIRETOR.
+     * Método invocado diretamente nos templates.
+     *
+     * @return Lista de diretores.
+     */
+    @SuppressWarnings("unused")
     public List<PessoaDto> findAllDiretores() {
         return convertEntitiesToDtos(getRepository().findByCargo(CargoEnum.DIRETOR));
     }
 
-    @SuppressWarnings("unused") // Método invocado diretamente nos templates
+    /**
+     * Procura todos as Pessoas cadastradas, em que o cargo é ATOR.
+     * Método invocado diretamente nos templates.
+     *
+     * @return Lista de atores.
+     */
+    @SuppressWarnings("unused")
     public List<PessoaDto> findAllAtores() {
         return convertEntitiesToDtos(getRepository().findByCargo(CargoEnum.ATOR));
     }

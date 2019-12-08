@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Serviço responsável por manter a avaliação da resenha de um filme.
+ */
 @Service
 @Transactional
 public class AvaliacaoResenhaService extends CrudService<AvaliacaoResenha, AvaliacaoResenhaDto, Long, AvaliacaoResenhaRepository> {
@@ -15,23 +18,54 @@ public class AvaliacaoResenhaService extends CrudService<AvaliacaoResenha, Avali
     @Autowired
     private AvaliacaoResenhaRepository avaliacaoResenhaRepository;
 
+    /**
+     * Representa a resenha a receber avaliação.
+     */
     @Autowired
     private ResenhaService resenhaService;
 
+    /**
+     * Representa o usuário que envia a avaliação.
+     */
     @Autowired
     private UsuarioService usuarioService;
 
+    /**
+     * Responsável pela conversão entre a entidade "Avaliação Resenha", seu respectivo DTO e vice-versa.
+     */
     @Autowired
     private AvaliacaoResenhaAssembler avaliacaoResenhaAssembler;
 
+    /**
+     * Procura uma resenha enviada por determinado usuário.
+     *
+     * @param idResenha Id da resenha a ser buscada.
+     * @param idUsuario Id do usuário que enviou a resenha.
+     * @return Instância de AvaliacaoResenha.
+     */
     public AvaliacaoResenha findEntityByResenhaAndUsuario(Long idResenha, Long idUsuario) {
         return avaliacaoResenhaRepository.findByResenha_IdAndUsuario_Id(idResenha, idUsuario).orElse(null);
     }
 
+    /**
+     * Procura uma resenha enviada por determinado usuário.
+     *
+     * @param idResenha Id da resenha a ser buscada.
+     * @param idUsuario Id do usuário que enviou a resenha.
+     * @return Instância de AvaliacaoResenhaDto.
+     */
     public AvaliacaoResenhaDto findByResenhaAndUsuario(Long idResenha, Long idUsuario) {
         return convertEntityToDto(findEntityByResenhaAndUsuario(idResenha, idUsuario));
     }
 
+    /**
+     * Salva uma nova avaliação de resenha, ou atualiza uma já existente.
+     *
+     * @param idUsuario Id do usuário que realiza a avaliação.
+     * @param idResenha Id da resenha a ser avaliada.
+     * @param positivo Status de avaliação da resenha.
+     * @return Instância de AvaliacaoResenhaDto.
+     */
     public AvaliacaoResenhaDto salvar(Long idUsuario, Long idResenha, boolean positivo) {
         AvaliacaoResenha avaliacaoResenha = new AvaliacaoResenha();
         avaliacaoResenha.setUsuario(usuarioService.findEntityById(idUsuario));

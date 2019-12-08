@@ -12,24 +12,48 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
+/**
+ * Serviço responsável por manter a entidade Resenha.
+ */
 @Service
 @Transactional
 public class ResenhaService extends CrudService<Resenha, ResenhaDto, Long, ResenhaRepository> {
 
+    /**
+     * Representa a avaliação de uma resenha.
+     */
     @Autowired
     private AvaliacaoResenhaService avaliacaoResenhaService;
 
+    /**
+     * Representa a autenticação de usuário, para restringir funcionalidades.
+     */
     @Autowired
     private AuthService authService;
 
+    /**
+     * Responsável pela conversão entre a entidade "Resenha", seu respectivo DTO e vice-versa.
+     */
     @Autowired
     private ResenhaAssembler resenhaAssembler;
 
+    /**
+     * Realiza nova avaliação de uma resenha ou atualiza uma já existente.
+     *
+     * @param idResenha Id da resenha a ser avaliada.
+     * @param positivo Status da avaliação.
+     */
     public void avaliar(long idResenha, boolean positivo) {
         Long idUsuario = authService.getIdUsuario();
         avaliacaoResenhaService.salvar(idUsuario, idResenha, positivo);
     }
 
+    /**
+     * Envia uma nova resenha ou atualiza uma existente. Apenas o usuário que a postou pode atualizá-la.
+     *
+     * @param resenhaDto Instância de ResenhaDto, contendo as informações a serem adicionadas/atualizadas.
+     * @return Instância de ResenhaDto.
+     */
     public ResenhaDto salvarSeForDono(ResenhaDto resenhaDto) {
         Usuario usuario = authService.getUsuario();
         if (resenhaDto.getIdAutor() == null)
@@ -41,13 +65,18 @@ public class ResenhaService extends CrudService<Resenha, ResenhaDto, Long, Resen
         return convertEntityToDto(saveDto(resenhaDto));
     }
 
-    public void deletarSeForDono(Long id) {
+    /**
+     * Remove uma resenha postada. Apenas o usuário que a postou pode removê-la.
+     *
+     * @param idResenha O id da resenha a ser removida.
+     */
+    public void deletarSeForDono(Long idResenha) {
         Usuario usuario = authService.getUsuario();
-        Resenha resenha = findEntityById(id);
+        Resenha resenha = findEntityById(idResenha);
         if (!resenha.getAutor().getId().equals(usuario.getId()) && !usuario.getPapeis().contains(PapelEnum.ADMIN)) {
             throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
         }
-        deleteById(id);
+        deleteById(idResenha);
     }
 
     @Override

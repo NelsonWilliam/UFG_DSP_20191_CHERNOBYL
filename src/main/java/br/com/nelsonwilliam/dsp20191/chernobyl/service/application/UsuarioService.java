@@ -9,13 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Serviço responsável por manter a entidade Usuário.
+ */
 @Service
 @Transactional
 public class UsuarioService extends CrudService<Usuario, UsuarioDto, Long, UsuarioRepository> {
 
+    /**
+     * Responsável pela conversão entre a entidade "Usuário", seu respectivo DTO e vice-versa.
+     */
     @Autowired
     private UsuarioAssembler usuarioAssembler;
 
+    /**
+     * Restringe novos cadastros contendo logins e/ou emails previamente utilizados.
+     *
+     * @param usuarioDto Instância de UsuarioDto, com as informações a serem validadas.
+     * @throws InvalidFieldException Exceção de campos 'login' ou 'email' inválidos.
+     */
     public void validar(UsuarioDto usuarioDto) throws InvalidFieldException {
         if (findByLogin(usuarioDto.getLogin()) != null)
             throw new InvalidFieldException("login", "login já utilizado");
@@ -24,6 +36,11 @@ public class UsuarioService extends CrudService<Usuario, UsuarioDto, Long, Usuar
             throw new InvalidFieldException("email", "e-mail já utilizado");
     }
 
+    /**
+     * Cadastra um novo usuário no sistema.
+     *
+     * @param usuarioDto Instância de UsuarioDto com as informações a serem adicionadas.
+     */
     public void salvar(UsuarioDto usuarioDto) {
         Usuario usuario = convertDtoToEntity(usuarioDto);
         getRepository().save(usuario);
