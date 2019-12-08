@@ -11,6 +11,9 @@ import br.com.nelsonwilliam.dsp20191.chernobyl.service.application.UsuarioServic
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Responsável pela conversão entre a Entidade "Resenha" e um Data Transfer Object e vice-versa.
+ */
 @Component
 public class ResenhaAssembler {
 
@@ -29,17 +32,27 @@ public class ResenhaAssembler {
     @Autowired
     private UsuarioService usuarioService;
 
-    //Converte um Data Transfer Object "Resenha" em uma Entidade "Resenha"
-    public Resenha toEntity(ResenhaDto dto) {
+    /**
+     * Converte um Data Transfer Object "Resenha" em uma Entidade "Resenha".
+     *
+     * @param resenhaDto Instância de ResenhaDto.
+     * @return Instância de Resenha.
+     */
+    public Resenha toEntity(ResenhaDto resenhaDto) {
         Resenha resenha = new Resenha();
-        resenha.setId(dto.getId());
-        resenha.setFilme(filmeService.findEntityById(dto.getIdFilme()));
-        resenha.setTexto(dto.getTexto());
-        resenha.setAutor(usuarioService.findEntityById(dto.getIdAutor()));
+        resenha.setId(resenhaDto.getId());
+        resenha.setFilme(filmeService.findEntityById(resenhaDto.getIdFilme()));
+        resenha.setTexto(resenhaDto.getTexto());
+        resenha.setAutor(usuarioService.findEntityById(resenhaDto.getIdAutor()));
         return resenha;
     }
 
-    //Converte uma Entidade "Resenha" em um Data Transfer Object "Resenha"
+    /**
+     * Converte uma Entidade "Resenha" em um Data Transfer Object "Resenha".
+     *
+     * @param resenha Instância de Resenha.
+     * @return dto Instância de ResenhaDto.
+     */
     public ResenhaDto toDto(Resenha resenha) {
         ResenhaDto resenhaDto = new ResenhaDto();
         resenhaDto.setId(resenha.getId());

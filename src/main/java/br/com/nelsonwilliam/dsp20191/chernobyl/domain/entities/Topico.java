@@ -7,6 +7,9 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Representa um tópico de radioatividade postado por um usuário, na página de um filme.
+ */
 @Entity
 @Table(name = "topico")
 public class Topico {
@@ -15,17 +18,29 @@ public class Topico {
     @GeneratedValue
     private Long id;
 
+    /**
+     * O tópico de radioatividade, propriamente dito.
+     */
     @NotBlank
     @Size(min = 1, max = 100)
     private String texto;
 
+    /**
+     * Usuário autor do tópico de radioatividade.
+     */
     @NotNull
     @ManyToOne
     private Usuario autor;
 
+    /**
+     * Filme a receber o tópico de radioatividade em questão.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     private Filme filme;
 
+    /**
+     * Avaliações de usuários a respeito do tópico.
+     */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "topico", orphanRemoval = true)
     private List<AvaliacaoTopico> avaliacoes = new ArrayList<>();
 

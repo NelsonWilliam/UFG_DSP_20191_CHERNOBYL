@@ -8,6 +8,9 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Representa um usuário do sistema, podendo ser um administrador ou um usuário comum.
+ */
 @Entity
 @Table(name = "usuario")
 public class Usuario {
@@ -28,13 +31,22 @@ public class Usuario {
 
     private String email;
 
+    /**
+     * Tipo do usuário, podendo ser 'ADMIN' ou 'USUARIO'.
+     */
     @ElementCollection
     @Enumerated(EnumType.STRING)
     private List<PapelEnum> papeis = new ArrayList<>();
 
+    /**
+     * Resenhas sobre filmes escritas pelo usuário em questão
+     */
     @OneToMany(mappedBy = "autor", orphanRemoval = true)
     private List<Resenha> resenhas = new ArrayList<>();
 
+    /**
+     * Tópicos de radioatividade de filmes postados pelo usuário em questão.
+     */
     @OneToMany(mappedBy = "autor", orphanRemoval = true)
     private List<Topico> topicos = new ArrayList<>();
 

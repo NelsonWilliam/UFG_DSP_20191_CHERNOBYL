@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Representa um Filme a ser mantido pelo sistema.
+ */
 @Entity
 @Table(name = "filme")
 public class Filme {
@@ -19,24 +22,45 @@ public class Filme {
     @Size(min = 2, max = 128)
     private String titulo;
 
+    /**
+     * Premiações às quais o filme venceu.
+     */
     @ElementCollection
     private List<String> premiacoes;
 
+    /**
+     * Foto a representar o filme, devendo estar na base 64.
+     */
     @Lob
     private String image;
 
+    /**
+     * Pessoa que dirigiu o filme.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa diretor;
 
+    /**
+     * Pessoas que atuaram no filme.
+     */
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Pessoa> atores = new ArrayList<>();
 
+    /**
+     * Avaliações do filme enviadas por usuários.
+     */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme", orphanRemoval = true)
     private List<AvaliacaoFilme> avaliacoes = new ArrayList<>();
 
+    /**
+     * Resenhas do filme postadas por usuário.
+     */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme", orphanRemoval = true)
     private List<Resenha> resenhas = new ArrayList<>();
 
+    /**
+     * Tópicos de radioatividade postados pelos usuários.
+     */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "filme", orphanRemoval = true)
     private List<Topico> topicos = new ArrayList<>();
 

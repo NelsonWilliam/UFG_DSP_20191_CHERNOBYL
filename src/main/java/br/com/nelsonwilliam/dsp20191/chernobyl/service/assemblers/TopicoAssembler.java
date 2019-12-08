@@ -11,6 +11,9 @@ import br.com.nelsonwilliam.dsp20191.chernobyl.service.application.UsuarioServic
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Responsável pela conversão entre a Entidade "Tópico" e um Data Transfer Object e vice-versa.
+ */
 @Component
 public class TopicoAssembler {
 
@@ -29,17 +32,27 @@ public class TopicoAssembler {
     @Autowired
     private UsuarioService usuarioService;
 
-    //Converte um Data Transfer Object "Topico" em uma Entidade "Topico"
-    public Topico toEntity(TopicoDto dto) {
+    /**
+     * Converte um Data Transfer Object "Topico" em uma Entidade "Topico".
+     *
+     * @param topicoDto Instância de TopicoDto.
+     * @return Instância de Topico.
+     */
+    public Topico toEntity(TopicoDto topicoDto) {
         Topico topico = new Topico();
-        topico.setId(dto.getId());
-        topico.setFilme(filmeService.findEntityById(dto.getIdFilme()));
-        topico.setTexto(dto.getTexto());
-        topico.setAutor(usuarioService.findEntityById(dto.getIdAutor()));
+        topico.setId(topicoDto.getId());
+        topico.setFilme(filmeService.findEntityById(topicoDto.getIdFilme()));
+        topico.setTexto(topicoDto.getTexto());
+        topico.setAutor(usuarioService.findEntityById(topicoDto.getIdAutor()));
         return topico;
     }
 
-    //Converte uma Entidade "Topico" em um Data Transfer Object "Topico"
+    /**
+     * Converte uma Entidade "Topico" em um Data Transfer Object "Topico".
+     *
+     * @param topico Instância de Topico.
+     * @return Instância de TopicoDto.
+     */
     public TopicoDto toDto(Topico topico) {
         TopicoDto topicoDto = new TopicoDto();
         topicoDto.setId(topico.getId());

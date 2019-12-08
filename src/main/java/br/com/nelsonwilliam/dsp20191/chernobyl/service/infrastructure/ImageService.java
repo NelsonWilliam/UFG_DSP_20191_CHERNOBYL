@@ -11,6 +11,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Responsável pela manipulação de imagens na base 64.
+ */
 public class ImageService {
 
     private static String IMG_PREFIX = "data:image/gif;base64,";

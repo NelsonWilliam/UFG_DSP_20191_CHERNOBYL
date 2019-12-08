@@ -9,6 +9,9 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Representa um profissional participante de algum filme, podendo ser diretor ou ator.
+ */
 @Entity
 @Table(name = "profissional")
 public class Pessoa {
@@ -21,15 +24,27 @@ public class Pessoa {
     @Size(min = 2, max = 128)
     private String nome;
 
+    /**
+     * Cargo do profissional, podendo ser diretor ou ator.
+     */
     @NotNull
     private CargoEnum cargo;
 
+    /**
+     * Foto a representar a pessoa, devendo estar na base 64.
+     */
     @Size(max = 1048576)
     private String image = null;
 
+    /**
+     * Lista de filmes digiridos pela pessoa "diretor".
+     */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "diretor", orphanRemoval = true)
     private List<Filme> filmesDirigidos = new ArrayList<>();
 
+    /**
+     * Lista de filmes atuados pela pessoa "ator";
+     */
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "atores")
     private List<Filme> filmesAtuados = new ArrayList<>();
 

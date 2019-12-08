@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Representa a avaliação de um tópico de radioatividade postado por um usuário, na página de um filme.
+ */
 @Entity
 @Table(name = "avaltopico")
 public class AvaliacaoTopico {
@@ -15,11 +18,20 @@ public class AvaliacaoTopico {
     @GeneratedValue
     private Long id;
 
+    /**
+     * Representa se a avaliação de um usuário ao tópico foi positiva ou negativa.
+     */
     private boolean positiva;
 
+    /**
+     * Usuário que avalia o tópico postado.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
 
+    /**
+     * Tópico de radioatividade de um filme, a ser avaliado.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     private Topico topico;
 

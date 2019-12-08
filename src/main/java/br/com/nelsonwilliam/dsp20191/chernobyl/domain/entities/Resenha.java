@@ -7,6 +7,9 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Representa uma resenha de um filme postada por um usuário.
+ */
 @Entity
 @Table(name = "resenha")
 public class Resenha {
@@ -15,17 +18,29 @@ public class Resenha {
     @GeneratedValue
     private Long id;
 
+    /**
+     * A resenha propriamente dita.
+     */
     @NotBlank
     @Size(min = 1, max = 500)
     private String texto;
 
+    /**
+     * Usuário autor da resenha.
+     */
     @NotNull
     @ManyToOne
     private Usuario autor;
 
+    /**
+     * Filme a receber a resenha em questão.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     private Filme filme;
 
+    /**
+     * Avaliações de usuários a respeito da resenha.
+     */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "resenha", orphanRemoval = true)
     private List<AvaliacaoResenha> avaliacoes = new ArrayList<>();
 

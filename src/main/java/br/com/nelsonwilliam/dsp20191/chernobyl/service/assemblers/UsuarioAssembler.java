@@ -9,25 +9,38 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 
+/**
+ * Responsável pela conversão entre a Entidade "Usuário" e um Data Transfer Object e vice-versa.
+ */
 @Component
 public class UsuarioAssembler {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    //Converte um Data Transfer Object "Usuario" em uma Entidade "Usuario"
-    public Usuario toEntity(UsuarioDto dto) {
+    /**
+     * Converte um Data Transfer Object "Usuario" em uma Entidade "Usuario".
+     *
+     * @param usuarioDto Instância de UsuarioDto.
+     * @return Instância de Usuario.
+     */
+    public Usuario toEntity(UsuarioDto usuarioDto) {
         Usuario usuario = new Usuario();
-        usuario.setId(dto.getId());
-        usuario.setLogin(dto.getLogin());
-        usuario.setNome(dto.getNome());
-        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
-        usuario.setEmail(dto.getEmail());
+        usuario.setId(usuarioDto.getId());
+        usuario.setLogin(usuarioDto.getLogin());
+        usuario.setNome(usuarioDto.getNome());
+        usuario.setSenha(passwordEncoder.encode(usuarioDto.getSenha()));
+        usuario.setEmail(usuarioDto.getEmail());
         usuario.setPapeis(Collections.singletonList(PapelEnum.USUARIO));
         return usuario;
     }
 
-    //Converte uma Entidade "Usuario" em um Data Transfer Object "Usuario"
+    /**
+     * Converte uma Entidade "Usuario" em um Data Transfer Object "Usuario".
+     *
+     * @param usuario Instância de Usuario.
+     * @return usuarioDto Instância de UsuarioDto.
+     */
     public UsuarioDto toDto(Usuario usuario) {
         UsuarioDto dto = new UsuarioDto();
         dto.setId(usuario.getId());

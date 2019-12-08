@@ -16,6 +16,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Responsável pela conversão entre a Entidade "Filme" e um Data Transfer Object e vice-versa.
+ */
 @Component
 public class FilmeAssembler {
 
@@ -37,24 +40,34 @@ public class FilmeAssembler {
     @Autowired
     private TopicoAssembler topicoAssembler;
 
-    //Converte um Data Transfer Object "Filme" em uma Entidade "Filme"
-    public Filme toEntity(FilmeDto dto) {
+    /**
+     * Converte um Data Transfer Object "Filme" em uma Entidade "Filme".
+     *
+     * @param filmeDto Instância de FilmeDto.
+     * @return Instância de Filme.
+     */
+    public Filme toEntity(FilmeDto filmeDto) {
         Filme filme = new Filme();
-        filme.setId(dto.getId());
-        filme.setTitulo(dto.getTitulo());
-        filme.setDiretor(pessoaRepository.findById(dto.getIdDiretor()).orElse(null));
+        filme.setId(filmeDto.getId());
+        filme.setTitulo(filmeDto.getTitulo());
+        filme.setDiretor(pessoaRepository.findById(filmeDto.getIdDiretor()).orElse(null));
         List<Pessoa> atores = new ArrayList<>();
-        if (dto.getIdsAtores() != null)
-            for (Long idAtor : dto.getIdsAtores()) {
+        if (filmeDto.getIdsAtores() != null)
+            for (Long idAtor : filmeDto.getIdsAtores()) {
                 atores.add(pessoaRepository.findById(idAtor).orElse(null));
             }
         filme.setAtores(atores);
-        filme.setPremiacoes(dto.getPremiacoes());
-        filme.setImage(dto.getImage());
+        filme.setPremiacoes(filmeDto.getPremiacoes());
+        filme.setImage(filmeDto.getImage());
         return filme;
     }
 
-    //Converte uma Entidade "Filme" em um Data Transfer Object "Filme"
+    /**
+     * Converte uma Entidade "Filme" em um Data Transfer Object "Filme".
+     *
+     * @param filme Instância de Filme.
+     * @return Instância de FilmeDto.
+     */
     public FilmeDto toDto(Filme filme) {
         FilmeDto filmeDto = new FilmeDto();
         filmeDto.setId(filme.getId());

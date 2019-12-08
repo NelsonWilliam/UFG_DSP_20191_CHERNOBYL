@@ -10,23 +10,36 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+/**
+ * Responsável pela conversão entre a Entidade "Pessoa" e um Data Transfer Object e vice-versa.
+ */
 @Component
 public class PessoaAssembler {
 
     @Autowired
     private AvaliacaoService avaliacaoService;
 
-    //Converte um Data Transfer Object "Pessoa" em uma Entidade "Pessoa"
-    public Pessoa toEntity(PessoaDto dto) {
+    /**
+     * Converte um Data Transfer Object "Pessoa" em uma Entidade "Pessoa".
+     *
+     * @param pessoaDto Instância de PessoaDto.
+     * @return Instância de Pessoa.
+     */
+    public Pessoa toEntity(PessoaDto pessoaDto) {
         Pessoa pessoa = new Pessoa();
-        pessoa.setId(dto.getId());
-        pessoa.setCargo(CargoEnum.fromNome(dto.getCargo()));
-        pessoa.setNome(dto.getNome());
-        pessoa.setImage(dto.getImage());
+        pessoa.setId(pessoaDto.getId());
+        pessoa.setCargo(CargoEnum.fromNome(pessoaDto.getCargo()));
+        pessoa.setNome(pessoaDto.getNome());
+        pessoa.setImage(pessoaDto.getImage());
         return pessoa;
     }
 
-    //Converte uma Entidade "Pessoa" em um Data Transfer Object "Pessoa"
+    /**
+     * Converte uma Entidade "Pessoa" em um Data Transfer Object "Pessoa".
+     *
+     * @param pessoa Instância de Pessoa.
+     * @return Instância de PessoaDto.
+     */
     public PessoaDto toDto(Pessoa pessoa) {
         PessoaDto pessoaDto = new PessoaDto();
         pessoaDto.setId(pessoa.getId());

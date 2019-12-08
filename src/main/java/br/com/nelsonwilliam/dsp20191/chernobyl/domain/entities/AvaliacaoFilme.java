@@ -2,6 +2,9 @@ package br.com.nelsonwilliam.dsp20191.chernobyl.domain.entities;
 
 import javax.persistence.*;
 
+/**
+ * Representa a avaliação de um Filme enviada por um usuário.
+ */
 @Entity
 @Table(name = "avalfilme")
 public class AvaliacaoFilme {
@@ -10,11 +13,20 @@ public class AvaliacaoFilme {
     @GeneratedValue
     private Long id;
 
+    /**
+     * Nota atribuída ao filme, de 1 a 5.
+     */
     private int nota = 0;
 
+    /**
+     * Usuário que realiza a avaliação.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
 
+    /**
+     * Filme a ser avaliado.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     private Filme filme;
 
