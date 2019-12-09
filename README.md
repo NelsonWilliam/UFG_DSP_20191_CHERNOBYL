@@ -12,6 +12,7 @@ Posteriormente adaptado para atender boas práticas de construção e servir com
 - Natália Lopes da Silva (201602508)
 - Nelson William Viana de Siqueira (201602509)
 - Sofia Martins Moraes (201602517)
+- Gabriel Menezes
 
 ## Documentação
 
