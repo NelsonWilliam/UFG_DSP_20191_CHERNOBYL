@@ -1,10 +1,11 @@
 # Chernobyl Filmes
-
 Sistema de avaliação de filmes de baixa qualidade.
-
 Feito inicialmente como trabalho para a disciplina de Desenvolvimento de Software para Persistência, INF, UFG, 2019/1.
-
 Posteriormente adaptado para atender boas práticas de construção e servir como projeto de referência de alta excelência técnica, para a disciplina de Técnicas Avançadas de Construção de Software, INF, UFG, 2019/2.
+
+Disponível em: http://chernobyl-app.herokuapp.com/filmes. Credenciais cadastradas
+- Administrador - login: admin, senha: admin
+- usuário - login: user, senha: user
 
 ## Grupo
 
