@@ -4,7 +4,7 @@ Plataforma fictícia para avaliações negativas de filmes ruins.
 Trabalho feito para as disciplinas de Desenvolvimento de Software para Persistência e de Técnicas Avançadas de Construção de Software, dos semestres 2019-1 e 2019-2 do curso de graduação em Engenharia de Software da Universidade Federal de Goiás.
 
 ## Como testar
-O sistema está implantado em http://chernobyl-app.herokuapp.com/filmes.
+O sistema está implantado em https://chernobyl-filmes.herokuapp.com/filmes
 
 As seguintes credenciais podem ser utilizadas para testar o sistema:
 - Administrador - login: admin, senha: admin
